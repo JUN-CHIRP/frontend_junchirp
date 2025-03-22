@@ -1,10 +1,15 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
+import { Geist, Geist_Mono } from 'next/font/google'; // спочатку імпорт
+import Header from '@/components/Header/Header';
+import Footer from '@/components/Footer/Footer';
+
 import '@/styles/globals.css';
 
+// викликати імпортований шрифт як функцію і помістити значення в змінну, в дужках деякі налаштування
 const geistSans = Geist({
   variable: '--font-geist-sans',
-  subsets: ['latin'],
+  subsets: ['latin'], // кирилиця, латиниця і т.д.
+  display: 'swap', // спочатку завантажується дефолтний шрифт, потім - відповідний
 });
 
 const geistMono = Geist_Mono({
@@ -25,9 +30,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
+        // класнейм імпортованого і налаштованого шрифта на боді
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <Header />
+        <main>{children}</main>
+        <Footer />
       </body>
     </html>
   );
