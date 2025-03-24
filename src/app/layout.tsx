@@ -3,7 +3,7 @@ import { Geist, Geist_Mono } from 'next/font/google'; // спочатку імп
 import Header from '@/components/Header/Header';
 import Footer from '@/components/Footer/Footer';
 
-import '@/styles/globals.css';
+import '../styles/globals.css';
 
 // викликати імпортований шрифт як функцію і помістити значення в змінну, в дужках деякі налаштування
 const geistSans = Geist({
@@ -34,7 +34,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Header />
-        <main>{children}</main>
+        <main className="color-basic">{children}</main>
         <Footer />
       </body>
     </html>
