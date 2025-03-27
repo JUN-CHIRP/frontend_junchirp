@@ -1,20 +1,58 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google'; // спочатку імпорт
+// import { Geist, Geist_Mono } from 'next/font/google'; // спочатку імпорт
+import localFont from 'next/font/local';
 import Header from '@/components/Header/Header';
 import Footer from '@/components/Footer/Footer';
 
 import '../styles/globals.css';
 
 // викликати імпортований шрифт як функцію і помістити значення в змінну, в дужках деякі налаштування
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'], // кирилиця, латиниця і т.д.
-  display: 'swap', // спочатку завантажується дефолтний шрифт, потім - відповідний
-});
+// const geistSans = Geist({
+//   variable: '--font-geist-sans',
+//   subsets: ['latin'], // кирилиця, латиниця і т.д.
+//   display: 'swap', // спочатку завантажується дефолтний шрифт, потім - відповідний
+// });
 
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
+// const geistMono = Geist_Mono({
+//   variable: '--font-geist-mono',
+//   subsets: ['latin'],
+// });
+
+const sfProText = localFont({
+  src: [
+    {
+      path: '../../public/fonts/sf-pro-text-regular.woff2',
+      weight: '400',
+      style: 'normal',
+    },
+    {
+      path: '../../public/fonts/sf-pro-text-semibold.woff2',
+      weight: '600',
+      style: 'normal',
+    },
+    {
+      path: '../../public/fonts/sf-pro-text-medium.woff2',
+      weight: '500',
+      style: 'normal',
+    },
+    {
+      path: '../../public/fonts/sf-pro-text-bold.woff2',
+      weight: '700',
+      style: 'normal',
+    },
+    {
+      path: '../../public/fonts/sf-pro-display-medium.woff2',
+      weight: '500',
+      style: 'normal',
+    },
+    {
+      path: '../../public/fonts/sf-pro-display-regular.woff2',
+      weight: '400',
+      style: 'normal',
+    },
+  ],
+  variable: '--font-sfpro',
+  display: 'swap',
 });
 
 export const metadata: Metadata = {
@@ -31,7 +69,7 @@ export default function RootLayout({
     <html lang="en">
       <body
         // класнейм імпортованого і налаштованого шрифта на боді
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${sfProText.variable} antialiased`}
       >
         <Header />
         <main className="color-basic">{children}</main>
