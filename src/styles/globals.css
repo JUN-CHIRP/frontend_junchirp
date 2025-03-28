@@ -18,6 +18,7 @@
 
   --color-gray-base: #898989;
   --color-gray-a0: #a1a1a1;
+  --color-gray-a5: #f1f1f1;
 
   --color-primary-base: #1c851c;
   --color-primary-b0: #1a631a;
@@ -85,6 +86,65 @@
   font-style: normal;
   font-display: swap;
 }
+
+.container {
+  width: var(--spacing-desktop);
+  margin: 0 auto;
+}
+
+.section {
+  margin-bottom: var(--spacing-margin-section);
+}
+
+.button-test {
+  border: none;
+  border-radius: 24px;
+  outline: 8px solid white;
+}
+
+.button-wraper-test {
+  /* для внутрішнього кута */
+  /* background: var(--color-gray-a5); */
+
+  border-top-right-radius: 32px;
+  border-bottom-right-radius: 24px;
+  border-bottom-left-radius: 65px;
+  /* position: absolute;
+  right: 0;
+  bottom: 0; Вынос кнопки за пределы контейнера */
+}
+
+.button-wraper {
+  position: relative;
+  background: var(--color-gray-a5);
+}
+
+.ptashka-test {
+  border-bottom-right-radius: 24px;
+  /* clip-path: polygon(0 0, 100% 0, 100% 100%, 40px 100%); */
+}
+
+.button-wraper::before {
+  content: '';
+  position: absolute;
+  bottom: 70px;
+  /* right: 352px; */
+  left: -23px;
+  width: 40px;
+  height: 40px;
+  background: white;
+  background: radial-gradient(
+    circle at bottom right,
+    transparent 50%,
+    var(--color-gray-a5) 50%
+  );
+}
+
+/* .background-test {
+  background-image: url('../../public/bg.png');
+  background-repeat: no-repeat;
+  object-fit: contain;
+} */
 
 /* @media (prefers-color-scheme: dark) {
   :root {
