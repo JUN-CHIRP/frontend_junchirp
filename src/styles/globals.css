@@ -96,6 +96,7 @@
   margin-bottom: var(--spacing-margin-section);
 }
 
+/* Для Hero - стилізація обтікання кнопки */
 .button-test {
   border: none;
   border-radius: 24px;
@@ -138,6 +139,18 @@
     transparent 50%,
     var(--color-gray-a5) 50%
   );
+}
+
+/* Кнопки */
+.button-basic {
+  padding-left: 24px;
+  padding-right: 24px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  border-radius: 8px;
+  border: 2px solid var(--color-base-button);
+  height: 44px;
+  width: 113px;
 }
 
 /* .background-test {
