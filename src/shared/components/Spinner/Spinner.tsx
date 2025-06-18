@@ -25,6 +25,5 @@ export default function Spinner(): ReactElement {
 
   const CurrentFrame = frames[frameIndex];
 
-  // return <CurrentFrame />;
-  return <></>;
+  return <CurrentFrame />;
 }

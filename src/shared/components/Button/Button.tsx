@@ -60,15 +60,13 @@ export default function Button({
     onClick?.(e);
   };
 
-  // const RenderIcon = icon
-  //   ? React.cloneElement(icon, {
-  //       width: iconSize,
-  //       height: iconSize,
-  //       className: styles.button__icon,
-  //     })
-  //   : null;
-
-  const RenderIcon = <></>;
+  const RenderIcon = icon
+    ? React.cloneElement(icon, {
+        width: iconSize,
+        height: iconSize,
+        className: styles.button__icon,
+      })
+    : null;
 
   const RenderSpinner = loading
     ? React.cloneElement(<Spinner />, {
