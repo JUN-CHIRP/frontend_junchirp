@@ -1,3 +1,5 @@
+'use client';
+
 import Frame1 from '@/assets/icons/state=01.svg';
 import Frame2 from '@/assets/icons/state=02.svg';
 import Frame3 from '@/assets/icons/state=03.svg';
