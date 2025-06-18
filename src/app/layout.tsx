@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import './globals.scss';
 import React, { ReactElement } from 'react';
 import Header from './components/Header/Header';
-import Footer from './components/Footer/Footer';
 import styles from './layout.module.scss';
 import ReduxProvider from '../providers/ReduxProvider';
 import UserLoader from './components/UserLoader/UserLoader';
@@ -12,6 +11,7 @@ import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import 'primeflex/primeflex.css';
 import { MessageProvider } from '../providers/MessageProvider';
+import FooterWrapper from './components/FooterWrapper/FooterWrapper';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -34,7 +34,7 @@ export default function RootLayout({
               <div className={styles.body__container}>
                 <div className={styles.body__inner}>{children}</div>
               </div>
-              <Footer />
+              <FooterWrapper />
             </MessageProvider>
           </PrimeReactProvider>
         </ReduxProvider>

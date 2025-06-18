@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import styles from './Footer.module.scss';
 import Link from 'next/link';
 import Image from 'next/image';
-import Button from '../../../shared/components/Button/Button';
+import Button from '@/shared/components/Button/Button';
 import Linkedin from '@/assets/icons/linkedin.svg';
 import React, { ReactElement } from 'react';
 
