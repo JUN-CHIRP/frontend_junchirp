@@ -1,0 +1,13 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "outDir": "dist-server",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "target": "es2017",
+    "allowJs": false,
+    "jsx": "react-jsx"
+  },
+  "include": ["https-server.ts"]
+}

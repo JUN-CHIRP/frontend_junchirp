@@ -1,0 +1,108 @@
+'use client';
+
+import React, {
+  InputHTMLAttributes,
+  useState,
+  forwardRef,
+  ForwardedRef,
+  ReactElement,
+} from 'react';
+import styles from './Input.module.scss';
+import Image from 'next/image';
+
+interface Props extends InputHTMLAttributes<HTMLInputElement> {
+  label?: string;
+  placeholder?: string;
+  errorMessages?: string[] | string;
+  className?: string;
+  withError?: boolean;
+}
+
+function InputComponent(
+  props: Props,
+  ref: ForwardedRef<HTMLInputElement>,
+): ReactElement {
+  const {
+    label,
+    placeholder,
+    errorMessages,
+    value,
+    type = 'text',
+    className,
+    withError,
+    ...rest
+  } = props;
+  const [showPassword, setShowPassword] = useState(false);
+
+  const isPasswordField = props.type === 'password';
+  const inputType = isPasswordField
+    ? showPassword
+      ? 'text'
+      : 'password'
+    : type;
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    rest.onChange?.(e);
+  };
+
+  const inputClassNames = [
+    styles['input__input'],
+    errorMessages?.length && styles['input__input--invalid'],
+    isPasswordField && styles['input__input--password'],
+  ]
+    .filter(Boolean)
+    .join(' ');
+
+  return (
+    <div className={`${styles.input} ${className ?? ''}`}>
+      {label && <label className={styles.input__label}>{label}</label>}
+      <div className={styles.input__wrapper}>
+        <input
+          {...rest}
+          ref={ref}
+          type={inputType}
+          value={value}
+          onChange={handleChange}
+          className={inputClassNames}
+          placeholder={placeholder}
+        />
+        {isPasswordField && (
+          <button
+            type="button"
+            onClick={() => setShowPassword((prev) => !prev)}
+            className={styles['input__toggle-button']}
+          >
+            <Image
+              src={showPassword ? '/images/eye.svg' : '/images/eye-off.svg'}
+              alt="eye"
+              width={16}
+              height={16}
+            />
+          </button>
+        )}
+        {errorMessages?.length ? (
+          <Image
+            className={`${styles['input__error-icon']} ${
+              isPasswordField ? styles['input__error-icon--password'] : ''
+            }`}
+            src="/images/alert-circle.svg"
+            alt={'alert'}
+            width={16}
+            height={16}
+          />
+        ) : null}
+      </div>
+      {withError ? (
+        errorMessages?.length ? (
+          <p className={styles.input__error}>{errorMessages[0]}</p>
+        ) : (
+          <p className={styles['input__error--empty']}></p>
+        )
+      ) : null}
+    </div>
+  );
+}
+
+const Input = forwardRef(InputComponent);
+
+export default Input;

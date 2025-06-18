@@ -1,0 +1,50 @@
+@use '@/assets/styles/variables';
+
+.registration-form {
+  display: flex;
+  flex-direction: column;
+  gap: 23px;
+
+  &__fieldset {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  &__password-strength {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: stretch;
+    margin-bottom: 17px;
+  }
+
+  &__password-strength-describe {
+    font-size: 12px;
+    text-align: end;
+  }
+
+  &__password-strength-list {
+    display: flex;
+    gap: 24px;
+  }
+
+  &__password-strength-item {
+    flex: 1;
+    height: 6px;
+    border-radius: 2px;
+    background-color: variables.$gray-8;
+
+    &--weak {
+      background-color: variables.$red-2;
+    }
+
+    &--medium {
+      background-color: variables.$yellow-1;
+    }
+
+    &--strong {
+      background-color: variables.$green-2;
+    }
+  }
+}
