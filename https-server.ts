@@ -5,7 +5,7 @@ import { parse } from 'url';
 import next from 'next';
 import path from 'path';
 
-const port = parseInt(process.env.PORT || '3000', 10);
+const port = parseInt(process.env.PORT ?? '3000', 10);
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({
   dev,
@@ -26,18 +26,22 @@ app.prepare().then(() => {
       key: fs.readFileSync(keyPath),
     };
 
-    https.createServer(httpsOptions, (req, res) => {
-      const parsedUrl = parse(req.url || '', true);
-      handle(req, res, parsedUrl);
-    }).listen(port, () => {
-      console.log(`HTTPS ready at https://localhost:${port}`);
-    });
+    https
+      .createServer(httpsOptions, (req, res) => {
+        const parsedUrl = parse(req.url ?? '', true);
+        handle(req, res, parsedUrl);
+      })
+      .listen(port, () => {
+        console.log(`HTTPS ready at https://localhost:${port}`);
+      });
   } else {
-    http.createServer((req, res) => {
-      const parsedUrl = parse(req.url || '', true);
-      handle(req, res, parsedUrl);
-    }).listen(port, () => {
-      console.log(`HTTP running at http://localhost:${port}`);
-    });
+    http
+      .createServer((req, res) => {
+        const parsedUrl = parse(req.url ?? '', true);
+        handle(req, res, parsedUrl);
+      })
+      .listen(port, () => {
+        console.log(`HTTP running at http://localhost:${port}`);
+      });
   }
 });

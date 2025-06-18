@@ -1,4 +1,4 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   eslint: {
@@ -6,16 +6,16 @@ const nextConfig: NextConfig = {
   },
   turbopack: {
     rules: {
-      "*.svg": {
+      '*.svg': {
         loaders: [
           {
-            loader: "@svgr/webpack",
+            loader: '@svgr/webpack',
             options: {
               icon: true,
             },
           },
         ],
-        as: "*.js",
+        as: '*.js',
       },
     },
   },
