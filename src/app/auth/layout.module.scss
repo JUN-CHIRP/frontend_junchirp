@@ -1,0 +1,20 @@
+@use '@/assets/styles/variables';
+
+.auth-layout {
+  margin: 12px 0;
+  width: 100%;
+  display: flex;
+  gap: 32px;
+  align-items: center;
+
+  &__brackets {
+    flex: 1;
+  }
+
+  &__routes-wrapper {
+    flex: 1;
+    border-radius: 32px;
+    padding: 80px;
+    background-color: variables.$gray-1;
+  }
+}

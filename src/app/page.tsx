@@ -1,7 +1,6 @@
-export default function Home() {
-  return (
-    <div>
-      <h1>Junchirp Стартова Сторінка</h1>
-    </div>
-  );
+import styles from './page.module.scss';
+import { ReactElement } from 'react';
+
+export default function Home(): ReactElement {
+  return <div className={styles.page}>Home page</div>;
 }
