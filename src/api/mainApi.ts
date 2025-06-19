@@ -2,8 +2,13 @@ import {
   fetchBaseQuery,
   BaseQueryFn,
   createApi,
+  QueryReturnValue,
+  FetchBaseQueryMeta,
+  BaseQueryApi,
 } from '@reduxjs/toolkit/query/react';
 import type { FetchArgs, FetchBaseQueryError } from '@reduxjs/toolkit/query';
+import { csrfApi } from './csrfApi';
+import csrfSelector from '../redux/csrf/csrfSelector';
 
 interface CsrfErrorData {
   code: string;
@@ -20,41 +25,57 @@ const isAuthRequest = (args: string | FetchArgs, method: string): boolean => {
   );
 };
 
-const getCookie = (name: string): string | undefined => {
-  if (typeof document === 'undefined') {
-    return undefined;
-  }
-  const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
-  console.log(document.cookie);
-  return match?.[2].split('%')[0];
-};
+// const getCookie = (name: string): string | undefined => {
+//   if (typeof document === 'undefined') {
+//     return undefined;
+//   }
+//   const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+//   console.log(document.cookie);
+//   return match?.[2].split('%')[0];
+// };
 
 const baseQuery = fetchBaseQuery({
   baseUrl: BASE_URL,
   credentials: 'include',
 });
 
-const getCsrfTokenFromCookies = (): string | undefined => {
-  return getCookie('_csrf');
-};
+// const getCsrfTokenFromCookies = (): string | undefined => {
+//   return getCookie('_csrf');
+// };
 
-const deleteCsrfCookies = (): void => {
-  const cookiesName = '_csrf';
-  document.cookie = `${cookiesName}=; Max-Age=0; path=`;
-};
+// const deleteCsrfCookies = (): void => {
+//   const cookiesName = '_csrf';
+//   document.cookie = `${cookiesName}=; Max-Age=0; path=`;
+// };
 
-const getNewCsrfTokenFromBackend = async (): Promise<string | undefined> => {
-  const newCsrf = await fetch(`${BASE_URL}/csrf`, { credentials: 'include' });
-  if (newCsrf.ok) {
-    return getCsrfTokenFromCookies();
-  }
-};
+// const getNewCsrfTokenFromBackend = async (): Promise<string | undefined> => {
+//   const newCsrf = await fetch(`${BASE_URL}/csrf`, { credentials: 'include' });
+//   if (newCsrf.ok) {
+//     return getCsrfTokenFromCookies();
+//   }
+// };
 
 const isCsrfError = (error: FetchBaseQueryError | undefined): boolean => {
   return error
     ? error.status === 403 &&
         (error.data as CsrfErrorData)?.code === 'EBADCSRFTOKEN'
     : false;
+};
+
+const getCsrfTokenFromStore = (api: BaseQueryApi): string | undefined => {
+  return csrfSelector.selectCsrfToken(api.getState());
+};
+
+const fetchNewCsrfToken = async (
+  api: BaseQueryApi,
+): Promise<string | undefined> => {
+  const result = await api.dispatch(
+    csrfApi.endpoints.getCsrfToken.initiate(undefined),
+  );
+  if ('data' in result) {
+    return result.data;
+  }
+  return undefined;
 };
 
 const baseQueryWithReauthAndCsrf: BaseQueryFn<
@@ -67,8 +88,12 @@ const baseQueryWithReauthAndCsrf: BaseQueryFn<
   const attachCsrfHeader = async (
     arg: string | FetchArgs,
   ): Promise<string | FetchArgs> => {
-    const token =
-      getCsrfTokenFromCookies() ?? (await getNewCsrfTokenFromBackend());
+    let token = getCsrfTokenFromStore(api);
+    token ??= await fetchNewCsrfToken(api);
+
+    if (!token) {
+      return arg;
+    }
 
     if (typeof arg === 'string') {
       return {
@@ -93,61 +118,33 @@ const baseQueryWithReauthAndCsrf: BaseQueryFn<
 
   let result = await baseQuery(args, api, extraOptions);
 
-  if (method === 'GET' && result.error?.status === 401) {
-    let csrf =
-      getCsrfTokenFromCookies() ?? (await getNewCsrfTokenFromBackend());
-
-    let refreshResp = await fetch(`${BASE_URL}/auth/refresh-token`, {
-      method: 'POST',
-      credentials: 'include',
-      headers: csrf ? { 'x-csrf-token': csrf } : {},
-    });
-
-    if (refreshResp.status === 403) {
-      const json = await refreshResp.json().catch(() => ({}));
-      if (json.code === 'EBADCSRFTOKEN') {
-        deleteCsrfCookies();
-        csrf = await getNewCsrfTokenFromBackend();
-
-        refreshResp = await fetch(`${BASE_URL}/auth/refresh-token`, {
-          method: 'POST',
-          credentials: 'include',
-          headers: csrf ? { 'x-csrf-token': csrf } : {},
-        });
-      }
-    }
-
-    if (refreshResp.ok) {
-      result = await baseQuery(args, api, extraOptions);
-    } else {
-      api.dispatch({ type: 'auth/logout' });
-    }
-  }
-
-  if (method !== 'GET' && isCsrfError(result.error)) {
-    deleteCsrfCookies();
-    await getNewCsrfTokenFromBackend();
+  const retryRequest = async (): Promise<
+    QueryReturnValue<
+      unknown,
+      FetchBaseQueryError,
+      FetchBaseQueryMeta | undefined
+    >
+  > => {
     args = await attachCsrfHeader(args);
-    result = await baseQuery(args, api, extraOptions);
+    return baseQuery(args, api, extraOptions);
+  };
+
+  if (isCsrfError(result.error)) {
+    await fetchNewCsrfToken(api);
+    result = await retryRequest();
   }
 
-  if (
-    method !== 'GET' &&
-    result.error?.status === 401 &&
-    !isAuthRequest(args, method)
-  ) {
-    const csrf =
-      getCsrfTokenFromCookies() ?? (await getNewCsrfTokenFromBackend());
+  if (result.error?.status === 401 && !isAuthRequest(args, method)) {
+    const token = getCsrfTokenFromStore(api) ?? (await fetchNewCsrfToken(api));
 
     const refreshResp = await fetch(`${BASE_URL}/auth/refresh-token`, {
       method: 'POST',
       credentials: 'include',
-      headers: csrf ? { 'x-csrf-token': csrf } : {},
+      headers: token ? { 'x-csrf-token': token } : {},
     });
 
     if (refreshResp.ok) {
-      args = await attachCsrfHeader(args);
-      result = await baseQuery(args, api, extraOptions);
+      result = await retryRequest();
     } else {
       api.dispatch({ type: 'auth/logout' });
     }
