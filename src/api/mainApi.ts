@@ -73,7 +73,7 @@ const baseQueryWithReauthAndCsrf: BaseQueryFn<
   ): Promise<string | FetchArgs> => {
     const token =
       getCsrfTokenFromCookies() ?? (await getNewCsrfTokenFromBackend());
-
+    console.log(token);
     if (typeof arg === 'string') {
       return {
         url: arg,
