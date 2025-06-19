@@ -34,14 +34,14 @@ const baseQuery = fetchBaseQuery({
 });
 
 const getCsrfTokenFromCookies = (): string | undefined => {
-  return process.env.NODE_ENV === 'production'
+  return process.env.NEXT_PUBLIC_ENV === 'production'
     ? getCookie('__Host-prod.x-csrf-token')
     : getCookie('_csrf');
 };
 
 const deleteCsrfCookies = (): void => {
   const cookiesName =
-    process.env.NODE_ENV === 'production'
+    process.env.NEXT_PUBLIC_ENV === 'production'
       ? '__Host-prod.x-csrf-token'
       : '_csrf';
   document.cookie = `${cookiesName}=; Max-Age=0; path=`;
