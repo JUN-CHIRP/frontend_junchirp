@@ -47,4 +47,11 @@
       background-color: variables.$green-2;
     }
   }
+
+  &__checkbox-wrapper {
+    display: flex;
+    flex-direction: row-reverse;
+    gap: 8px;
+    align-items: center;
+  }
 }

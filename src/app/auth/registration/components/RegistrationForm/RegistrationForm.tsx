@@ -52,6 +52,12 @@ const schema = z
         },
       ),
     confirmPassword: z.string(),
+    agreement: z.literal(true, {
+      errorMap: () => ({
+        message:
+          'Підтверди, будь ласка, свою згоду з "Умовами використання" та "Політикою конфіденційності"',
+      }),
+    }),
   })
   .superRefine(({ password, firstName, lastName, confirmPassword }, ctx) => {
     if (password.includes(firstName) && firstName.length) {
@@ -341,6 +347,19 @@ export default function RegistrationForm(): ReactElement {
             errors.confirmPassword?.message && [errors.confirmPassword.message]
           }
         />
+        <div>
+          <div className={styles['registration-form__checkbox-wrapper']}>
+            <p>
+              Я погоджуюсь з Умовами використання та Політикою конфіденційності
+            </p>
+            <input type="checkbox" {...register('agreement')} />
+          </div>
+          {errors.agreement?.message && (
+            <p className={styles['registration-form__error-message']}>
+              {errors.agreement.message}
+            </p>
+          )}
+        </div>
       </fieldset>
       <Button
         type="submit"

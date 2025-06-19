@@ -11,7 +11,7 @@
 html,
 body {
   height: 100%;
-  font-family: variables.$sf-pro;
+  font-family: variables.$sf-pro-text;
 }
 
 button,
@@ -27,7 +27,7 @@ select {
   }
 
   & .p-tabmenu-nav .p-menuitem-text {
-    font-family: variables.$sf-pro;
+    font-family: variables.$sf-pro-text;
     font-size: 32px;
     line-height: 1.2;
     font-weight: 700;
@@ -60,7 +60,7 @@ select {
 }
 
 .message-provider {
-  font-family: variables.$sf-pro;
+  font-family: variables.$sf-pro-text;
   text-align: center;
 
   .p-toast-message-icon {

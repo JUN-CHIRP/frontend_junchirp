@@ -6,6 +6,7 @@ import React, {
   forwardRef,
   ForwardedRef,
   ReactElement,
+  useId,
 } from 'react';
 import styles from './Input.module.scss';
 import Image from 'next/image';
@@ -33,6 +34,7 @@ function InputComponent(
     ...rest
   } = props;
   const [showPassword, setShowPassword] = useState(false);
+  const id = useId();
 
   const isPasswordField = props.type === 'password';
   const inputType = isPasswordField
@@ -55,10 +57,15 @@ function InputComponent(
 
   return (
     <div className={`${styles.input} ${className ?? ''}`}>
-      {label && <label className={styles.input__label}>{label}</label>}
+      {label && (
+        <label className={styles.input__label} htmlFor={id}>
+          {label}
+        </label>
+      )}
       <div className={styles.input__wrapper}>
         <input
           {...rest}
+          id={id}
           ref={ref}
           type={inputType}
           value={value}
