@@ -53,12 +53,12 @@ const schema = z
           message: 'Пароль містить заборонені символи',
         },
       ),
-    confirmPassword: z.string(),
-    agreement: z.literal(true, {
-      errorMap: () => ({
-        message:
-          'Підтверди, будь ласка, свою згоду з "Умовами використання" та "Політикою конфіденційності"',
-      }),
+    confirmPassword: z
+      .string()
+      .nonempty('Поле підтвердження пароля не може бути порожнім'),
+    agreement: z.boolean().refine((val) => val, {
+      message:
+        'Підтверди, будь ласка, свою згоду з "Умовами використання" та "Політикою конфіденційності"',
     }),
   })
   .superRefine(({ password, firstName, lastName, confirmPassword }, ctx) => {
@@ -168,45 +168,49 @@ export default function RegistrationForm(): ReactElement {
   const password = watch('password');
   const email = watch('email');
   const agreement = watch('agreement');
-  const hasInteractedWithPassword = dirtyFields.password;
   const passwordStrength = getPasswordStrength(
     password,
     firstName,
     lastName,
     blackListPasswords,
   );
-  const strengthInfo =
-    !hasInteractedWithPassword || !password
+  const strengthInfo = !password
+    ? {
+        classNames: ['', '', ''],
+        text: 'Стан паролю',
+      }
+    : passwordStrength === 'weak'
       ? {
-          classNames: ['', '', ''],
-          text: 'Стан паролю',
+          classNames: [
+            styles['registration-form__password-strength-item--weak'],
+            '',
+            '',
+          ],
+          text: 'Пароль занадто слабкий',
         }
-      : passwordStrength === 'weak'
+      : passwordStrength === 'medium'
         ? {
             classNames: [
-              styles['registration-form__password-strength-item--weak'],
-              '',
+              styles['registration-form__password-strength-item--medium'],
+              styles['registration-form__password-strength-item--medium'],
               '',
             ],
-            text: 'Пароль занадто слабкий',
+            text: 'Можна покращити',
           }
-        : passwordStrength === 'medium'
-          ? {
-              classNames: [
-                styles['registration-form__password-strength-item--medium'],
-                styles['registration-form__password-strength-item--medium'],
-                '',
-              ],
-              text: 'Можна покращити',
-            }
-          : {
-              classNames: [
-                styles['registration-form__password-strength-item--strong'],
-                styles['registration-form__password-strength-item--strong'],
-                styles['registration-form__password-strength-item--strong'],
-              ],
-              text: 'Надійний пароль',
-            };
+        : {
+            classNames: [
+              styles['registration-form__password-strength-item--strong'],
+              styles['registration-form__password-strength-item--strong'],
+              styles['registration-form__password-strength-item--strong'],
+            ],
+            text: 'Надійний пароль',
+          };
+
+  useEffect(() => {
+    if (dirtyFields.confirmPassword) {
+      trigger('confirmPassword');
+    }
+  }, [password, trigger, dirtyFields.confirmPassword]);
 
   useEffect(() => {
     trigger('password');
@@ -354,7 +358,11 @@ export default function RegistrationForm(): ReactElement {
           {...register('confirmPassword')}
           withError
           errorMessages={
-            errors.confirmPassword?.message && [errors.confirmPassword.message]
+            errors.confirmPassword &&
+            (dirtyFields.confirmPassword || isSubmitted) &&
+            errors.confirmPassword.message
+              ? [errors.confirmPassword.message]
+              : undefined
           }
         />
         <div>
