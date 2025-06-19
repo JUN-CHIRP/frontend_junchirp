@@ -35,6 +35,7 @@ const baseQuery = fetchBaseQuery({
 
 const getCsrfTokenFromCookies = (): string | undefined => {
   console.log(process.env.NEXT_PUBLIC_ENV);
+  console.log(getCookie('__Host-prod.x-csrf-token'));
   return process.env.NEXT_PUBLIC_ENV === 'production'
     ? getCookie('__Host-prod.x-csrf-token')
     : getCookie('_csrf');
