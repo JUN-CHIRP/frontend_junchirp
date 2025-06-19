@@ -4,9 +4,9 @@ const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  sassOptions: {
-    implementation: 'sass-embedded',
-  },
+  // sassOptions: {
+  //   implementation: 'sass-embedded',
+  // },
   turbopack: {
     rules: {
       '*.svg': {
