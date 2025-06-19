@@ -30,11 +30,11 @@ export default function RootLayout({
           <PrimeReactProvider>
             <MessageProvider>
               <UserLoader />
-              <Header />
+              {/*<Header />*/}
               <div className={styles.body__container}>
                 <div className={styles.body__inner}>{children}</div>
               </div>
-              <FooterWrapper />
+              {/*<FooterWrapper />*/}
             </MessageProvider>
           </PrimeReactProvider>
         </ReduxProvider>
