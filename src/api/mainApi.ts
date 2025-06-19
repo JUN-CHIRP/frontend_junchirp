@@ -24,7 +24,7 @@ const getCookie = (name: string): string | undefined => {
   if (typeof document === 'undefined') {
     return undefined;
   }
-  console.log(document.cookie);
+  console.log(document);
   const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
   return match?.[2].split('%')[0];
 };
