@@ -25,35 +25,10 @@ const isAuthRequest = (args: string | FetchArgs, method: string): boolean => {
   );
 };
 
-// const getCookie = (name: string): string | undefined => {
-//   if (typeof document === 'undefined') {
-//     return undefined;
-//   }
-//   const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
-//   console.log(document.cookie);
-//   return match?.[2].split('%')[0];
-// };
-
 const baseQuery = fetchBaseQuery({
   baseUrl: BASE_URL,
   credentials: 'include',
 });
-
-// const getCsrfTokenFromCookies = (): string | undefined => {
-//   return getCookie('_csrf');
-// };
-
-// const deleteCsrfCookies = (): void => {
-//   const cookiesName = '_csrf';
-//   document.cookie = `${cookiesName}=; Max-Age=0; path=`;
-// };
-
-// const getNewCsrfTokenFromBackend = async (): Promise<string | undefined> => {
-//   const newCsrf = await fetch(`${BASE_URL}/csrf`, { credentials: 'include' });
-//   if (newCsrf.ok) {
-//     return getCsrfTokenFromCookies();
-//   }
-// };
 
 const isCsrfError = (error: FetchBaseQueryError | undefined): boolean => {
   return error
