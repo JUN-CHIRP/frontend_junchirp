@@ -21,10 +21,10 @@ const isAuthRequest = (args: string | FetchArgs, method: string): boolean => {
 };
 
 const getCookie = (name: string): string | undefined => {
-  console.log(typeof document);
   if (typeof document === 'undefined') {
     return undefined;
   }
+  console.log(document.cookie);
   const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
   return match?.[2].split('%')[0];
 };
