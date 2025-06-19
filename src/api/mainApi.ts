@@ -20,12 +20,27 @@ const isAuthRequest = (args: string | FetchArgs, method: string): boolean => {
   );
 };
 
+// const getCookie = (name: string): string | undefined => {
+//   if (typeof document === 'undefined') {
+//     return undefined;
+//   }
+//   const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+//   return match?.[2].split('%')[0];
+// };
+
 const getCookie = (name: string): string | undefined => {
   if (typeof document === 'undefined') {
     return undefined;
   }
-  const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
-  return match?.[2].split('%')[0];
+
+  const match = document.cookie.match(new RegExp(`(^| )${name}=([^;]+)`));
+  if (!match?.[2]) {
+    return undefined;
+  }
+
+  const value = match[2];
+  const percentIndex = value.indexOf('%');
+  return percentIndex !== -1 ? value.slice(0, percentIndex) : value;
 };
 
 const baseQuery = fetchBaseQuery({
