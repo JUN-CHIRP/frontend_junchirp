@@ -7,6 +7,12 @@ import Image from 'next/image';
 import Button from '@/shared/components/Button/Button';
 // import Linkedin from '@/assets/icons/linkedin.svg';
 import React, { ReactElement } from 'react';
+import dynamic from "next/dynamic";
+
+const Linkedin = dynamic(() => import('../../../../../assets/icons/linkedin.svg'), {
+    ssr: false,
+  },
+);
 
 export default function Footer(): ReactElement {
   const router = useRouter();
@@ -20,9 +26,9 @@ export default function Footer(): ReactElement {
     router.push('/about');
   };
 
-  // const goLinkedin = (): void => {
-  //   window.location.href = 'https://www.linkedin.com/company/jun-chirp';
-  // };
+  const goLinkedin = (): void => {
+    window.location.href = 'https://www.linkedin.com/company/jun-chirp';
+  };
 
   const openDialog = (): void => {
     // TODO: create support dialog
@@ -49,12 +55,12 @@ export default function Footer(): ReactElement {
             <Button color="green" variant="secondary-footer" onClick={goAbout}>
               Про нас
             </Button>
-            {/*<Button*/}
-            {/*  color="green"*/}
-            {/*  variant="secondary-footer"*/}
-            {/*  icon={<Linkedin />}*/}
-            {/*  onClick={goLinkedin}*/}
-            {/*></Button>*/}
+            <Button
+              color="green"
+              variant="secondary-footer"
+              icon={<Linkedin />}
+              onClick={goLinkedin}
+            ></Button>
             <Button
               color="green"
               variant="secondary-footer"
