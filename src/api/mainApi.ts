@@ -35,16 +35,11 @@ const baseQuery = fetchBaseQuery({
 });
 
 const getCsrfTokenFromCookies = (): string | undefined => {
-  return process.env.NEXT_PUBLIC_ENV === 'production'
-    ? getCookie('__Host-prod.x-csrf-token')
-    : getCookie('_csrf');
+  return getCookie('_csrf');
 };
 
 const deleteCsrfCookies = (): void => {
-  const cookiesName =
-    process.env.NEXT_PUBLIC_ENV === 'production'
-      ? '__Host-prod.x-csrf-token'
-      : '_csrf';
+  const cookiesName = '_csrf';
   document.cookie = `${cookiesName}=; Max-Age=0; path=`;
 };
 
