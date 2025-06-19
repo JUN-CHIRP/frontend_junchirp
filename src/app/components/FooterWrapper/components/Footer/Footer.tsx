@@ -5,7 +5,7 @@ import styles from './Footer.module.scss';
 import Link from 'next/link';
 import Image from 'next/image';
 import Button from '@/shared/components/Button/Button';
-import Linkedin from '@/assets/icons/linkedin.svg';
+// import Linkedin from '@/assets/icons/linkedin.svg';
 import React, { ReactElement } from 'react';
 
 export default function Footer(): ReactElement {
@@ -20,9 +20,9 @@ export default function Footer(): ReactElement {
     router.push('/about');
   };
 
-  const goLinkedin = (): void => {
-    window.location.href = 'https://www.linkedin.com/company/jun-chirp';
-  };
+  // const goLinkedin = (): void => {
+  //   window.location.href = 'https://www.linkedin.com/company/jun-chirp';
+  // };
 
   const openDialog = (): void => {
     // TODO: create support dialog
@@ -49,12 +49,12 @@ export default function Footer(): ReactElement {
             <Button color="green" variant="secondary-footer" onClick={goAbout}>
               Про нас
             </Button>
-            <Button
-              color="green"
-              variant="secondary-footer"
-              icon={<Linkedin />}
-              onClick={goLinkedin}
-            ></Button>
+            {/*<Button*/}
+            {/*  color="green"*/}
+            {/*  variant="secondary-footer"*/}
+            {/*  icon={<Linkedin />}*/}
+            {/*  onClick={goLinkedin}*/}
+            {/*></Button>*/}
             <Button
               color="green"
               variant="secondary-footer"
