@@ -34,7 +34,7 @@ export default function RootLayout({
               <div className={styles.body__container}>
                 <div className={styles.body__inner}>{children}</div>
               </div>
-              <FooterWrapper />
+              {/*<FooterWrapper />*/}
             </MessageProvider>
           </PrimeReactProvider>
         </ReduxProvider>

@@ -20,7 +20,7 @@ export default function AuthLayout({
       </div>
       <div className={styles['auth-layout__routes-wrapper']}>
         <TabMenuWrapper />
-        {/*<div>{children}</div>*/}
+        <div>{children}</div>
       </div>
     </div>
   );
