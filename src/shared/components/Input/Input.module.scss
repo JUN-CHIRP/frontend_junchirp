@@ -52,15 +52,11 @@
   }
 
   &__error {
+    height: 17px;
     margin-top: 4px;
     font-size: 14px;
     line-height: 1.2;
     color: variables.$red-2;
-
-    &--empty {
-      height: 17px;
-      margin-top: 4px;
-    }
   }
 
   &__error-icon {

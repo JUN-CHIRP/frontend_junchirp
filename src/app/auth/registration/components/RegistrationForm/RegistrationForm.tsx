@@ -11,6 +11,8 @@ import Button from '../../../../../shared/components/Button/Button';
 import { blackListPasswords } from '../../../../../shared/constants/black-list-passwords';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { SerializedError } from '@reduxjs/toolkit';
+import Link from 'next/link';
+import Image from 'next/image';
 
 const schema = z
   .object({
@@ -165,6 +167,7 @@ export default function RegistrationForm(): ReactElement {
   const lastName = watch('lastName');
   const password = watch('password');
   const email = watch('email');
+  const agreement = watch('agreement');
   const hasInteractedWithPassword = dirtyFields.password;
   const passwordStrength = getPasswordStrength(
     password,
@@ -172,37 +175,38 @@ export default function RegistrationForm(): ReactElement {
     lastName,
     blackListPasswords,
   );
-  const strengthInfo = !hasInteractedWithPassword
-    ? {
-        classNames: ['', '', ''],
-        text: 'Стан паролю',
-      }
-    : passwordStrength === 'weak'
+  const strengthInfo =
+    !hasInteractedWithPassword || !password
       ? {
-          classNames: [
-            styles['registration-form__password-strength-item--weak'],
-            '',
-            '',
-          ],
-          text: 'Пароль занадто слабкий',
+          classNames: ['', '', ''],
+          text: 'Стан паролю',
         }
-      : passwordStrength === 'medium'
+      : passwordStrength === 'weak'
         ? {
             classNames: [
-              styles['registration-form__password-strength-item--medium'],
-              styles['registration-form__password-strength-item--medium'],
+              styles['registration-form__password-strength-item--weak'],
+              '',
               '',
             ],
-            text: 'Можна покращити',
+            text: 'Пароль занадто слабкий',
           }
-        : {
-            classNames: [
-              styles['registration-form__password-strength-item--strong'],
-              styles['registration-form__password-strength-item--strong'],
-              styles['registration-form__password-strength-item--strong'],
-            ],
-            text: 'Надійний пароль',
-          };
+        : passwordStrength === 'medium'
+          ? {
+              classNames: [
+                styles['registration-form__password-strength-item--medium'],
+                styles['registration-form__password-strength-item--medium'],
+                '',
+              ],
+              text: 'Можна покращити',
+            }
+          : {
+              classNames: [
+                styles['registration-form__password-strength-item--strong'],
+                styles['registration-form__password-strength-item--strong'],
+                styles['registration-form__password-strength-item--strong'],
+              ],
+              text: 'Надійний пароль',
+            };
 
   useEffect(() => {
     trigger('password');
@@ -247,7 +251,13 @@ export default function RegistrationForm(): ReactElement {
   const toast = useToast();
 
   const onSubmit = async (data: FormData): Promise<void> => {
-    const result = await registration(data);
+    const trimmedData = {
+      firstName: data.firstName.trim(),
+      lastName: data.lastName.trim(),
+      email: data.email.trim(),
+      password: data.password,
+    };
+    const result = await registration(trimmedData);
 
     if ('error' in result) {
       const errorData = result.error as
@@ -349,15 +359,47 @@ export default function RegistrationForm(): ReactElement {
         />
         <div>
           <div className={styles['registration-form__checkbox-wrapper']}>
-            <p>
-              Я погоджуюсь з Умовами використання та Політикою конфіденційності
+            <p className={styles['registration-form__checkbox-label']}>
+              Я погоджуюсь з{' '}
+              <Link
+                className={styles['registration-form__link']}
+                href="/legal-terms"
+              >
+                Умовами використання
+              </Link>{' '}
+              та{' '}
+              <Link
+                className={styles['registration-form__link']}
+                href="/privacy-policy"
+              >
+                Політикою конфіденційності
+              </Link>
             </p>
-            <input type="checkbox" {...register('agreement')} />
+            <label htmlFor="checkbox">
+              <Image
+                src={
+                  agreement
+                    ? '/images/checkbox-checked.svg'
+                    : '/images/checkbox-empty.svg'
+                }
+                alt="checkbox"
+                height={16}
+                width={16}
+              />
+            </label>
+            <input
+              className={styles['registration-form__checkbox']}
+              id="checkbox"
+              type="checkbox"
+              {...register('agreement')}
+            />
           </div>
-          {errors.agreement?.message && (
-            <p className={styles['registration-form__error-message']}>
+          {errors.agreement ? (
+            <p className={styles['registration-form__checkbox-error']}>
               {errors.agreement.message}
             </p>
+          ) : (
+            <p className={styles['registration-form__checkbox-error']}></p>
           )}
         </div>
       </fieldset>

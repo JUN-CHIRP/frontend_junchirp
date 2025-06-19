@@ -103,7 +103,7 @@ function InputComponent(
         errorMessages?.length ? (
           <p className={styles.input__error}>{errorMessages[0]}</p>
         ) : (
-          <p className={styles['input__error--empty']}></p>
+          <p className={styles.input__error}></p>
         )
       ) : null}
     </div>
