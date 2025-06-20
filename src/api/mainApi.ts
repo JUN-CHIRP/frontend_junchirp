@@ -8,7 +8,7 @@ import {
 } from '@reduxjs/toolkit/query/react';
 import type { FetchArgs, FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { csrfApi } from './csrfApi';
-import csrfSelector from '../redux/csrf/csrfSelector';
+import csrfSelector from '@/redux/csrf/csrfSelector';
 
 interface CsrfErrorData {
   code: string;

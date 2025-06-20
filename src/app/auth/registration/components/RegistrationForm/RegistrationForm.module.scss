@@ -79,11 +79,17 @@
   }
 
   &__icon {
+    border-radius: 4px;
     height: 16px;
     width: 16px;
     color: variables.$gray-8;
 
     &:hover {
+      color: variables.$green-2;
+    }
+
+    &:active {
+      box-shadow: 0 0 0 4px variables.$green-4;
       color: variables.$green-2;
     }
   }

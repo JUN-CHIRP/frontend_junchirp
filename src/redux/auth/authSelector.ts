@@ -1,5 +1,5 @@
 import { RootState } from '../store';
-import { UserInterface } from '../../shared/interfaces/user.interface';
+import { UserInterface } from '@/shared/interfaces/user.interface';
 
 const selectUser = (state: RootState): UserInterface => state.auth.user;
 const selectLoadingStatus = (state: RootState): 'loading' | 'loaded' | 'idle' =>

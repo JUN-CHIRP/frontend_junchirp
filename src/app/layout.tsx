@@ -3,14 +3,14 @@ import './globals.scss';
 import React, { ReactElement } from 'react';
 import Header from './components/Header/Header';
 import styles from './layout.module.scss';
-import ReduxProvider from '../providers/ReduxProvider';
+import ReduxProvider from '@/providers/ReduxProvider';
 import UserLoader from './components/UserLoader/UserLoader';
 import { PrimeReactProvider } from 'primereact/api';
 import 'primereact/resources/themes/saga-blue/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import 'primeflex/primeflex.css';
-import { MessageProvider } from '../providers/MessageProvider';
+import { MessageProvider } from '@/providers/MessageProvider';
 import FooterWrapper from './components/FooterWrapper/FooterWrapper';
 
 export const metadata: Metadata = {

@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { authApi } from '../../api/authApi';
+import { authApi } from '@/api/authApi';
 import { UserInterface } from '@/shared/interfaces/user.interface';
 
 interface AuthState {

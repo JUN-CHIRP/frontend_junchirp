@@ -1,17 +1,17 @@
 'use client';
 
 import styles from './LoginForm.module.scss';
-import Input from '../../../../../shared/components/Input/Input';
-import Button from '../../../../../shared/components/Button/Button';
+import Input from '@/shared/components/Input/Input';
+import Button from '@/shared/components/Button/Button';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useLoginMutation } from '../../../../../api/authApi';
+import { useLoginMutation } from '@/api/authApi';
 import { useRouter } from 'next/navigation';
 import React, { ReactElement } from 'react';
 import { UserInterface } from '@/shared/interfaces/user.interface';
-import { useToast } from '../../../../../hooks/useToast';
+import { useToast } from '@/hooks/useToast';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { SerializedError } from '@reduxjs/toolkit';
 

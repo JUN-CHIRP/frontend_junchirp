@@ -1,4 +1,4 @@
-import AuthGuard from '../../shared/components/AuthGuard/AuthGuard';
+import AuthGuard from '@/shared/components/AuthGuard/AuthGuard';
 import { ReactElement } from 'react';
 
 export default function ConfirmEmail(): ReactElement {
