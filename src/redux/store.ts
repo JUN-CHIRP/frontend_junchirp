@@ -13,7 +13,11 @@ export const makeStore = (): EnhancedStore => {
       csrf: csrfSlice.reducer,
     },
     middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware()
+      getDefaultMiddleware({
+        serializableCheck: {
+          warnAfter: 100,
+        },
+      })
         .concat(mainApi.middleware)
         .concat(csrfApi.middleware),
     devTools: process.env.NODE_ENV !== 'production',
