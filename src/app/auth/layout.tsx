@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, Suspense } from "react";
 import styles from './layout.module.scss';
 import Image from 'next/image';
 import TabMenuWrapper from './components/TabMenuWrapper/TabMenuWrapper';
@@ -20,7 +20,9 @@ export default function AuthLayout({
       </div>
       <div className={styles['auth-layout__routes-wrapper']}>
         <TabMenuWrapper />
-        <div>{children}</div>
+        <Suspense>
+          <div>{children}</div>
+        </Suspense>
       </div>
     </div>
   );
