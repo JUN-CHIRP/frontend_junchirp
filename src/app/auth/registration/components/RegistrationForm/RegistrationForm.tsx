@@ -2,18 +2,19 @@ import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
-import { useRegisterMutation } from '../../../../../api/authApi';
+import { useRegisterMutation } from '@/api/authApi';
 import React, { ReactElement, useEffect } from 'react';
-import { useToast } from '../../../../../hooks/useToast';
+import { useToast } from '@/hooks/useToast';
 import styles from './RegistrationForm.module.scss';
-import Input from '../../../../../shared/components/Input/Input';
-import Button from '../../../../../shared/components/Button/Button';
-import { blackListPasswords } from '../../../../../shared/constants/black-list-passwords';
+import Input from '@/shared/components/Input/Input';
+import Button from '@/shared/components/Button/Button';
+import { blackListPasswords } from '@/shared/constants/black-list-passwords';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { SerializedError } from '@reduxjs/toolkit';
 import Link from 'next/link';
 import Checkbox from '@/assets/icons/checkbox-empty.svg';
 import CheckboxChecked from '@/assets/icons/checkbox-checked.svg';
+import PasswordStrengthIndicator from '@/shared/components/PasswordStrengthIndicator/PasswordStrengthIndicator';
 
 const schema = z
   .object({
@@ -175,37 +176,6 @@ export default function RegistrationForm(): ReactElement {
     lastName,
     blackListPasswords,
   );
-  const strengthInfo = !password
-    ? {
-        classNames: ['', '', ''],
-        text: 'Стан паролю',
-      }
-    : passwordStrength === 'weak'
-      ? {
-          classNames: [
-            styles['registration-form__password-strength-item--weak'],
-            '',
-            '',
-          ],
-          text: 'Пароль занадто слабкий',
-        }
-      : passwordStrength === 'medium'
-        ? {
-            classNames: [
-              styles['registration-form__password-strength-item--medium'],
-              styles['registration-form__password-strength-item--medium'],
-              '',
-            ],
-            text: 'Можна покращити',
-          }
-        : {
-            classNames: [
-              styles['registration-form__password-strength-item--strong'],
-              styles['registration-form__password-strength-item--strong'],
-              styles['registration-form__password-strength-item--strong'],
-            ],
-            text: 'Надійний пароль',
-          };
 
   useEffect(() => {
     if (dirtyFields.confirmPassword) {
@@ -338,21 +308,7 @@ export default function RegistrationForm(): ReactElement {
               : undefined
           }
         />
-        <div className={styles['registration-form__password-strength']}>
-          <div className={styles['registration-form__password-strength-list']}>
-            {[0, 1, 2].map((i) => (
-              <div
-                key={i}
-                className={`${styles['registration-form__password-strength-item']} ${strengthInfo.classNames[i] || ''}`}
-              ></div>
-            ))}
-          </div>
-          <div
-            className={styles['registration-form__password-strength-describe']}
-          >
-            {strengthInfo.text}
-          </div>
-        </div>
+        <PasswordStrengthIndicator strength={passwordStrength} />
         <Input
           label="Повторити пароль"
           type="password"

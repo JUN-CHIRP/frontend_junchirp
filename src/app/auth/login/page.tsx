@@ -2,8 +2,8 @@
 
 import styles from './page.module.scss';
 import LoginForm from './components/LoginForm/LoginForm';
-import SocialButton from '../../../shared/components/SocialButton/SocialButton';
 import { ReactElement } from 'react';
+import GoogleAuthButton from '@/shared/components/GoogleAuthButton/GoogleAuthButton';
 
 export default function Login(): ReactElement {
   return (
@@ -14,7 +14,7 @@ export default function Login(): ReactElement {
         <span className={styles.login__text}>або</span>
         <div className={styles.login__line}></div>
       </div>
-      <SocialButton social="google" fullWidth={true} />
+      <GoogleAuthButton fullWidth={true} />
     </div>
   );
 }

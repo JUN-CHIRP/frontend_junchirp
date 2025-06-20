@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { csrfApi } from '../../api/csrfApi';
+import { csrfApi } from '@/api/csrfApi';
 
 interface CsrfState {
   token: string | null;

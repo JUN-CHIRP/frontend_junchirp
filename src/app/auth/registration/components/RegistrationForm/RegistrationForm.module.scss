@@ -11,43 +11,6 @@
     gap: 3px;
   }
 
-  &__password-strength {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    align-items: stretch;
-    margin-bottom: 17px;
-  }
-
-  &__password-strength-describe {
-    font-size: 12px;
-    text-align: end;
-  }
-
-  &__password-strength-list {
-    display: flex;
-    gap: 24px;
-  }
-
-  &__password-strength-item {
-    flex: 1;
-    height: 6px;
-    border-radius: 2px;
-    background-color: variables.$gray-8;
-
-    &--weak {
-      background-color: variables.$red-2;
-    }
-
-    &--medium {
-      background-color: variables.$yellow-1;
-    }
-
-    &--strong {
-      background-color: variables.$green-2;
-    }
-  }
-
   &__checkbox-wrapper {
     display: flex;
     flex-direction: row-reverse;
@@ -79,11 +42,17 @@
   }
 
   &__icon {
+    border-radius: 4px;
     height: 16px;
     width: 16px;
     color: variables.$gray-8;
 
     &:hover {
+      color: variables.$green-2;
+    }
+
+    &:active {
+      box-shadow: 0 0 0 4px variables.$green-4;
       color: variables.$green-2;
     }
   }

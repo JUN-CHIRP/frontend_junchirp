@@ -2,8 +2,8 @@
 
 import RegistrationForm from './components/RegistrationForm/RegistrationForm';
 import styles from './page.module.scss';
-import SocialButton from '../../../shared/components/SocialButton/SocialButton';
 import { ReactElement } from 'react';
+import GoogleAuthButton from '@/shared/components/GoogleAuthButton/GoogleAuthButton';
 
 export default function Registration(): ReactElement {
   return (
@@ -14,7 +14,7 @@ export default function Registration(): ReactElement {
         <span className={styles.registration__text}>або</span>
         <div className={styles.registration__line}></div>
       </div>
-      <SocialButton social="google" fullWidth={true} />
+      <GoogleAuthButton fullWidth={true} />
     </div>
   );
 }

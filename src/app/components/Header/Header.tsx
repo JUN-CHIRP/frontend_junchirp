@@ -2,11 +2,11 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import Button from '../../../shared/components/Button/Button';
+import Button from '@/shared/components/Button/Button';
 import styles from './Header.module.scss';
 import { usePathname, useRouter } from 'next/navigation';
-import authSelector from '../../../redux/auth/authSelector';
-import { useAppSelector } from '../../../hooks/reduxHooks';
+import authSelector from '@/redux/auth/authSelector';
+import { useAppSelector } from '@/hooks/reduxHooks';
 import BurgerMenu from './components/BurgerMenu/BurgerMenu';
 import { ReactElement } from 'react';
 

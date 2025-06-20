@@ -1,8 +1,8 @@
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit';
 import { authSlice } from './auth/authSlice';
-import mainApi from '../api/mainApi';
+import mainApi from '@/api/mainApi';
 import { csrfSlice } from './csrf/csrfSlice';
-import { csrfApi } from '../api/csrfApi';
+import { csrfApi } from '@/api/csrfApi';
 
 export const makeStore = (): EnhancedStore => {
   return configureStore({
@@ -13,7 +13,11 @@ export const makeStore = (): EnhancedStore => {
       csrf: csrfSlice.reducer,
     },
     middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware()
+      getDefaultMiddleware({
+        serializableCheck: {
+          warnAfter: 100,
+        },
+      })
         .concat(mainApi.middleware)
         .concat(csrfApi.middleware),
     devTools: process.env.NODE_ENV !== 'production',

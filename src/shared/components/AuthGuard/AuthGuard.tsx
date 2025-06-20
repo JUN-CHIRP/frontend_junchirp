@@ -2,8 +2,8 @@
 
 import React, { ReactElement, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAppSelector } from '../../../hooks/reduxHooks';
-import authSelector from '../../../redux/auth/authSelector';
+import { useAppSelector } from '@/hooks/reduxHooks';
+import authSelector from '@/redux/auth/authSelector';
 
 interface AccessGuardProps {
   children: React.ReactNode;
