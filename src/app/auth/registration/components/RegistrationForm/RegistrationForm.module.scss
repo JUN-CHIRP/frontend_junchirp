@@ -77,4 +77,14 @@
   &__checkbox {
     display: none;
   }
+
+  &__icon {
+    height: 16px;
+    width: 16px;
+    color: variables.$gray-8;
+
+    &:hover {
+      color: variables.$green-2;
+    }
+  }
 }

@@ -12,7 +12,8 @@ import { blackListPasswords } from '../../../../../shared/constants/black-list-p
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { SerializedError } from '@reduxjs/toolkit';
 import Link from 'next/link';
-import Image from 'next/image';
+import Checkbox from '@/assets/icons/checkbox-empty.svg';
+import CheckboxChecked from '@/assets/icons/checkbox-checked.svg';
 
 const schema = z
   .object({
@@ -384,16 +385,13 @@ export default function RegistrationForm(): ReactElement {
               </Link>
             </p>
             <label htmlFor="checkbox">
-              <Image
-                src={
-                  agreement
-                    ? '/images/checkbox-checked.svg'
-                    : '/images/checkbox-empty.svg'
-                }
-                alt="checkbox"
-                height={16}
-                width={16}
-              />
+              {agreement ? (
+                <CheckboxChecked
+                  className={styles['registration-form__icon']}
+                />
+              ) : (
+                <Checkbox className={styles['registration-form__icon']} />
+              )}
             </label>
             <input
               className={styles['registration-form__checkbox']}
