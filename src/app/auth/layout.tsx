@@ -1,4 +1,4 @@
-import React, { ReactElement, Suspense } from "react";
+import React, { ReactElement, Suspense } from 'react';
 import styles from './layout.module.scss';
 import Image from 'next/image';
 import TabMenuWrapper from './components/TabMenuWrapper/TabMenuWrapper';
