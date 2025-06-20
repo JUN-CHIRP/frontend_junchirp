@@ -11,6 +11,9 @@ import Button from '../../../../../shared/components/Button/Button';
 import { blackListPasswords } from '../../../../../shared/constants/black-list-passwords';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { SerializedError } from '@reduxjs/toolkit';
+import Link from 'next/link';
+import Checkbox from '@/assets/icons/checkbox-empty.svg';
+import CheckboxChecked from '@/assets/icons/checkbox-checked.svg';
 
 const schema = z
   .object({
@@ -51,7 +54,13 @@ const schema = z
           message: 'Пароль містить заборонені символи',
         },
       ),
-    confirmPassword: z.string(),
+    confirmPassword: z
+      .string()
+      .nonempty('Поле підтвердження пароля не може бути порожнім'),
+    agreement: z.boolean().refine((val) => val, {
+      message:
+        'Підтверди, будь ласка, свою згоду з "Умовами використання" та "Політикою конфіденційності"',
+    }),
   })
   .superRefine(({ password, firstName, lastName, confirmPassword }, ctx) => {
     if (password.includes(firstName) && firstName.length) {
@@ -159,14 +168,14 @@ export default function RegistrationForm(): ReactElement {
   const lastName = watch('lastName');
   const password = watch('password');
   const email = watch('email');
-  const hasInteractedWithPassword = dirtyFields.password;
+  const agreement = watch('agreement');
   const passwordStrength = getPasswordStrength(
     password,
     firstName,
     lastName,
     blackListPasswords,
   );
-  const strengthInfo = !hasInteractedWithPassword
+  const strengthInfo = !password
     ? {
         classNames: ['', '', ''],
         text: 'Стан паролю',
@@ -197,6 +206,12 @@ export default function RegistrationForm(): ReactElement {
             ],
             text: 'Надійний пароль',
           };
+
+  useEffect(() => {
+    if (dirtyFields.confirmPassword) {
+      trigger('confirmPassword');
+    }
+  }, [password, trigger, dirtyFields.confirmPassword]);
 
   useEffect(() => {
     trigger('password');
@@ -241,7 +256,13 @@ export default function RegistrationForm(): ReactElement {
   const toast = useToast();
 
   const onSubmit = async (data: FormData): Promise<void> => {
-    const result = await registration(data);
+    const trimmedData = {
+      firstName: data.firstName.trim(),
+      lastName: data.lastName.trim(),
+      email: data.email.trim(),
+      password: data.password,
+    };
+    const result = await registration(trimmedData);
 
     if ('error' in result) {
       const errorData = result.error as
@@ -338,9 +359,55 @@ export default function RegistrationForm(): ReactElement {
           {...register('confirmPassword')}
           withError
           errorMessages={
-            errors.confirmPassword?.message && [errors.confirmPassword.message]
+            errors.confirmPassword &&
+            (dirtyFields.confirmPassword || isSubmitted) &&
+            errors.confirmPassword.message
+              ? [errors.confirmPassword.message]
+              : undefined
           }
         />
+        <div>
+          <div className={styles['registration-form__checkbox-wrapper']}>
+            <p className={styles['registration-form__checkbox-label']}>
+              Я погоджуюсь з{' '}
+              <Link
+                className={styles['registration-form__link']}
+                href="/legal-terms"
+              >
+                Умовами використання
+              </Link>{' '}
+              та{' '}
+              <Link
+                className={styles['registration-form__link']}
+                href="/privacy-policy"
+              >
+                Політикою конфіденційності
+              </Link>
+            </p>
+            <label htmlFor="checkbox">
+              {agreement ? (
+                <CheckboxChecked
+                  className={styles['registration-form__icon']}
+                />
+              ) : (
+                <Checkbox className={styles['registration-form__icon']} />
+              )}
+            </label>
+            <input
+              className={styles['registration-form__checkbox']}
+              id="checkbox"
+              type="checkbox"
+              {...register('agreement')}
+            />
+          </div>
+          {errors.agreement ? (
+            <p className={styles['registration-form__checkbox-error']}>
+              {errors.agreement.message}
+            </p>
+          ) : (
+            <p className={styles['registration-form__checkbox-error']}></p>
+          )}
+        </div>
       </fieldset>
       <Button
         type="submit"

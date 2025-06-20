@@ -3,7 +3,7 @@
 .registration-form {
   display: flex;
   flex-direction: column;
-  gap: 23px;
+  gap: 6px;
 
   &__fieldset {
     display: flex;
@@ -45,6 +45,46 @@
 
     &--strong {
       background-color: variables.$green-2;
+    }
+  }
+
+  &__checkbox-wrapper {
+    display: flex;
+    flex-direction: row-reverse;
+    gap: 8px;
+    align-items: center;
+  }
+
+  &__checkbox-error {
+    height: 34px;
+    font-size: 14px;
+    line-height: 1.2;
+    color: variables.$red-2;
+  }
+
+  &__checkbox-label {
+    font-size: 14px;
+    line-height: 1.2;
+    color: variables.$black-2;
+  }
+
+  &__link {
+    color: variables.$blue-1;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  &__checkbox {
+    display: none;
+  }
+
+  &__icon {
+    height: 16px;
+    width: 16px;
+    color: variables.$gray-8;
+
+    &:hover {
+      color: variables.$green-2;
     }
   }
 }
