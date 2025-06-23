@@ -1,0 +1,12 @@
+.change-email-form {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  //max-width: 378px;
+
+  &__buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+}

@@ -1,5 +1,3 @@
-'use client';
-
 import RegistrationForm from './components/RegistrationForm/RegistrationForm';
 import styles from './page.module.scss';
 import { ReactElement } from 'react';
@@ -14,7 +12,15 @@ export default function Registration(): ReactElement {
         <span className={styles.registration__text}>або</span>
         <div className={styles.registration__line}></div>
       </div>
-      <GoogleAuthButton fullWidth={true} />
+      <GoogleAuthButton
+        fullWidth={true}
+        message={{
+          severity: 'error',
+          summary: 'Не вдалося зареєструватись через Google.',
+          detail: 'Спробуй ще раз або обери інший спосіб реєстрації.',
+          life: 1000,
+        }}
+      />
     </div>
   );
 }

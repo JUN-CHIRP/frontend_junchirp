@@ -31,6 +31,22 @@ export const authApi = mainApi.injectEndpoints({
       }),
       invalidatesTags: ['auth'],
     }),
+    sendConfirmationEmail: builder.mutation({
+      query: (data) => ({
+        url: 'users/send-confirmation-email',
+        method: 'POST',
+        body: data,
+      }),
+      invalidatesTags: ['auth'],
+    }),
+    updateUser: builder.mutation({
+      query: (data) => ({
+        url: 'users/me',
+        method: 'PATCH',
+        body: data,
+      }),
+      invalidatesTags: ['auth'],
+    }),
   }),
 });
 
@@ -39,4 +55,6 @@ export const {
   useLoginMutation,
   useLogoutMutation,
   useGetMeQuery,
+  useSendConfirmationEmailMutation,
+  useUpdateUserMutation,
 } = authApi;

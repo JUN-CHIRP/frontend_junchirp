@@ -12,10 +12,10 @@ export default function AuthLayout({
     <div className={styles['auth-layout']}>
       <div className={styles['auth-layout__brackets']}>
         <Image
+          className={styles['auth-layout__image']}
           src="/images/brackets.svg"
           alt="brackets"
-          width={584}
-          height={679}
+          fill
         ></Image>
       </div>
       <div className={styles['auth-layout__routes-wrapper']}>

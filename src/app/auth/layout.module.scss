@@ -1,18 +1,18 @@
 @use '@/assets/styles/variables';
 
 .auth-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
   margin: 12px 0;
   width: 100%;
-  display: flex;
-  gap: 32px;
-  align-items: center;
+  align-items: stretch;
 
   &__brackets {
-    flex: 1;
+    position: relative;
   }
 
   &__routes-wrapper {
-    flex: 1;
     border-radius: 32px;
     padding: 80px;
     background-color: variables.$gray-1;

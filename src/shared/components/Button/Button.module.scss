@@ -25,15 +25,15 @@
         }
       }
     }
-  }
 
-  @each $size in variables.$sizes {
-    &--#{$size} {
-      @include mixins.button-size($size);
-    }
+    @each $size in variables.$sizes {
+      &--#{$variant}-#{$size} {
+        @include mixins.button-size($size, $variant);
+      }
 
-    &--icon-button-#{$size} {
-      @include mixins.icon-button-size($size);
+      &--icon-button-#{$size} {
+        @include mixins.icon-button-size($size);
+      }
     }
   }
 

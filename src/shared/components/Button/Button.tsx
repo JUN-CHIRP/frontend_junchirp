@@ -10,7 +10,8 @@ type Variant =
   | 'secondary'
   | 'secondary-frame'
   | 'secondary-footer'
-  | 'tertiary';
+  | 'tertiary'
+  | 'link';
 type IconPosition = 'left' | 'right';
 type Color = 'green' | 'red' | 'gray';
 
@@ -43,7 +44,7 @@ export default function Button({
   const className = [
     styles.button,
     styles[`button--${variant}-${color}`],
-    styles[`button--${size}`],
+    styles[`button--${variant}-${size}`],
     fullWidth && styles['button--full'],
     isIconOnly && styles[`button--icon-button-${size}`],
   ]

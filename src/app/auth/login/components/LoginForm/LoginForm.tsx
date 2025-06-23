@@ -97,7 +97,7 @@ export default function LoginForm(): ReactElement {
     }
 
     const user: UserInterface = result.data;
-    router.push(user.isVerified ? '/profile' : '/confirm-email');
+    router.push(user.isVerified ? '/profile' : '/confirm-email?type=login');
   };
 
   return (

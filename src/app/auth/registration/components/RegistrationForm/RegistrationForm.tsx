@@ -1,3 +1,5 @@
+'use client';
+
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -259,7 +261,7 @@ export default function RegistrationForm(): ReactElement {
       return;
     }
 
-    router.push('/confirm-email');
+    router.push('/confirm-email?type=registration');
   };
 
   return (
