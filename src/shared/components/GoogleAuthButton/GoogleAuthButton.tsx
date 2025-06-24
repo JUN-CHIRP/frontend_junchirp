@@ -2,7 +2,7 @@
 
 import React, { ReactElement, Suspense } from 'react';
 import SocialButton from '../SocialButton/SocialButton';
-import { ToastMessage } from "primereact/toast";
+import { ToastMessage } from 'primereact/toast';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   iconOnly?: boolean;
