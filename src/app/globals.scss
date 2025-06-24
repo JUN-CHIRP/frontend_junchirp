@@ -63,6 +63,10 @@ select {
   font-family: variables.$sf-pro-text;
   text-align: center;
 
+  &.p-toast-center {
+    opacity: 1;
+  }
+
   .p-toast-message-icon {
     display: none;
   }

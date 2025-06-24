@@ -18,7 +18,7 @@ export default function Registration(): ReactElement {
           severity: 'error',
           summary: 'Не вдалося зареєструватись через Google.',
           detail: 'Спробуй ще раз або обери інший спосіб реєстрації.',
-          life: 1000,
+          life: 3000,
         }}
       />
     </div>

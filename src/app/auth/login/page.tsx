@@ -18,7 +18,7 @@ export default function Login(): ReactElement {
           severity: 'error',
           summary: 'Не вдалося увійти через Google.',
           detail: 'Спробуй ще раз або обери інший спосіб входу.',
-          life: 1000,
+          life: 3000,
         }}
       />
     </div>

@@ -59,8 +59,16 @@ export default function ConfirmEmailContent(): ReactElement {
           ) : (
             <p>
               Ти ще не підтвердив свою електронну пошту. Щоб завершити
-              реєстрацію, натисни кнопку нижче - ми надішлемо лист із посиланням
-              для підтвердження.
+              реєстрацію,{' '}
+              <Button
+                className={styles['confirm-email-content__inline-button']}
+                variant="link"
+                color="green"
+                onClick={sendConfirmationRequest}
+              >
+                натисни тут
+              </Button>{' '}
+              - ми надішлемо лист із посиланням для підтвердження.
             </p>
           )}
           <p>

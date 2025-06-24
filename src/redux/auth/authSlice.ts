@@ -61,7 +61,7 @@ export const authSlice = createSlice({
       },
     );
     builder.addMatcher(
-      authApi.endpoints.getMe.matchFulfilled,
+      authApi.endpoints.updateUser.matchFulfilled,
       (state, { payload }) => {
         state.user = payload;
         state.loadingStatus = 'loaded';

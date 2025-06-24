@@ -3,7 +3,6 @@ import Input from '@/shared/components/Input/Input';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { SerializedError } from '@reduxjs/toolkit';
 import { useToast } from '@/hooks/useToast';
 import { useUpdateUserMutation } from '@/api/authApi';
 import styles from './ChangeEmailForm.module.scss';
@@ -92,14 +91,12 @@ export default function ChangeEmailForm({ onClose }: FormProps): ReactElement {
         detail: 'Перевір пошту для підтвердження.',
         life: 3000,
       });
-    }
-
-    if ('error' in result) {
+    } else if ('error' in result) {
       toast({
         severity: 'error',
         summary: 'Помилка: не вдалося змінити e-mail.',
         detail: 'Спробуй ще раз.',
-        life: 1000,
+        life: 3000,
       });
     }
 

@@ -247,16 +247,16 @@ export default function RegistrationForm(): ReactElement {
           severity: 'error',
           summary: 'Ця електронна пошта вже використовується.',
           detail: 'Спробуй іншу електронну пошту.',
-          life: 1000,
+          life: 3000,
         });
         return;
       }
 
       toast({
         severity: 'error',
-        summary: 'Помилка реєстрації.',
-        detail: 'Сталася помилка під час реєстрації. Спробуй пізніше.',
-        life: 1000,
+        summary: 'Виникла помилка під час реєстрації.',
+        detail: 'Спробуй пізніше.',
+        life: 3000,
       });
       return;
     }
@@ -276,6 +276,7 @@ export default function RegistrationForm(): ReactElement {
       >
         <Input
           label="Ім'я"
+          placeholder="Ім'я"
           {...register('firstName')}
           withError
           errorMessages={
@@ -284,6 +285,7 @@ export default function RegistrationForm(): ReactElement {
         />
         <Input
           label="Прізвище"
+          placeholder="Прізвище"
           {...register('lastName')}
           withError
           errorMessages={errors.lastName?.message && [errors.lastName.message]}
@@ -299,6 +301,7 @@ export default function RegistrationForm(): ReactElement {
         <Input
           autoComplete="new-password"
           label="Пароль"
+          placeholder="Пароль"
           type="password"
           {...register('password')}
           withError
@@ -313,6 +316,7 @@ export default function RegistrationForm(): ReactElement {
         <PasswordStrengthIndicator strength={passwordStrength} />
         <Input
           label="Повторити пароль"
+          placeholder="Повторити пароль"
           type="password"
           {...register('confirmPassword')}
           withError
