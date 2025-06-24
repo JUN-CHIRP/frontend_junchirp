@@ -3,12 +3,12 @@
 .login-form {
   display: flex;
   flex-direction: column;
-  gap: 23px;
+  gap: 40px;
 
   &__fieldset {
     display: flex;
     flex-direction: column;
-    gap: 3px;
+    gap: 8px;
   }
 
   &__button-wrapper {

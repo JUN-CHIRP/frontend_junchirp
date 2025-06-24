@@ -60,6 +60,13 @@ export const authSlice = createSlice({
         state.loadingStatus = 'loaded';
       },
     );
+    builder.addMatcher(
+      authApi.endpoints.updateUser.matchFulfilled,
+      (state, { payload }) => {
+        state.user = payload;
+        state.loadingStatus = 'loaded';
+      },
+    );
   },
 });
 

@@ -10,7 +10,8 @@ type Variant =
   | 'secondary'
   | 'secondary-frame'
   | 'secondary-footer'
-  | 'tertiary';
+  | 'tertiary'
+  | 'link';
 type IconPosition = 'left' | 'right';
 type Color = 'green' | 'red' | 'gray';
 
@@ -24,6 +25,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   disabled?: boolean;
   fullWidth?: boolean;
   loading?: boolean;
+  className?: string;
 }
 
 export default function Button({
@@ -37,15 +39,17 @@ export default function Button({
   disabled,
   fullWidth = false,
   loading = false,
+  className,
 }: ButtonProps): ReactElement {
   const isIconOnly = !!icon && !children;
 
-  const className = [
+  const classNames = [
     styles.button,
     styles[`button--${variant}-${color}`],
-    styles[`button--${size}`],
+    styles[`button--${variant}-${size}`],
     fullWidth && styles['button--full'],
     isIconOnly && styles[`button--icon-button-${size}`],
+    className,
   ]
     .filter(Boolean)
     .join(' ');
@@ -76,7 +80,7 @@ export default function Button({
     : null;
 
   return (
-    <button className={className} onClick={handleClick} disabled={disabled}>
+    <button className={classNames} onClick={handleClick} disabled={disabled}>
       {RenderSpinner ? (
         <>
           {iconPosition === 'left' && RenderSpinner}

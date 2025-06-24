@@ -63,6 +63,10 @@ select {
   font-family: variables.$sf-pro-text;
   text-align: center;
 
+  &.p-toast-center {
+    opacity: 1;
+  }
+
   .p-toast-message-icon {
     display: none;
   }
@@ -107,11 +111,10 @@ select {
     }
   }
 
-  //.p-toast-message-success {
-  //  background-color: #d4edda;
-  //  border-left: 4px solid #28a745;
-  //  color: #155724;
-  //}
+  .p-toast-message-success {
+    border: 2px solid variables.$green-2;
+    box-shadow: 0 0 0 4px variables.$green-4;
+  }
 
   & .p-toast-summary {
     font-weight: 590;

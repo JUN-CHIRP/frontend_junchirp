@@ -24,7 +24,7 @@ export default function AuthGuard({
 
   const isLoading = status !== 'loaded';
 
-  const shouldRedirect = (requireVerified && !user?.isVerified) || !user;
+  const shouldRedirect = requireVerified !== user?.isVerified || !user;
 
   useEffect(() => {
     if (!isLoading && shouldRedirect) {

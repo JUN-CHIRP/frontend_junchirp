@@ -82,22 +82,22 @@ export default function LoginForm(): ReactElement {
           severity: 'error',
           summary: 'Схоже введено неправильну електронну пошту або пароль.',
           detail: 'Спробуй ще раз або віднови пароль.',
-          life: 1000,
+          life: 3000,
         });
         return;
       }
 
       toast({
         severity: 'error',
-        summary: 'Помилка входу.',
-        detail: 'Сталася помилка під час входу. Спробуй пізніше.',
-        life: 1000,
+        summary: 'Виникла помилка під час входу.',
+        detail: 'Спробуй пізніше.',
+        life: 3000,
       });
       return;
     }
 
     const user: UserInterface = result.data;
-    router.push(user.isVerified ? '/profile' : '/confirm-email');
+    router.push(user.isVerified ? '/profile' : '/confirm-email?type=login');
   };
 
   return (
@@ -110,6 +110,7 @@ export default function LoginForm(): ReactElement {
         <Input
           label="Email"
           type="email"
+          placeholder="example@email.com"
           {...register('email')}
           withError
           errorMessages={errors.email?.message && [errors.email.message]}
@@ -117,6 +118,7 @@ export default function LoginForm(): ReactElement {
         <Input
           label="Пароль"
           type="password"
+          placeholder="Пароль"
           {...register('password')}
           withError
           errorMessages={errors.password?.message && [errors.password.message]}

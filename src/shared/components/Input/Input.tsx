@@ -87,21 +87,18 @@ function InputComponent(
             />
           </button>
         )}
-        {errorMessages?.length ? (
-          <Image
-            className={`${styles['input__error-icon']} ${
-              isPasswordField ? styles['input__error-icon--password'] : ''
-            }`}
-            src="/images/alert-circle.svg"
-            alt={'alert'}
-            width={16}
-            height={16}
-          />
-        ) : null}
       </div>
       {withError ? (
         errorMessages?.length ? (
-          <p className={styles.input__error}>{errorMessages[0]}</p>
+          <p className={styles.input__error}>
+            <Image
+              src="/images/alert-circle.svg"
+              alt={'alert'}
+              width={16}
+              height={16}
+            />
+            {errorMessages[0]}
+          </p>
         ) : (
           <p className={styles.input__error}></p>
         )

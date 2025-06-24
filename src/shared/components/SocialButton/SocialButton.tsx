@@ -5,11 +5,13 @@ import React, { ReactElement, useEffect } from 'react';
 import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useToast } from '../../../hooks/useToast';
+import { ToastMessage } from 'primereact/toast';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   iconOnly?: boolean;
   social: 'google' | 'facebook';
   fullWidth?: boolean;
+  message: ToastMessage;
 }
 
 const buttonData = {
@@ -27,6 +29,7 @@ export default function SocialButton({
   social,
   iconOnly = false,
   fullWidth = false,
+  message,
 }: ButtonProps): ReactElement {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -43,13 +46,8 @@ export default function SocialButton({
 
   useEffect(() => {
     const error = searchParams.get('error');
-    if (error === 'google_auth_failed') {
-      toast({
-        severity: 'error',
-        summary: 'Не вдалося зареєструватись через Google.',
-        detail: 'Спробуй ще раз або обери інший спосіб реєстрації.',
-        life: 1000,
-      });
+    if (error === `${social}_auth_failed`) {
+      toast(message);
 
       const url = new URL(window.location.href);
       url.searchParams.delete('error');
