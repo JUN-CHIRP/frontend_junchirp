@@ -3,14 +3,15 @@ import Input from '@/shared/components/Input/Input';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useToast } from '@/hooks/useToast';
-import { useUpdateUserMutation } from '@/api/authApi';
-import styles from './ChangeEmailForm.module.scss';
+import { useSendConfirmationEmailMutation } from '@/api/authApi';
+import styles from './CheckEmailForm.module.scss';
 import Button from '@/shared/components/Button/Button';
+import { useToast } from '@/hooks/useToast';
 
 const schema = z.object({
   email: z
     .string()
+    .trim()
     .nonempty('Поле електронної пошти не може бути порожнім')
     .email('Некоректний формат електронної пошти')
     .regex(/^(?!.*[а-яА-ЯґҐіІєЄїЇ])/, 'Некоректний формат електронної пошти')
@@ -26,10 +27,9 @@ interface FormProps {
   onClose: () => void;
 }
 
-export default function ChangeEmailForm({ onClose }: FormProps): ReactElement {
+export default function CheckEmailForm({ onClose }: FormProps): ReactElement {
   const {
     register,
-    // trigger,
     watch,
     handleSubmit,
     setError,
@@ -40,8 +40,7 @@ export default function ChangeEmailForm({ onClose }: FormProps): ReactElement {
     mode: 'onChange',
   });
   const email = watch('email');
-
-  const [updateUser, { isLoading }] = useUpdateUserMutation();
+  const [sendEmail, { isLoading }] = useSendConfirmationEmailMutation();
   const toast = useToast();
 
   useEffect(() => {
@@ -60,12 +59,17 @@ export default function ChangeEmailForm({ onClose }: FormProps): ReactElement {
         if (!res.ok) {
           return;
         }
-        const { isAvailable } = await res.json();
+        const { isAvailable, isConfirmed } = await res.json();
 
-        if (!isAvailable) {
+        if (isAvailable) {
           setError('email', {
             type: 'manual',
-            message: 'Ця електронна пошта вже використовується',
+            message: 'Електронна пошта не знайдена',
+          });
+        } else if (isConfirmed) {
+          setError('email', {
+            type: 'manual',
+            message: 'Електронна пошта підтверджена',
           });
         } else {
           clearErrors('email');
@@ -79,32 +83,36 @@ export default function ChangeEmailForm({ onClose }: FormProps): ReactElement {
   }, [email, setError, clearErrors, errors.email?.type, errors.email?.message]);
 
   const onSubmit = async (data: FormData): Promise<void> => {
+    if (errors.email?.message) {
+      return;
+    }
+
     const trimmedData = {
       email: data.email.trim(),
     };
-    const result = await updateUser(trimmedData);
+    const result = await sendEmail(trimmedData);
 
     if ('data' in result) {
       toast({
         severity: 'success',
-        summary: 'E-mail змінено успішно.',
+        summary: 'Запит успішно оброблено.',
         detail: 'Перевір пошту для підтвердження.',
         life: 3000,
       });
     } else if ('error' in result) {
       toast({
         severity: 'error',
-        summary: 'Помилка: не вдалося змінити e-mail.',
+        summary: 'Винкла помилка при обробці запиту.',
         detail: 'Спробуй ще раз.',
         life: 3000,
       });
     }
-
     onClose();
   };
 
   return (
     <form
+      noValidate
       className={styles['change-email-form']}
       onSubmit={handleSubmit(onSubmit)}
     >
@@ -132,7 +140,7 @@ export default function ChangeEmailForm({ onClose }: FormProps): ReactElement {
           Назад
         </Button>
         <Button color="green" type="submit" fullWidth>
-          Змінити e-mail
+          Отримати лист
         </Button>
       </div>
     </form>

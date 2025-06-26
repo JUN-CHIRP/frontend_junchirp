@@ -16,8 +16,11 @@ import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { SerializedError } from '@reduxjs/toolkit';
 
 const schema = z.object({
-  email: z.string().nonempty('Поле електронної пошти не може бути порожнім'),
-  password: z.string().nonempty('Поле паролю не може бути порожнім'),
+  email: z
+    .string()
+    .trim()
+    .nonempty('Поле електронної пошти не може бути порожнім'),
+  password: z.string().trim().nonempty('Поле паролю не може бути порожнім'),
 });
 
 type FormData = z.infer<typeof schema>;
@@ -97,7 +100,7 @@ export default function LoginForm(): ReactElement {
     }
 
     const user: UserInterface = result.data;
-    router.push(user.isVerified ? '/profile' : '/confirm-email?type=login');
+    router.replace(user.isVerified ? '/profile' : '/confirm-email?type=login');
   };
 
   return (

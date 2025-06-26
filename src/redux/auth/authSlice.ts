@@ -19,8 +19,8 @@ export const authSlice = createSlice({
   extraReducers: (builder) => {
     builder.addMatcher(
       authApi.endpoints.register.matchFulfilled,
-      (state, { payload }) => {
-        state.user = payload;
+      (state, action) => {
+        state.user = action.payload;
       },
     );
     builder.addMatcher(authApi.endpoints.login.matchPending, (state) => {
@@ -28,8 +28,8 @@ export const authSlice = createSlice({
     });
     builder.addMatcher(
       authApi.endpoints.login.matchFulfilled,
-      (state, { payload }) => {
-        state.user = payload;
+      (state, action) => {
+        state.user = action.payload;
         state.loadingStatus = 'loaded';
       },
     );
@@ -42,8 +42,8 @@ export const authSlice = createSlice({
     });
     builder.addMatcher(
       authApi.endpoints.getMe.matchFulfilled,
-      (state, { payload }) => {
-        state.user = payload;
+      (state, action) => {
+        state.user = action.payload;
         state.loadingStatus = 'loaded';
       },
     );
@@ -62,8 +62,27 @@ export const authSlice = createSlice({
     );
     builder.addMatcher(
       authApi.endpoints.updateUser.matchFulfilled,
-      (state, { payload }) => {
-        state.user = payload;
+      (state, action) => {
+        state.user = action.payload;
+        state.loadingStatus = 'loaded';
+      },
+    );
+    builder.addMatcher(
+      authApi.endpoints.confirmEmail.matchFulfilled,
+      (state) => {
+        state.user = null;
+        state.loadingStatus = 'loaded';
+      },
+    );
+    builder.addMatcher(
+      authApi.endpoints.confirmEmail.matchRejected,
+      (state, action) => {
+        const error = action.payload;
+
+        if (error?.status === 401) {
+          state.user = null;
+        }
+
         state.loadingStatus = 'loaded';
       },
     );

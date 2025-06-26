@@ -8,11 +8,15 @@ import Frame5 from '@/assets/icons/state=05.svg';
 import Frame6 from '@/assets/icons/state=06.svg';
 import Frame7 from '@/assets/icons/state=07.svg';
 import Frame8 from '@/assets/icons/state=08.svg';
-import { ReactElement, useEffect, useState } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
+
+interface SpinnerProps {
+  size?: number;
+}
 
 const frames = [Frame1, Frame2, Frame3, Frame4, Frame5, Frame6, Frame7, Frame8];
 
-export default function Spinner(): ReactElement {
+export default function Spinner({ size = 24 }: SpinnerProps): ReactElement {
   const [frameIndex, setFrameIndex] = useState(0);
 
   useEffect(() => {
@@ -25,5 +29,5 @@ export default function Spinner(): ReactElement {
 
   const CurrentFrame = frames[frameIndex];
 
-  return <CurrentFrame />;
+  return <CurrentFrame width={size} height={size} />;
 }
