@@ -22,6 +22,7 @@ const schema = z
   .object({
     firstName: z
       .string()
+      .trim()
       .nonempty('Поле імені не може бути порожнім')
       .min(2, `Ім'я повинно містити від 2 до 50 символів`)
       .max(50, `Ім'я повинно містити від 2 до 50 символів`)
@@ -31,6 +32,7 @@ const schema = z
       ),
     lastName: z
       .string()
+      .trim()
       .nonempty('Поле прізвища не може бути порожнім')
       .min(2, 'Прізвище повинно містити від 2 до 50 символів')
       .max(50, 'Прізвище повинно містити від 2 до 50 символів')
@@ -40,6 +42,7 @@ const schema = z
       ),
     email: z
       .string()
+      .trim()
       .nonempty('Поле електронної пошти не може бути порожнім')
       .email('Некоректний формат електронної пошти')
       .regex(/^(?!.*[а-яА-ЯґҐіІєЄїЇ])/, 'Некоректний формат електронної пошти')
@@ -228,6 +231,10 @@ export default function RegistrationForm(): ReactElement {
   const toast = useToast();
 
   const onSubmit = async (data: FormData): Promise<void> => {
+    if (errors.email?.message) {
+      return;
+    }
+
     const trimmedData = {
       firstName: data.firstName.trim(),
       lastName: data.lastName.trim(),
@@ -261,7 +268,7 @@ export default function RegistrationForm(): ReactElement {
       return;
     }
 
-    router.push('/confirm-email?type=registration');
+    router.replace('/confirm-email?type=registration');
   };
 
   return (

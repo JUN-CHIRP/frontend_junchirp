@@ -12,7 +12,7 @@ export default function ConfirmEmail(): ReactElement {
           <div className={styles['confirm-email__inner']}>
             <ConfirmEmailContent />
             <Image
-              src="/images/bird-3467140.svg"
+              src="/images/bird-1.svg"
               alt="bird"
               width={420}
               height={662}

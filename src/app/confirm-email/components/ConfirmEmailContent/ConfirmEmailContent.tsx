@@ -10,7 +10,7 @@ import { useToast } from '@/hooks/useToast';
 import { useSendConfirmationEmailMutation } from '@/api/authApi';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { SerializedError } from '@reduxjs/toolkit';
-import ChangeEmailPopup from '@/app/confirm-email/components/ChangeEmailPopup/ChangeEmailPopup';
+import ChangeEmailPopup from './components/ChangeEmailPopup/ChangeEmailPopup';
 
 export default function ConfirmEmailContent(): ReactElement {
   const user = useAppSelector(authSelector.selectUser);
