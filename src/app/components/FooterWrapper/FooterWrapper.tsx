@@ -1,12 +1,12 @@
 'use client';
 
-import dynamic from 'next/dynamic';
-import { ReactElement } from 'react';
-
-const Footer = dynamic(() => import('./components/Footer/Footer'), {
-  ssr: false,
-});
+import { ReactElement, Suspense } from 'react';
+import Footer from './components/Footer/Footer';
 
 export default function FooterWrapper(): ReactElement {
-  return <Footer />;
+  return (
+    <Suspense fallback={null}>
+      <Footer />
+    </Suspense>
+  );
 }
