@@ -11,7 +11,10 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { getPasswordStrength } from '@/shared/utils/getPasswordStrength';
-import { useCancelResetPasswordMutation, useResetPasswordMutation } from '@/api/authApi';
+import {
+  useCancelResetPasswordMutation,
+  useResetPasswordMutation,
+} from '@/api/authApi';
 import { useToast } from '@/hooks/useToast';
 
 const baseSchema = z.object({
@@ -140,7 +143,7 @@ export default function ResetPasswordForm(): ReactElement {
   };
 
   const cancelReset = async (): Promise<void> => {
-    await cancelResetPassword(`${encodeURIComponent(token)}`);
+    await cancelResetPassword(encodeURIComponent(token));
     router.push('/auth/login');
   };
 

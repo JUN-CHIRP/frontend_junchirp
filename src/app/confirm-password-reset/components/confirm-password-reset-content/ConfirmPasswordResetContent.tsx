@@ -3,7 +3,7 @@
 import { ReactElement } from 'react';
 import styles from './ConfirmPasswordResetContent.module.scss';
 import Button from '@/shared/components/Button/Button';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useRequestPasswordResetMutation } from '@/api/authApi';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { SerializedError } from '@reduxjs/toolkit';
@@ -14,6 +14,7 @@ export default function ConfirmPasswordResetContent(): ReactElement {
   const email = searchParams.get('email') ?? '';
   const [reqResetPassword] = useRequestPasswordResetMutation();
   const toast = useToast();
+  const router = useRouter();
 
   const handleClick = async (): Promise<void> => {
     const result = await reqResetPassword({ email });
@@ -41,6 +42,7 @@ export default function ConfirmPasswordResetContent(): ReactElement {
           detail: 'Адресу електронної пошти не знайдено в базі даних.',
           life: 3000,
         });
+        router.push('/request-password-reset');
       }
     }
   };

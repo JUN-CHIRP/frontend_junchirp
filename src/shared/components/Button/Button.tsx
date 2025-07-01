@@ -26,6 +26,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   fullWidth?: boolean;
   loading?: boolean;
   className?: string;
+  type?: 'button' | 'submit' | 'reset';
 }
 
 export default function Button({
@@ -40,6 +41,7 @@ export default function Button({
   fullWidth = false,
   loading = false,
   className,
+  type = 'button',
 }: ButtonProps): ReactElement {
   const isIconOnly = !!icon && !children;
 
@@ -80,7 +82,12 @@ export default function Button({
     : null;
 
   return (
-    <button className={classNames} onClick={handleClick} disabled={disabled}>
+    <button
+      type={type}
+      className={classNames}
+      onClick={handleClick}
+      disabled={disabled}
+    >
       {RenderSpinner ? (
         <>
           {iconPosition === 'left' && RenderSpinner}

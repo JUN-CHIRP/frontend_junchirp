@@ -140,7 +140,7 @@ export default function RequestPasswordResetForm(): ReactElement {
           errorMessages={errors.email?.message && [errors.email.message]}
         />
       </fieldset>
-      <Button color="green" type="submit" fullWidth>
+      <Button color="green" type="submit" fullWidth loading={isLoading}>
         Відправити запит
       </Button>
     </form>
