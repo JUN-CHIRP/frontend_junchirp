@@ -36,7 +36,7 @@ export default function AccessGuard({
 
   useEffect(() => {
     if (!isLoading && shouldRedirect) {
-      router.replace(redirectTo);
+      router.push(redirectTo);
     }
   }, [isLoading, shouldRedirect, router, redirectTo]);
 

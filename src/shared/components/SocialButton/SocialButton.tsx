@@ -51,7 +51,7 @@ export default function SocialButton({
 
       const url = new URL(window.location.href);
       url.searchParams.delete('error');
-      router.replace(url.pathname);
+      router.push(url.pathname);
     }
   }, [searchParams, toast, router]);
 

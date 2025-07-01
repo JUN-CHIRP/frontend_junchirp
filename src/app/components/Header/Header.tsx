@@ -19,7 +19,7 @@ export default function Header(): ReactElement {
     pathname === '/auth/login' ||
     pathname === '/auth/registration' ||
     pathname === '/confirm-email' ||
-    pathname === '/confirmation-result';
+    pathname === '/verify-email';
 
   const login = (): void => {
     router.push('/auth/login');
