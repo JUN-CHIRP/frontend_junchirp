@@ -112,10 +112,7 @@ export default function ChangeEmailForm({ onClose }: FormProps): ReactElement {
       className={styles['change-email-form']}
       onSubmit={handleSubmit(onSubmit)}
     >
-      <fieldset
-        className={styles['change-email-form__fieldset']}
-        disabled={isLoading}
-      >
+      <fieldset disabled={isLoading}>
         <Input
           label="Email"
           placeholder="example@email.com"

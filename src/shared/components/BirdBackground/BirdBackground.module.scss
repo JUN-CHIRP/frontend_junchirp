@@ -1,6 +1,6 @@
 @use '@/assets/styles/variables';
 
-.confirmation-result {
+.bird-background {
   padding: 40px;
 
   &__inner {
@@ -9,6 +9,7 @@
     background-color: variables.$gray-1;
     display: flex;
     justify-content: space-between;
+    min-height: 286px;
   }
 
   &__bird {

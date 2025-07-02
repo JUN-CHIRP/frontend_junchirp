@@ -1,12 +1,11 @@
 @use '@/assets/styles/variables';
 
-.confirmation-result-content {
+.verification-result-content {
   padding: 80px 0;
   display: flex;
   flex-direction: column;
   gap: 32px;
   align-items: flex-start;
-
 
   &__title {
     font-weight: 590;
@@ -22,18 +21,27 @@
     }
   }
 
-  &__content {
+  & div {
     display: flex;
     flex-direction: column;
     gap: 16px;
+
+    & p {
+      font-size: 20px;
+      line-height: 1.4;
+    }
+
+    & button {
+      display: inline-flex;
+    }
   }
 
-  &__text {
-    font-size: 20px;
-    line-height: 1.4;
-  }
-
-  &__inline-button {
-    display: inline-flex;
-  }
+  //&__text {
+  //  font-size: 20px;
+  //  line-height: 1.4;
+  //}
+  //
+  //&__inline-button {
+  //  display: inline-flex;
+  //}
 }

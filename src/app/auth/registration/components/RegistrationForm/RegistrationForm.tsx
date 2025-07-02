@@ -17,6 +17,7 @@ import Link from 'next/link';
 import Checkbox from '@/assets/icons/checkbox-empty.svg';
 import CheckboxChecked from '@/assets/icons/checkbox-checked.svg';
 import PasswordStrengthIndicator from '@/shared/components/PasswordStrengthIndicator/PasswordStrengthIndicator';
+import { getPasswordStrength } from '@/shared/utils/getPasswordStrength';
 
 const schema = z
   .object({
@@ -103,58 +104,7 @@ const schema = z
   });
 
 type FormData = z.infer<typeof schema>;
-type PasswordStrength = 'none' | 'weak' | 'medium' | 'strong';
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
-
-function getPasswordStrength(
-  password?: string,
-  firstName?: string,
-  lastName?: string,
-  blackList: string[] = [],
-): PasswordStrength {
-  if (!password) {
-    return 'none';
-  }
-
-  const hasLower = /[a-z]/.test(password);
-  const hasUpper = /[A-Z]/.test(password);
-  const hasDigit = /\d/.test(password);
-  const hasSpecial = /[!"#$%&'()*+,\-./:;<=>?@[\\\]^_`{|}~]/.test(password);
-  const onlyAllowedChars =
-    /^[A-Za-z\d!"#$%&'()*+,\-./:;<=>?@[\\\]^_`{|}~]+$/.test(password);
-  const length = password.length;
-  const isBlacklisted = blackList?.includes(password);
-  const containsNames =
-    (firstName && password.includes(firstName)) ??
-    (lastName && password.includes(lastName));
-
-  if (
-    length >= 12 &&
-    length <= 20 &&
-    hasLower &&
-    hasUpper &&
-    hasDigit &&
-    hasSpecial &&
-    onlyAllowedChars &&
-    !isBlacklisted &&
-    !containsNames
-  ) {
-    return 'strong';
-  }
-
-  if (
-    length >= 8 &&
-    length <= 20 &&
-    [hasLower, hasUpper, hasDigit, hasSpecial].filter(Boolean).length >= 2 &&
-    onlyAllowedChars &&
-    !isBlacklisted &&
-    !containsNames
-  ) {
-    return 'medium';
-  }
-
-  return 'weak';
-}
 
 export default function RegistrationForm(): ReactElement {
   const {
@@ -268,7 +218,7 @@ export default function RegistrationForm(): ReactElement {
       return;
     }
 
-    router.replace('/confirm-email?type=registration');
+    router.push('/confirm-email?type=registration');
   };
 
   return (

@@ -47,6 +47,14 @@ export const authApi = mainApi.injectEndpoints({
       }),
       invalidatesTags: ['auth'],
     }),
+    requestPasswordReset: builder.mutation({
+      query: (data) => ({
+        url: 'users/request-password-reset',
+        method: 'POST',
+        body: data,
+      }),
+      invalidatesTags: ['auth'],
+    }),
     updateUser: builder.mutation({
       query: (data) => ({
         url: 'users/me',
@@ -54,6 +62,24 @@ export const authApi = mainApi.injectEndpoints({
         body: data,
       }),
       invalidatesTags: ['auth'],
+    }),
+    validateToken: builder.query({
+      query: (token) => ({
+        url: `users/validate-password-token?token=${encodeURIComponent(token)}`,
+      }),
+    }),
+    resetPassword: builder.mutation({
+      query: (data) => ({
+        url: 'users/reset-password',
+        method: 'POST',
+        body: data,
+      }),
+    }),
+    cancelResetPassword: builder.mutation({
+      query: (token) => ({
+        url: `users/password-token?token=${token}`,
+        method: 'DELETE',
+      }),
     }),
   }),
 });
@@ -66,4 +92,8 @@ export const {
   useSendConfirmationEmailMutation,
   useUpdateUserMutation,
   useConfirmEmailMutation,
+  useRequestPasswordResetMutation,
+  useValidateTokenQuery,
+  useResetPasswordMutation,
+  useCancelResetPasswordMutation,
 } = authApi;

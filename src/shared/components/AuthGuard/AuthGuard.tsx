@@ -28,7 +28,7 @@ export default function AuthGuard({
 
   useEffect(() => {
     if (!isLoading && shouldRedirect) {
-      router.replace(redirectTo);
+      router.push(redirectTo);
     }
   }, [isLoading, shouldRedirect, router, redirectTo]);
 

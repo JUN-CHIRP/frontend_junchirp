@@ -1,12 +1,17 @@
-import React, { ReactElement, useEffect } from 'react';
-import Input from '@/shared/components/Input/Input';
-import { useForm } from 'react-hook-form';
+'use client';
+
+import { ReactElement, useEffect } from 'react';
 import { z } from 'zod';
+import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useSendConfirmationEmailMutation } from '@/api/authApi';
-import styles from './CheckEmailForm.module.scss';
+import styles from './RequestPasswordResetForm.module.scss';
+import Input from '@/shared/components/Input/Input';
 import Button from '@/shared/components/Button/Button';
 import { useToast } from '@/hooks/useToast';
+import { useRequestPasswordResetMutation } from '@/api/authApi';
+import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
+import { SerializedError } from '@reduxjs/toolkit';
+import { useRouter } from 'next/navigation';
 
 const schema = z.object({
   email: z
@@ -19,15 +24,12 @@ const schema = z.object({
       message: `Домен '.ru' не підтримується. Вибери інший`,
     }),
 });
+
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 type FormData = z.infer<typeof schema>;
 
-interface FormProps {
-  onClose: () => void;
-}
-
-export default function CheckEmailForm({ onClose }: FormProps): ReactElement {
+export default function RequestPasswordResetForm(): ReactElement {
   const {
     register,
     watch,
@@ -40,8 +42,9 @@ export default function CheckEmailForm({ onClose }: FormProps): ReactElement {
     mode: 'onChange',
   });
   const email = watch('email');
-  const [sendEmail, { isLoading }] = useSendConfirmationEmailMutation();
+  const [reqResetPassword, { isLoading }] = useRequestPasswordResetMutation();
   const toast = useToast();
+  const router = useRouter();
 
   useEffect(() => {
     const timeout = setTimeout(async () => {
@@ -59,17 +62,12 @@ export default function CheckEmailForm({ onClose }: FormProps): ReactElement {
         if (!res.ok) {
           return;
         }
-        const { isAvailable, isConfirmed } = await res.json();
+        const { isAvailable } = await res.json();
 
         if (isAvailable) {
           setError('email', {
             type: 'manual',
             message: 'Електронна пошта не знайдена',
-          });
-        } else if (isConfirmed) {
-          setError('email', {
-            type: 'manual',
-            message: 'Електронна пошта підтверджена',
           });
         } else {
           clearErrors('email');
@@ -90,36 +88,49 @@ export default function CheckEmailForm({ onClose }: FormProps): ReactElement {
     const trimmedData = {
       email: data.email.trim(),
     };
-    const result = await sendEmail(trimmedData);
+    const result = await reqResetPassword(trimmedData);
 
-    if ('data' in result) {
-      toast({
-        severity: 'success',
-        summary: 'Запит успішно оброблено.',
-        detail: 'Перевір пошту для підтвердження.',
-        life: 3000,
-      });
-    } else if ('error' in result) {
+    if ('error' in result) {
+      const errorData = result.error as
+        | ((FetchBaseQueryError | SerializedError) & {
+            status: number;
+            data: { attemptsCount: number };
+          })
+        | undefined;
+      const status = errorData?.status;
+
+      if (status === 429) {
+        toast({
+          severity: 'error',
+          summary:
+            'Перевищено ліміт запитів на підтвердження запиту на відновлення пароля.',
+          detail: 'Будь ласка, спробуй надіслати новий запит через 1 годину.',
+          life: 10000,
+        });
+
+        return;
+      }
+
       toast({
         severity: 'error',
-        summary: 'Винкла помилка при обробці запиту.',
-        detail: 'Спробуй ще раз.',
+        summary: 'Невідома помилка.',
+        detail: 'Спробуй пізніше.',
         life: 3000,
       });
+
+      return;
     }
-    onClose();
+
+    router.push(`/confirm-password-reset?email=${encodeURIComponent(email)}`);
   };
 
   return (
     <form
       noValidate
-      className={styles['change-email-form']}
+      className={styles['request-password-reset-form']}
       onSubmit={handleSubmit(onSubmit)}
     >
-      <fieldset
-        className={styles['change-email-form__fieldset']}
-        disabled={isLoading}
-      >
+      <fieldset disabled={isLoading}>
         <Input
           label="Email"
           placeholder="example@email.com"
@@ -129,20 +140,9 @@ export default function CheckEmailForm({ onClose }: FormProps): ReactElement {
           errorMessages={errors.email?.message && [errors.email.message]}
         />
       </fieldset>
-      <div className={styles['change-email-form__buttons']}>
-        <Button
-          color="green"
-          variant="secondary-frame"
-          type="button"
-          fullWidth
-          onClick={onClose}
-        >
-          Назад
-        </Button>
-        <Button color="green" type="submit" fullWidth>
-          Отримати лист
-        </Button>
-      </div>
+      <Button color="green" type="submit" fullWidth loading={isLoading}>
+        Відправити запит
+      </Button>
     </form>
   );
 }

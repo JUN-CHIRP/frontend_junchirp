@@ -74,6 +74,7 @@ export default function ConfirmEmailContent(): ReactElement {
           <p>
             Якщо лист не надійшов, будь ласка, перевір папку "Спам" або{' '}
             <Button
+              className={styles['confirm-email-content__inline-button']}
               variant="link"
               color="green"
               onClick={sendConfirmationRequest}
