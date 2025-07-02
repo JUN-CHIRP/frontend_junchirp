@@ -36,6 +36,13 @@ export default function ConfirmEmailContent(): ReactElement {
           detail: 'Будь ласка, спробуй надіслати новий запит через 1 годину.',
           life: 3000,
         });
+      } else if (status === 404) {
+        toast({
+          severity: 'error',
+          summary: 'Виникла помилка при обробці запиту.',
+          detail: 'Email вже підтверджений.',
+          life: 3000,
+        });
       }
     }
   };

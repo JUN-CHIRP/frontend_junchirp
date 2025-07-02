@@ -44,7 +44,7 @@ export default function Invalid(): ReactElement {
       } else if (resStatus === 400) {
         toast({
           severity: 'error',
-          summary: 'Винкла помилка при обробці запиту.',
+          summary: 'Виникла помилка при обробці запиту.',
           detail: 'Email вже підтверджений.',
           life: 3000,
         });
