@@ -1,6 +1,6 @@
 'use client';
 
-import React, { ReactElement, useEffect, useMemo } from 'react';
+import React, { ReactElement, useEffect, useMemo, useState } from 'react';
 import styles from './ResetPasswordForm.module.scss';
 import Button from '@/shared/components/Button/Button';
 import Input from '@/shared/components/Input/Input';
@@ -16,6 +16,7 @@ import {
   useResetPasswordMutation,
 } from '@/api/authApi';
 import { useToast } from '@/hooks/useToast';
+import CancelPasswordPopup from './components/CancelPasswordPopup/CancelPasswordPopup';
 
 const baseSchema = z.object({
   password: z
@@ -88,6 +89,7 @@ export default function ResetPasswordForm(): ReactElement {
     useResetPasswordMutation();
   const [cancelResetPassword, { isLoading: isCancelLoading }] =
     useCancelResetPasswordMutation();
+  const [isModalOpen, setModalOpen] = useState(false);
 
   const schema = useMemo(
     () => createSchemaWithContext(firstName, lastName),
@@ -119,6 +121,9 @@ export default function ResetPasswordForm(): ReactElement {
     }
   }, [password, trigger, dirtyFields.confirmPassword, dirtyFields.password]);
 
+  const closeModal = (): void => setModalOpen(false);
+  const openModal = (): void => setModalOpen(true);
+
   const onSubmit = async (data: FormData): Promise<void> => {
     const result = await resetPassword({ token, password: data.password });
 
@@ -144,62 +149,73 @@ export default function ResetPasswordForm(): ReactElement {
 
   const cancelReset = async (): Promise<void> => {
     await cancelResetPassword(encodeURIComponent(token));
+    toast({
+      severity: 'success',
+      summary: 'Відновлення пароля скасовано.',
+      detail: 'Усі внесені зміни видалено.',
+      life: 3000,
+    });
     router.push('/auth/login');
   };
 
   return (
-    <form
-      className={styles['reset-password-form']}
-      onSubmit={handleSubmit(onSubmit)}
-    >
-      <fieldset
-        className={styles['reset-password-form__fieldset']}
-        disabled={isResetLoading || isCancelLoading}
+    <>
+      <form
+        className={styles['reset-password-form']}
+        onSubmit={handleSubmit(onSubmit)}
       >
-        <Input
-          autoComplete="new-password"
-          label="Пароль"
-          placeholder="Пароль"
-          type="password"
-          {...register('password')}
-          withError
-          errorMessages={
-            errors.password &&
-            (dirtyFields.password || isSubmitted) &&
-            errors.password.message
-              ? [errors.password.message]
-              : undefined
-          }
-        />
-        <PasswordStrengthIndicator strength={passwordStrength} />
-        <Input
-          label="Повторити пароль"
-          placeholder="Повторити пароль"
-          type="password"
-          {...register('confirmPassword')}
-          withError
-          errorMessages={
-            errors.confirmPassword &&
-            (dirtyFields.confirmPassword || isSubmitted) &&
-            errors.confirmPassword.message
-              ? [errors.confirmPassword.message]
-              : undefined
-          }
-        />
-      </fieldset>
-      <div className={styles['reset-password-form__buttons']}>
-        <Button
-          type="button"
-          color="green"
-          variant="secondary-frame"
-          onClick={cancelReset}
+        <fieldset
+          className={styles['reset-password-form__fieldset']}
+          disabled={isResetLoading || isCancelLoading}
         >
-          Скасувати
-        </Button>
-        <Button type="submit" color="green">
-          Зберегти пароль
-        </Button>
-      </div>
-    </form>
+          <Input
+            autoComplete="new-password"
+            label="Пароль"
+            placeholder="Пароль"
+            type="password"
+            {...register('password')}
+            withError
+            errorMessages={
+              errors.password &&
+              (dirtyFields.password || isSubmitted) &&
+              errors.password.message
+                ? [errors.password.message]
+                : undefined
+            }
+          />
+          <PasswordStrengthIndicator strength={passwordStrength} />
+          <Input
+            label="Повторити пароль"
+            placeholder="Повторити пароль"
+            type="password"
+            {...register('confirmPassword')}
+            withError
+            errorMessages={
+              errors.confirmPassword &&
+              (dirtyFields.confirmPassword || isSubmitted) &&
+              errors.confirmPassword.message
+                ? [errors.confirmPassword.message]
+                : undefined
+            }
+          />
+        </fieldset>
+        <div className={styles['reset-password-form__buttons']}>
+          <Button
+            type="button"
+            color="green"
+            variant="secondary-frame"
+            onClick={openModal}
+          >
+            Скасувати
+          </Button>
+          <Button type="submit" color="green">
+            Зберегти пароль
+          </Button>
+        </div>
+      </form>
+      {isModalOpen && (
+        <CancelPasswordPopup onConfirm={cancelReset} onCancel={closeModal} />
+      )}
+    </>
   );
 }
