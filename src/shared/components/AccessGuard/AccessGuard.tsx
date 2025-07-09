@@ -1,17 +1,17 @@
 'use client';
 
-import React, { ReactElement, useEffect } from 'react';
+import { ReactElement, ReactNode, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import type { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { useAppSelector } from '@/hooks/reduxHooks';
 import authSelector from '@/redux/auth/authSelector';
 
 interface AccessGuardProps {
-  children: React.ReactNode;
+  children: ReactNode;
   checkDataAccess?: () =>
     | { error?: FetchBaseQueryError; isFetching?: boolean }
     | undefined;
-  loadingFallback?: React.ReactNode;
+  loadingFallback?: ReactNode;
   redirectTo?: string;
 }
 

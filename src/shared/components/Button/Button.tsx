@@ -1,10 +1,17 @@
 'use client';
 
 import styles from './Button.module.scss';
-import React, { ReactElement } from 'react';
+import {
+  ButtonHTMLAttributes,
+  cloneElement,
+  MouseEvent,
+  ReactElement,
+  ReactNode,
+  SVGProps,
+} from 'react';
 import Spinner from '../Spinner/Spinner';
 
-type ButtonSize = 'sm' | 'md' | 'lg' | 'lg-md';
+type ButtonSize = 'ssm' | 'sm' | 'md' | 'lg' | 'lg-md';
 type Variant =
   | 'primary'
   | 'secondary'
@@ -13,15 +20,15 @@ type Variant =
   | 'tertiary'
   | 'link';
 type IconPosition = 'left' | 'right';
-type Color = 'green' | 'red' | 'gray';
+type Color = 'green' | 'red' | 'gray' | 'black';
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   color?: Color;
   size?: ButtonSize;
   variant?: Variant;
-  icon?: React.ReactElement<React.SVGProps<SVGSVGElement>>;
+  icon?: ReactElement<SVGProps<SVGSVGElement>>;
   iconPosition?: IconPosition;
-  children?: React.ReactNode;
+  children?: ReactNode;
   disabled?: boolean;
   fullWidth?: boolean;
   loading?: boolean;
@@ -50,15 +57,16 @@ export default function Button({
     styles[`button--${variant}-${color}`],
     styles[`button--${variant}-${size}`],
     fullWidth && styles['button--full'],
-    isIconOnly && styles[`button--icon-button-${size}`],
+    isIconOnly && styles[`button--icon-button-${variant}-${size}`],
     className,
   ]
     .filter(Boolean)
     .join(' ');
 
-  const iconSize = size === 'sm' ? 20 : size === 'md' ? 24 : 32;
+  const iconSize =
+    size === 'ssm' ? 16 : size === 'sm' ? 20 : size === 'md' ? 24 : 32;
 
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>): void => {
+  const handleClick = (e: MouseEvent<HTMLButtonElement>): void => {
     if (loading) {
       e.preventDefault();
       return;
@@ -67,7 +75,7 @@ export default function Button({
   };
 
   const RenderIcon = icon
-    ? React.cloneElement(icon, {
+    ? cloneElement(icon, {
         width: iconSize,
         height: iconSize,
         className: styles.button__icon,
@@ -75,7 +83,7 @@ export default function Button({
     : null;
 
   const RenderSpinner = loading
-    ? React.cloneElement(<Spinner />, {
+    ? cloneElement(<Spinner />, {
         width: iconSize,
         height: iconSize,
       })

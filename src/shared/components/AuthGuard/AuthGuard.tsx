@@ -1,14 +1,14 @@
 'use client';
 
-import React, { ReactElement, useEffect } from 'react';
+import { ReactElement, ReactNode, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAppSelector } from '@/hooks/reduxHooks';
 import authSelector from '@/redux/auth/authSelector';
 
 interface AccessGuardProps {
-  children: React.ReactNode;
+  children: ReactNode;
   requireVerified?: boolean;
-  loadingFallback?: React.ReactNode;
+  loadingFallback?: ReactNode;
   redirectTo?: string;
 }
 

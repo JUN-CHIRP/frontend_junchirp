@@ -1,26 +1,29 @@
 import RegistrationForm from './components/RegistrationForm/RegistrationForm';
 import styles from './page.module.scss';
-import { ReactElement } from 'react';
-import GoogleAuthButton from '@/shared/components/GoogleAuthButton/GoogleAuthButton';
+import { ReactElement, Suspense } from 'react';
+import SocialButton from '@/shared/components/SocialButton/SocialButton';
 
 export default function Registration(): ReactElement {
   return (
-    <div className={styles.registration}>
-      <RegistrationForm />
-      <div className={styles.registration__divider}>
-        <div className={styles.registration__line}></div>
-        <span className={styles.registration__text}>або</span>
-        <div className={styles.registration__line}></div>
+    <Suspense fallback={null}>
+      <div className={styles.registration}>
+        <RegistrationForm />
+        <div className={styles.registration__divider}>
+          <div className={styles.registration__line}></div>
+          <span className={styles.registration__text}>або</span>
+          <div className={styles.registration__line}></div>
+        </div>
+        <SocialButton
+          social="google"
+          fullWidth={true}
+          message={{
+            severity: 'error',
+            summary: 'Не вдалося зареєструватись через Google.',
+            detail: 'Спробуй ще раз або обери інший спосіб реєстрації.',
+            life: 3000,
+          }}
+        />
       </div>
-      <GoogleAuthButton
-        fullWidth={true}
-        message={{
-          severity: 'error',
-          summary: 'Не вдалося зареєструватись через Google.',
-          detail: 'Спробуй ще раз або обери інший спосіб реєстрації.',
-          life: 3000,
-        }}
-      />
-    </div>
+    </Suspense>
   );
 }

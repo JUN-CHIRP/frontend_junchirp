@@ -14,6 +14,7 @@ import { UserInterface } from '@/shared/interfaces/user.interface';
 import { useToast } from '@/hooks/useToast';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { SerializedError } from '@reduxjs/toolkit';
+import { useLazyGetProjectRolesListQuery } from '@/api/projectRolesApi';
 
 const schema = z.object({
   email: z
@@ -38,6 +39,7 @@ export default function LoginForm(): ReactElement {
   const router = useRouter();
   const [login, { isLoading }] = useLoginMutation();
   const toast = useToast();
+  const [loadRoles] = useLazyGetProjectRolesListQuery();
 
   const onSubmit = async (data: FormData): Promise<void> => {
     const result = await login(data);
@@ -100,7 +102,13 @@ export default function LoginForm(): ReactElement {
     }
 
     const user: UserInterface = result.data;
-    router.push(user.isVerified ? '/' : '/confirm-email?type=login');
+
+    if (user.isVerified) {
+      await loadRoles(undefined);
+      router.push('/');
+    } else {
+      router.push('/confirm-email?type=login');
+    }
   };
 
   return (

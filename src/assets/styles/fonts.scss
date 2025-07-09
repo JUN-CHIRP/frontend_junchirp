@@ -28,3 +28,10 @@
   font-weight: 700;
   src: local('SF Pro Text'), url('../../../public/fonts/SF-Pro-Text-Bold.otf');
 }
+
+@font-face {
+  font-family: 'SF Pro Display';
+  font-style: normal;
+  font-weight: 540;
+  src: local('SF Pro Display'), url('../../../public/fonts/SF-Pro-Display-Medium.otf');
+}

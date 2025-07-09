@@ -1,10 +1,10 @@
 import type { Metadata } from 'next';
 import './globals.scss';
-import React, { ReactElement } from 'react';
+import { ReactElement, ReactNode } from 'react';
 import Header from './components/Header/Header';
 import styles from './layout.module.scss';
 import ReduxProvider from '@/providers/ReduxProvider';
-import UserLoader from './components/UserLoader/UserLoader';
+import DataLoader from '@/app/components/DataLoader/DataLoader';
 import { PrimeReactProvider } from 'primereact/api';
 import 'primereact/resources/themes/saga-blue/theme.css';
 import 'primereact/resources/primereact.min.css';
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: ReactNode;
 }>): ReactElement {
   return (
     <html lang="uk">
@@ -29,7 +29,7 @@ export default function RootLayout({
         <ReduxProvider>
           <PrimeReactProvider>
             <MessageProvider>
-              <UserLoader />
+              <DataLoader />
               <Header />
               <div className={styles.body__container}>
                 <div className={styles.body__inner}>{children}</div>

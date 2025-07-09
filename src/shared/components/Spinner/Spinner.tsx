@@ -8,7 +8,7 @@ import Frame5 from '@/assets/icons/state=05.svg';
 import Frame6 from '@/assets/icons/state=06.svg';
 import Frame7 from '@/assets/icons/state=07.svg';
 import Frame8 from '@/assets/icons/state=08.svg';
-import React, { ReactElement, useEffect, useState } from 'react';
+import { ReactElement, useEffect, useState } from 'react';
 
 interface SpinnerProps {
   size?: number;

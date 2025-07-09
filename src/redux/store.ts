@@ -3,6 +3,11 @@ import { authSlice } from './auth/authSlice';
 import mainApi from '@/api/mainApi';
 import { csrfSlice } from './csrf/csrfSlice';
 import { csrfApi } from '@/api/csrfApi';
+import { softSkillsSlice } from '@/redux/softSkills/softSkillsSlice';
+import { hardSkillsSlice } from '@/redux/hardSkills/hardSkillsSlice';
+import { educationsSlice } from '@/redux/educations/educationsSlice';
+import { socialsSlice } from '@/redux/socials/socialsSlice';
+import { projectRolesListSlice } from '@/redux/projectRolesList/projectRolesListSlice';
 
 export const makeStore = (): EnhancedStore => {
   return configureStore({
@@ -11,6 +16,11 @@ export const makeStore = (): EnhancedStore => {
       [csrfApi.reducerPath]: csrfApi.reducer,
       auth: authSlice.reducer,
       csrf: csrfSlice.reducer,
+      softSkills: softSkillsSlice.reducer,
+      hardSkills: hardSkillsSlice.reducer,
+      educations: educationsSlice.reducer,
+      socials: socialsSlice.reducer,
+      projectRolesList: projectRolesListSlice.reducer,
     },
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({

@@ -1,17 +1,18 @@
 'use client';
 
-import React, {
+import {
   InputHTMLAttributes,
   useState,
   forwardRef,
   ForwardedRef,
   ReactElement,
   useId,
+  ChangeEvent,
 } from 'react';
 import styles from './Input.module.scss';
 import Image from 'next/image';
 
-interface Props extends InputHTMLAttributes<HTMLInputElement> {
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   placeholder?: string;
   errorMessages?: string[] | string;
@@ -20,7 +21,7 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 function InputComponent(
-  props: Props,
+  props: InputProps,
   ref: ForwardedRef<HTMLInputElement>,
 ): ReactElement {
   const {
@@ -43,7 +44,7 @@ function InputComponent(
       : 'password'
     : type;
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
     rest.onChange?.(e);
   };
 

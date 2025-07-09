@@ -31,8 +31,8 @@
         @include mixins.button-size($size, $variant);
       }
 
-      &--icon-button-#{$size} {
-        @include mixins.icon-button-size($size);
+      &--icon-button-#{$variant}-#{$size} {
+        @include mixins.icon-button-size($size, $variant);
       }
     }
   }

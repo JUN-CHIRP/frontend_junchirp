@@ -1,0 +1,37 @@
+import mainApi from './mainApi';
+
+export const educationsApi = mainApi.injectEndpoints({
+  endpoints: (builder) => ({
+    addEducation: builder.mutation({
+      query: (data) => ({
+        url: 'educations',
+        method: 'POST',
+        body: data,
+      }),
+      invalidatesTags: [{ type: 'educations', id: 'LIST' }],
+    }),
+    updateEducation: builder.mutation({
+      query: ({ id, data }) => ({
+        url: `educations/${id}`,
+        method: 'PUT',
+        body: data,
+      }),
+      invalidatesTags: (_result, _error, args) => [
+        { type: 'educations', id: args.id },
+      ],
+    }),
+    deleteEducation: builder.mutation({
+      query: (id) => ({
+        url: `educations/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: [{ type: 'educations', id: 'LIST' }],
+    }),
+  }),
+});
+
+export const {
+  useAddEducationMutation,
+  useDeleteEducationMutation,
+  useUpdateEducationMutation,
+} = educationsApi;
