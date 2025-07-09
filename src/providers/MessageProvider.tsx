@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, ReactElement, useContext, useRef } from 'react';
+import { createContext, ReactElement, ReactNode, useContext, useRef } from 'react';
 import { Toast, ToastMessage } from 'primereact/toast';
 
 interface ToastContextType {
@@ -12,7 +12,7 @@ const ToastContext = createContext<ToastContextType | undefined>(undefined);
 export function MessageProvider({
   children,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
 }): ReactElement {
   const toastRef = useRef<Toast>(null);
 

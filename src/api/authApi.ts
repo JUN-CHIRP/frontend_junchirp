@@ -1,4 +1,8 @@
 import mainApi from './mainApi';
+import { SoftSkillInterface } from '@/shared/interfaces/soft-skill.interface';
+import { HardSkillInterface } from '@/shared/interfaces/hard-skill.interface';
+import { EducationInterface } from '@/shared/interfaces/education.interface';
+import { SocialInterface } from '@/shared/interfaces/social.interface';
 
 export const authApi = mainApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -14,7 +18,38 @@ export const authApi = mainApi.injectEndpoints({
       query: () => ({
         url: 'users/me',
       }),
-      providesTags: ['auth'],
+      providesTags: (result) =>
+        result
+          ? [
+              'auth',
+              { type: 'soft-skills', id: 'LIST' },
+              ...result.softSkills.map((skill: SoftSkillInterface) => ({
+                type: 'soft-skills',
+                id: skill.id,
+              })),
+              { type: 'hard-skills', id: 'LIST' },
+              ...result.hardSkills.map((skill: HardSkillInterface) => ({
+                type: 'hard-skills',
+                id: skill.id,
+              })),
+              { type: 'educations', id: 'LIST' },
+              ...result.educations.map((edu: EducationInterface) => ({
+                type: 'educations',
+                id: edu.id,
+              })),
+              { type: 'socials', id: 'LIST' },
+              ...result.educations.map((social: SocialInterface) => ({
+                type: 'socials',
+                id: social.id,
+              })),
+            ]
+          : [
+              'auth',
+              { type: 'soft-skills', id: 'LIST' },
+              { type: 'hard-skills', id: 'LIST' },
+              { type: 'educations', id: 'LIST' },
+              { type: 'socials', id: 'LIST' },
+            ],
     }),
     login: builder.mutation({
       query: (credentials) => ({

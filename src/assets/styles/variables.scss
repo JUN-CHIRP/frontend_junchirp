@@ -1,5 +1,6 @@
 // fonts
 $sf-pro-text: 'SF Pro Text', sans-serif;
+$sf-pro-display: 'SF Pro Display', sans-serif;
 
 // colors
 $green-1: #1a631a;
@@ -36,8 +37,8 @@ $yellow-1: #fddb00;
 
 // button variables
 $variants: primary, secondary, secondary-frame, secondary-footer, tertiary, link;
-$colors: 'green', 'red', 'gray';
-$sizes: sm, md, lg, lg-md;
+$colors: 'green', 'red', 'gray', 'black';
+$sizes: sm, md, lg, lg-md, ssm;
 $button-colors: (
   primary: (
     'green': (
@@ -269,9 +270,23 @@ $button-colors: (
         text: $gray-3,
       ),
     ),
-    'gray': (
+    'black': (
       base: (
         text: $black-2,
+      ),
+      hover: (
+        text: $gray-6,
+      ),
+      active: (
+        text: $gray-4,
+      ),
+      disabled: (
+        text: $gray-3,
+      ),
+    ),
+    'gray': (
+      base: (
+        text: $gray-4,
       ),
       hover: (
         text: $gray-6,
@@ -286,11 +301,21 @@ $button-colors: (
   ),
 );
 $button-sizes: (
+  ssm: (
+    padding: 0,
+    font-size: 16px,
+    height: 16px,
+    link-height: 16px,
+    icon-height: 16px,
+    radius: 2px,
+    gap: 2px,
+  ),
   sm: (
     padding: 22px,
     font-size: 20px,
     height: 44px,
     link-height: 28px,
+    icon-height: 20px,
     radius: 8px,
     gap: 8px,
   ),
@@ -299,6 +324,7 @@ $button-sizes: (
     font-size: 20px,
     height: 48px,
     link-height: 39px,
+    icon-height: 24px,
     radius: 8px,
     gap: 8px,
   ),
@@ -307,6 +333,7 @@ $button-sizes: (
     font-size: 28px,
     height: 104px,
     link-height: 38px,
+    icon-height: 32px,
     radius: 24px,
     gap: 32px,
   ),
@@ -315,6 +342,7 @@ $button-sizes: (
     font-size: 28px,
     height: 80px,
     link-height: 38px,
+    icon-height: 32px,
     radius: 24px,
     gap: 32px,
   ),

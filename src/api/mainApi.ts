@@ -131,7 +131,14 @@ const baseQueryWithReauthAndCsrf: BaseQueryFn<
 const mainApi = createApi({
   reducerPath: 'mainApi',
   baseQuery: baseQueryWithReauthAndCsrf,
-  tagTypes: ['auth'],
+  tagTypes: [
+    'auth',
+    'soft-skills',
+    'hard-skills',
+    'educations',
+    'socials',
+    'project-roles-list',
+  ],
   endpoints: () => ({}),
 });
 

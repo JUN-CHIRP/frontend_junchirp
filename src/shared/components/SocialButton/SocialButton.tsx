@@ -1,13 +1,13 @@
 'use client';
 
 import styles from './SocialButton.module.scss';
-import React, { ReactElement, useEffect } from 'react';
+import { ButtonHTMLAttributes, ReactElement, useEffect } from 'react';
 import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useToast } from '../../../hooks/useToast';
+import { useToast } from '@/hooks/useToast';
 import { ToastMessage } from 'primereact/toast';
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   iconOnly?: boolean;
   social: 'google' | 'facebook';
   fullWidth?: boolean;

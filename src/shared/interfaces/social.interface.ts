@@ -3,3 +3,10 @@ export interface SocialInterface {
   network: string;
   url: string;
 }
+
+export interface ClientSocialInterface {
+  network: string;
+  url: string;
+  icon: string;
+  urlRegex: RegExp;
+}

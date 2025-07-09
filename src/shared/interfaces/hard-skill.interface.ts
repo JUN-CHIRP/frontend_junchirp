@@ -1,4 +1,4 @@
 export interface HardSkillInterface {
   id: string;
-  skillName: string;
+  hardSkillName: string;
 }
