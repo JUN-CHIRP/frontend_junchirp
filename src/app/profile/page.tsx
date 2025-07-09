@@ -64,7 +64,6 @@ export default function Profile(): ReactElement {
             isEditable
             items={socials}
             maxSize={5}
-            buttonText="Додати соцмережу"
             handleAddItem={handleAddSocial}
             handleEditItem={handleEditSocial}
           />
@@ -73,7 +72,6 @@ export default function Profile(): ReactElement {
             isEditable
             items={educations}
             maxSize={5}
-            buttonText="Додати освіту"
             handleAddItem={handleAddEducation}
             handleEditItem={handleEditEducation}
           />
@@ -81,14 +79,12 @@ export default function Profile(): ReactElement {
             title="Хард скіли"
             items={hardSkills}
             maxSize={20}
-            buttonText="Додати хард скіл"
             handleAddItem={handleAddHardSkill}
           />
           <ProfileDetails<SoftSkillInterface>
             title="Софт скіли"
             items={softSkills}
             maxSize={20}
-            buttonText="Додати софт скіл"
             handleAddItem={handleAddSoftSkill}
           />
         </div>
