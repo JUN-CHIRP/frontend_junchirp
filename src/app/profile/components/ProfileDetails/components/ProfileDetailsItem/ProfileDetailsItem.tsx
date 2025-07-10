@@ -1,3 +1,5 @@
+'use client';
+
 import { ReactElement } from 'react';
 import styles from './ProfileDetailsItem.module.scss';
 import Button from '@/shared/components/Button/Button';
@@ -16,13 +18,13 @@ interface ProfileDetailItemProps<T> {
   item: T;
   isEditable?: boolean;
   handleEditItem?: (item: T) => void;
+  handleDeleteItem: (item: T) => void;
 }
 
-export default function ProfileDetailsItem<T>({
-  item,
-  isEditable = false,
-  handleEditItem,
-}: ProfileDetailItemProps<T>): ReactElement {
+export default function ProfileDetailsItem<T>(
+  props: ProfileDetailItemProps<T>,
+): ReactElement {
+  const { item, isEditable = false, handleEditItem, handleDeleteItem } = props;
   let content = <></>;
 
   if (isSocial(item)) {
@@ -97,7 +99,12 @@ export default function ProfileDetailsItem<T>({
             onClick={() => handleEditItem?.(item)}
           />
         ) : null}
-        <Button size="ssm" variant="link" icon={<Trash />} />
+        <Button
+          size="ssm"
+          variant="link"
+          icon={<Trash />}
+          onClick={() => handleDeleteItem(item)}
+        />
       </div>
     </div>
   );

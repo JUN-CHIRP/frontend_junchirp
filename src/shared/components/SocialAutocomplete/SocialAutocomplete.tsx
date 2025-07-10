@@ -21,6 +21,7 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
   errorMessages?: string[] | string;
   withError?: boolean;
   onSelectSocial?: (network: ClientSocialInterface | null) => void;
+  placeholder?: string;
 }
 
 function SocialAutocompleteComponent(
@@ -31,6 +32,7 @@ function SocialAutocompleteComponent(
     withError,
     onSelectSocial,
     value,
+    placeholder,
     onChange,
     onBlur,
     ...rest
@@ -83,6 +85,7 @@ function SocialAutocompleteComponent(
     <div className={styles['social-autocomplete']}>
       <Input
         label={label}
+        placeholder={placeholder}
         {...rest}
         ref={ref}
         id={id}

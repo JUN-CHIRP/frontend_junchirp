@@ -7,7 +7,10 @@ interface CancelPasswordPopupProps {
   onConfirm: () => void;
 }
 
-export default function CancelPasswordPopup({ onCancel, onConfirm }: CancelPasswordPopupProps): ReactElement {
+export default function CancelPasswordPopup({
+  onCancel,
+  onConfirm,
+}: CancelPasswordPopupProps): ReactElement {
   return (
     <div className={styles['cancel-password-popup__wrapper']}>
       <div className={styles['cancel-password-popup']}>

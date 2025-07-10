@@ -31,7 +31,7 @@ export const socialsSlice = createSlice({
     builder.addMatcher(
       socialsApi.endpoints.deleteSocial.matchFulfilled,
       (state, action) => {
-        socialsAdapter.addOne(state, action.payload);
+        socialsAdapter.removeOne(state, action.payload);
       },
     );
     builder.addMatcher(

@@ -9,7 +9,17 @@ import Button from '@/shared/components/Button/Button';
 import SocialAutocomplete from '@/shared/components/SocialAutocomplete/SocialAutocomplete';
 import styles from './SocialForm.module.scss';
 import { socialNetworks } from '@/shared/constants/social-networks';
-import { ClientSocialInterface } from '@/shared/interfaces/social.interface';
+import {
+  ClientSocialInterface,
+  SocialInterface,
+} from '@/shared/interfaces/social.interface';
+import {
+  useAddSocialMutation,
+  useUpdateSocialMutation,
+} from '@/api/socialsApi';
+import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
+import { SerializedError } from '@reduxjs/toolkit';
+import { useToast } from '@/hooks/useToast';
 
 const schema = z
   .object({
@@ -37,16 +47,13 @@ const schema = z
       return;
     }
 
-    if (!url.startsWith(match.url)) {
+    if (
+      !url.startsWith(match.url) ||
+      (match.urlRegex && !match.urlRegex.test(url))
+    ) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
-        message: 'Посилання не відповідає мережі ' + match.network,
-        path: ['url'],
-      });
-    } else if (match.urlRegex && !match.urlRegex.test(url)) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: 'Посилання не відповідає профілю у ' + match.network,
+        message: 'Некоректне посилання',
         path: ['url'],
       });
     }
@@ -55,16 +62,15 @@ const schema = z
 type FormData = z.infer<typeof schema>;
 
 interface SocialFormProps {
-  initialValues?: FormData;
-  onCancel?: () => void;
-  onSubmitForm?: (data: FormData) => void;
+  initialValues?: SocialInterface;
+  onCancel: () => void;
 }
 
-export default function SocialForm({
-  initialValues,
-  onCancel,
-  onSubmitForm,
-}: SocialFormProps): ReactElement {
+export default function SocialForm(props: SocialFormProps): ReactElement {
+  const [updateSocial] = useUpdateSocialMutation();
+  const [addSocial] = useAddSocialMutation();
+  const toast = useToast();
+  const { initialValues, onCancel } = props;
   const {
     register,
     handleSubmit,
@@ -86,7 +92,10 @@ export default function SocialForm({
 
   useEffect(() => {
     if (initialValues) {
-      reset(initialValues);
+      reset({
+        network: initialValues.network,
+        url: initialValues.url,
+      });
     } else {
       reset({
         network: '',
@@ -104,8 +113,53 @@ export default function SocialForm({
     return (): void => subscription.unsubscribe();
   }, [watch, trigger]);
 
-  const onSubmit = (data: FormData): void => {
-    onSubmitForm?.(data);
+  const onSubmit = async (data: FormData): Promise<void> => {
+    if (initialValues) {
+      const result = await updateSocial({ id: initialValues.id, data });
+
+      if ('error' in result) {
+        const errorData = result.error as
+          | ((FetchBaseQueryError | SerializedError) & {
+              status: number;
+              data: { attemptsCount: number };
+            })
+          | undefined;
+        const status = errorData?.status;
+
+        if (status === 409) {
+          toast({
+            severity: 'error',
+            summary: 'Ця соцмережа вже додана.',
+            life: 3000,
+          });
+          return;
+        }
+        return;
+      }
+    } else {
+      const result = await addSocial(data);
+
+      if ('error' in result) {
+        const errorData = result.error as
+          | ((FetchBaseQueryError | SerializedError) & {
+              status: number;
+              data: { attemptsCount: number };
+            })
+          | undefined;
+        const status = errorData?.status;
+
+        if (status === 409) {
+          toast({
+            severity: 'error',
+            summary: 'Ця соцмережа вже додана.',
+            life: 3000,
+          });
+          return;
+        }
+        return;
+      }
+    }
+    onCancel();
   };
 
   const handleSelectSocial = (match: ClientSocialInterface | null): void => {
@@ -124,6 +178,7 @@ export default function SocialForm({
             <SocialAutocomplete
               {...field}
               label="Назва соцмережі"
+              placeholder="Назва соцмережі"
               suggestions={socialNetworks}
               onSelectSocial={handleSelectSocial}
               errorMessages={

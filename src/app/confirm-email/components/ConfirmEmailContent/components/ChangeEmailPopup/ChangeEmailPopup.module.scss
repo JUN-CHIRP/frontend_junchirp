@@ -24,15 +24,16 @@
   }
 
   &__title {
+    text-align: center;
     font-size: 32px;
-    font-weight: 590;
+    font-weight: 600;
     line-height: 1.2;
   }
 
   &__content {
     text-align: center;
     font-size: 20px;
-    font-weight: 590;
+    font-weight: 600;
     line-height: 1.4;
   }
 }

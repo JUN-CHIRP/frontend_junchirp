@@ -24,6 +24,7 @@ export const socialsApi = mainApi.injectEndpoints({
       query: (id) => ({
         url: `socials/${id}`,
         method: 'DELETE',
+        responseHandler: (response): Promise<string> => response.text(),
       }),
       invalidatesTags: [{ type: 'socials', id: 'LIST' }],
     }),

@@ -1,4 +1,6 @@
-import { JSX, ReactElement } from 'react';
+'use client';
+
+import { ReactElement } from 'react';
 import { ProfileActionType } from '@/shared/types/profile-action.type';
 import styles from './ProfileActionForm.module.scss';
 import SocialForm from './components/SocialForm/SocialForm';
@@ -6,20 +8,21 @@ import SocialForm from './components/SocialForm/SocialForm';
 interface ProfileActionFormProps {
   action: ProfileActionType;
   allField: boolean;
+  onCancel: () => void;
 }
 
-export default function ProfileActionForm({
-  action,
-  allField,
-}: ProfileActionFormProps): ReactElement {
-  let content: JSX.Element;
+export default function ProfileActionForm(
+  props: ProfileActionFormProps,
+): ReactElement {
+  const { action, allField, onCancel } = props;
+  let content: ReactElement;
   switch (action?.type) {
     case 'add-social': {
-      content = <SocialForm />;
+      content = <SocialForm onCancel={onCancel} />;
       break;
     }
     case 'edit-social': {
-      content = <SocialForm initialValues={action.item} />;
+      content = <SocialForm initialValues={action.item} onCancel={onCancel} />;
       break;
     }
     default: {
