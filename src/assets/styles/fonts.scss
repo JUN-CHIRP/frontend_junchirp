@@ -1,37 +1,13 @@
 @font-face {
-  font-family: 'SF Pro Text';
+  font-family: 'Montserrat';
   font-style: normal;
-  font-weight: 400;
   src:
-    local('SF Pro Text'), url('../../../public/fonts/SF-Pro-Text-Regular.otf');
+    local('Montserrat'), url('../../../public/fonts/Montserrat.ttf');
 }
 
 @font-face {
-  font-family: 'SF Pro Text';
+  font-family: 'Inter';
   font-style: normal;
-  font-weight: 510;
   src:
-    local('SF Pro Text'), url('../../../public/fonts/SF-Pro-Text-Medium.otf');
-}
-
-@font-face {
-  font-family: 'SF Pro Text';
-  font-style: normal;
-  font-weight: 590;
-  src:
-    local('SF Pro Text'), url('../../../public/fonts/SF-Pro-Text-Semibold.otf');
-}
-
-@font-face {
-  font-family: 'SF Pro Text';
-  font-style: normal;
-  font-weight: 700;
-  src: local('SF Pro Text'), url('../../../public/fonts/SF-Pro-Text-Bold.otf');
-}
-
-@font-face {
-  font-family: 'SF Pro Display';
-  font-style: normal;
-  font-weight: 540;
-  src: local('SF Pro Display'), url('../../../public/fonts/SF-Pro-Display-Medium.otf');
+    local('Inter'), url('../../../public/fonts/Inter.ttf');
 }

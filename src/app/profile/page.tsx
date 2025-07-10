@@ -1,7 +1,7 @@
 'use client';
 
 import AuthGuard from '@/shared/components/AuthGuard/AuthGuard';
-import { ReactElement, useState } from 'react';
+import { ReactElement, useEffect, useRef, useState } from 'react';
 import styles from './page.module.scss';
 import ProfileBaseInfo from './components/ProfileBaseInfo/ProfileBaseInfo';
 import { useSelector } from 'react-redux';
@@ -18,9 +18,24 @@ import { SoftSkillInterface } from '@/shared/interfaces/soft-skill.interface';
 import ProfileAction from './components/ProfileAction/ProfileAction';
 import { ProfileActionType } from '@/shared/types/profile-action.type';
 import ProfileActionForm from './components/ProfileActionForm/ProfileActionForm';
+import { useDeleteSocialMutation } from '@/api/socialsApi';
+import DeleteItemPopup from '@/app/profile/components/DeleteItemPopup/DeleteItemPopup';
+import { isSocial } from '@/shared/utils/typeGuards';
+import { DeletedItemInterface } from '@/shared/interfaces/deleted-item.interface';
+import { useToast } from '@/hooks/useToast';
 
 export default function Profile(): ReactElement {
   const [action, setAction] = useState<ProfileActionType>(null);
+  const [deletedItem, setDeletedItem] = useState<DeletedItemInterface<
+    | SocialInterface
+    | EducationInterface
+    | SoftSkillInterface
+    | HardSkillInterface
+  > | null>(null);
+  const [deleteSocial] = useDeleteSocialMutation();
+  const toast = useToast();
+  const [isModalOpen, setModalOpen] = useState(false);
+  const formRef = useRef<HTMLDivElement | null>(null);
   const user = useSelector(authSelector.selectUser);
   const socials = useSelector(selectAllSocials);
   const educations = useSelector(selectAllEducations);
@@ -30,6 +45,12 @@ export default function Profile(): ReactElement {
   const allFilled = [socials, educations, softSkills, hardSkills].every(
     (arr) => arr.length > 0,
   );
+
+  useEffect(() => {
+    if (action && formRef.current) {
+      formRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, [action]);
 
   const handleAddSocial = (): void =>
     setAction({ type: 'add-social', description: 'Додати соцмережу' });
@@ -51,6 +72,41 @@ export default function Profile(): ReactElement {
       item,
       description: 'Редагувати освіту',
     });
+  const handleCancel = (): void => setAction(null);
+  const closeModal = (): void => {
+    setModalOpen(false);
+    setDeletedItem(null);
+  };
+  const openModal = (
+    item:
+      | SocialInterface
+      | EducationInterface
+      | SoftSkillInterface
+      | HardSkillInterface,
+  ): void => {
+    setModalOpen(true);
+    if (isSocial(item)) {
+      setDeletedItem({
+        item,
+        title: 'Видалити соцмережу?',
+        message:
+          'Ти дійсно хочеш видалити цю соцмережу: Дію неможливо скасувати.',
+      });
+    }
+  };
+  const handleDeleteSocial = async (item: SocialInterface): Promise<void> => {
+    const result = await deleteSocial(item.id);
+    closeModal();
+    console.log(result);
+
+    if ('data' in result) {
+      toast({
+        severity: 'success',
+        summary: 'Соцмережу видалено.',
+        life: 3000,
+      });
+    }
+  };
 
   return (
     <AuthGuard requireVerified>
@@ -66,6 +122,7 @@ export default function Profile(): ReactElement {
             maxSize={5}
             handleAddItem={handleAddSocial}
             handleEditItem={handleEditSocial}
+            handleDeleteItem={openModal}
           />
           <ProfileDetails<EducationInterface>
             title="Освіта"
@@ -74,25 +131,50 @@ export default function Profile(): ReactElement {
             maxSize={5}
             handleAddItem={handleAddEducation}
             handleEditItem={handleEditEducation}
+            handleDeleteItem={handleCancel}
           />
           <ProfileDetails<HardSkillInterface>
             title="Хард скіли"
             items={hardSkills}
             maxSize={20}
             handleAddItem={handleAddHardSkill}
+            handleDeleteItem={handleCancel}
           />
           <ProfileDetails<SoftSkillInterface>
             title="Софт скіли"
             items={softSkills}
             maxSize={20}
             handleAddItem={handleAddSoftSkill}
+            handleDeleteItem={handleCancel}
           />
         </div>
-        <div className={styles.profile__actions}>
+        <div className={styles.profile__actions} ref={formRef}>
           <ProfileAction action={action} />
-          <ProfileActionForm action={action} allField={allFilled} />
+          <ProfileActionForm
+            action={action}
+            allField={allFilled}
+            onCancel={handleCancel}
+          />
         </div>
       </div>
+      {isModalOpen && deletedItem && isSocial(deletedItem.item) && (
+        <DeleteItemPopup<SocialInterface>
+          item={deletedItem.item}
+          onCancel={closeModal}
+          onConfirm={handleDeleteSocial}
+          maxSize={5}
+          count={socials.length}
+          title={deletedItem.title}
+          message={deletedItem.message}
+        />
+      )}
+      {/*{isModalOpen && isEducation(deletedItem?.item) && (*/}
+      {/*  <DeleteItemPopup<EducationInterface>*/}
+      {/*    item={deletedItem.item}*/}
+      {/*    onCancel={closeModal}*/}
+      {/*    onConfirm={handleDeleteSocial}*/}
+      {/*  />*/}
+      {/*)}*/}
     </AuthGuard>
   );
 }

@@ -1,3 +1,5 @@
+'use client';
+
 import { ReactElement, useState } from 'react';
 import styles from './ProfileDetails.module.scss';
 import Button from '@/shared/components/Button/Button';
@@ -27,19 +29,23 @@ interface ProfileDetailsProps<
   maxSize: number;
   handleAddItem: () => void;
   handleEditItem?: (item: T) => void;
-  handleDeleteItem?: () => void;
+  handleDeleteItem: (item: T) => void;
 }
 
 const COLLAPSE_LIMIT = 5;
 
-export default function ProfileDetails<T extends WithId>({
-  title,
-  isEditable = false,
-  items,
-  maxSize,
-  handleAddItem,
-  handleEditItem,
-}: ProfileDetailsProps<T>): ReactElement {
+export default function ProfileDetails<T extends WithId>(
+  props: ProfileDetailsProps<T>,
+): ReactElement {
+  const {
+    title,
+    isEditable = false,
+    items,
+    maxSize,
+    handleAddItem,
+    handleEditItem,
+    handleDeleteItem,
+  } = props;
   const [isCollapsed, setIsCollapsed] = useState(true);
   const visibleItems = isCollapsed ? items.slice(0, COLLAPSE_LIMIT) : items;
 
@@ -71,6 +77,7 @@ export default function ProfileDetails<T extends WithId>({
                   isEditable={isEditable}
                   key={item.id}
                   handleEditItem={handleEditItem}
+                  handleDeleteItem={handleDeleteItem}
                 />
               ))}
             </div>

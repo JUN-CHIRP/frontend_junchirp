@@ -11,7 +11,7 @@
 html,
 body {
   height: 100%;
-  font-family: variables.$sf-pro-text;
+  font-family: variables.$inter;
   color: variables.$black-2;
 }
 
@@ -28,7 +28,7 @@ select {
   }
 
   & .p-tabmenu-nav .p-menuitem-text {
-    font-family: variables.$sf-pro-text;
+    font-family: variables.$inter;
     font-size: 32px;
     line-height: 1.2;
     font-weight: 700;
@@ -61,7 +61,7 @@ select {
 }
 
 .message-provider {
-  font-family: variables.$sf-pro-text;
+  font-family: variables.$inter;
   text-align: center;
 
   &.p-toast-center {

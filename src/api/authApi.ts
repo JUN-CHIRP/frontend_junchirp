@@ -38,7 +38,7 @@ export const authApi = mainApi.injectEndpoints({
                 id: edu.id,
               })),
               { type: 'socials', id: 'LIST' },
-              ...result.educations.map((social: SocialInterface) => ({
+              ...result.socials.map((social: SocialInterface) => ({
                 type: 'socials',
                 id: social.id,
               })),

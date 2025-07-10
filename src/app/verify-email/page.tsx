@@ -33,7 +33,7 @@ export default function VerifyEmail(): ReactElement {
       const resStatus = errorData.status;
 
       if (resStatus === 400 && errorData.data.error !== 'Validation Error') {
-        router.push(`/verify-email/invalid?email=${email}`);
+        router.push(`/verify-email/invalid?email=${encodeURIComponent(email)}`);
       } else {
         router.push(`/verify-email/deleted`);
       }
