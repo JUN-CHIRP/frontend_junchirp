@@ -1,7 +1,7 @@
 'use client';
 
 import AuthGuard from '@/shared/components/AuthGuard/AuthGuard';
-import { ReactElement, useEffect, useRef, useState } from 'react';
+import { ReactElement, Suspense, useEffect, useRef, useState } from 'react';
 import styles from './page.module.scss';
 import ProfileBaseInfo from './components/ProfileBaseInfo/ProfileBaseInfo';
 import { useSelector } from 'react-redux';
@@ -31,6 +31,7 @@ import { useToast } from '@/hooks/useToast';
 import { useDeleteEducationMutation } from '@/api/educationsApi';
 import { useDeleteSoftSkillMutation } from '@/api/softSkillsApi';
 import { useDeleteHardSkillMutation } from '@/api/hardSkillsApi';
+import ProfileBanner from '@/app/profile/components/ProfileBanner/ProfileBanner';
 
 export default function Profile(): ReactElement {
   const [action, setAction] = useState<ProfileActionType>(null);
@@ -52,6 +53,7 @@ export default function Profile(): ReactElement {
   const educations = useSelector(selectAllEducations);
   const softSkills = useSelector(selectAllSoftSkills);
   const hardSkills = useSelector(selectAllHardSkills);
+  const [isBanner, setBanner] = useState(false);
 
   const allFilled = [socials, educations, softSkills, hardSkills].every(
     (arr) => arr.length > 0,
@@ -62,6 +64,12 @@ export default function Profile(): ReactElement {
       formRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   }, [action]);
+
+  useEffect(() => {
+    if (user && !user.discordId) {
+      setBanner(true);
+    }
+  }, [user]);
 
   const handleAddSocial = (): void =>
     setAction({ type: 'add-social', description: 'Додати соцмережу' });
@@ -185,6 +193,10 @@ export default function Profile(): ReactElement {
     }
   };
 
+  const closeBanner = (): void => {
+    setBanner(false);
+  };
+
   return (
     <AuthGuard requireVerified>
       <div className={styles.profile}>
@@ -279,6 +291,9 @@ export default function Profile(): ReactElement {
           message={deletedItem.message}
         />
       )}
+      <Suspense fallback={null}>
+        {isBanner && <ProfileBanner closeBanner={closeBanner} />}
+      </Suspense>
     </AuthGuard>
   );
 }
