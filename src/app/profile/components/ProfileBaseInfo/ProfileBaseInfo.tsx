@@ -1,3 +1,5 @@
+'use client';
+
 import { ReactElement } from 'react';
 import styles from './ProfileBaseInfo.module.scss';
 import Image from 'next/image';
@@ -7,11 +9,14 @@ import Edit from '@/assets/icons/edit.svg';
 
 interface ProfileBaseInfoProps {
   user: UserInterface;
+  handleEditName: () => void;
 }
 
-export default function ProfileBaseInfo({
-  user,
-}: ProfileBaseInfoProps): ReactElement {
+export default function ProfileBaseInfo(
+  props: ProfileBaseInfoProps,
+): ReactElement {
+  const { user, handleEditName } = props;
+
   return (
     <div className={styles['profile-base-info']}>
       <div className={styles['profile-base-info__inner']}>
@@ -21,7 +26,12 @@ export default function ProfileBaseInfo({
             <p className={styles['profile-base-info__name']}>
               {user.firstName} {user.lastName}
             </p>
-            <Button color="green" variant="secondary-frame" icon={<Edit />} />
+            <Button
+              color="green"
+              variant="secondary-frame"
+              icon={<Edit />}
+              onClick={handleEditName}
+            />
           </div>
           <p className={styles['profile-base-info__email']}>{user.email}</p>
         </div>

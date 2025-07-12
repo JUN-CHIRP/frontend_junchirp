@@ -83,6 +83,11 @@ export default function Profile(): ReactElement {
       item,
       description: 'Редагувати освіту',
     });
+  const handleEditName = (): void =>
+    setAction({
+      type: 'edit-name',
+      description: `Редагувати ім'я і прізвище`,
+    });
   const handleCancel = (): void => setAction(null);
   const closeModal = (): void => {
     setModalOpen(false);
@@ -185,7 +190,7 @@ export default function Profile(): ReactElement {
       <div className={styles.profile}>
         <div className={styles.profile__details}>
           <div className={styles.profile__info}>
-            <ProfileBaseInfo user={user} />
+            <ProfileBaseInfo user={user} handleEditName={handleEditName} />
           </div>
           <ProfileDetails<SocialInterface>
             title="Соцмережі"
@@ -223,6 +228,7 @@ export default function Profile(): ReactElement {
         <div className={styles.profile__actions} ref={formRef}>
           <ProfileAction action={action} />
           <ProfileActionForm
+            user={user}
             action={action}
             allField={allFilled}
             onCancel={handleCancel}

@@ -7,17 +7,20 @@ import SocialForm from './components/SocialForm/SocialForm';
 import EducationForm from './components/EducationForm/EducationForm';
 import SoftSkillForm from './components/SoftSkillForm/SoftSkillForm';
 import HardSkillForm from './components/HardSkillForm/HardSkillForm';
+import { UserInterface } from '@/shared/interfaces/user.interface';
+import UserNameForm from './components/UserNameForm/UserNameForm';
 
 interface ProfileActionFormProps {
   action: ProfileActionType;
   allField: boolean;
+  user: UserInterface;
   onCancel: () => void;
 }
 
 export default function ProfileActionForm(
   props: ProfileActionFormProps,
 ): ReactElement {
-  const { action, allField, onCancel } = props;
+  const { action, allField, onCancel, user } = props;
   let content: ReactElement;
   switch (action?.type) {
     case 'add-social': {
@@ -44,6 +47,10 @@ export default function ProfileActionForm(
     }
     case 'add-hard-skill': {
       content = <HardSkillForm onCancel={onCancel} />;
+      break;
+    }
+    case 'edit-name': {
+      content = <UserNameForm initialValues={user} onCancel={onCancel} />;
       break;
     }
     default: {
