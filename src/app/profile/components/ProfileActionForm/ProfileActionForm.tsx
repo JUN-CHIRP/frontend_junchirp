@@ -4,6 +4,7 @@ import { ReactElement } from 'react';
 import { ProfileActionType } from '@/shared/types/profile-action.type';
 import styles from './ProfileActionForm.module.scss';
 import SocialForm from './components/SocialForm/SocialForm';
+import EducationForm from './components/EducationForm/EducationForm';
 
 interface ProfileActionFormProps {
   action: ProfileActionType;
@@ -23,6 +24,16 @@ export default function ProfileActionForm(
     }
     case 'edit-social': {
       content = <SocialForm initialValues={action.item} onCancel={onCancel} />;
+      break;
+    }
+    case 'add-education': {
+      content = <EducationForm onCancel={onCancel} />;
+      break;
+    }
+    case 'edit-education': {
+      content = (
+        <EducationForm initialValues={action.item} onCancel={onCancel} />
+      );
       break;
     }
     default: {

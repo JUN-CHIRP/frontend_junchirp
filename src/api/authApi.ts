@@ -112,7 +112,7 @@ export const authApi = mainApi.injectEndpoints({
     }),
     cancelResetPassword: builder.mutation({
       query: (token) => ({
-        url: `users/password-token?token=${token}`,
+        url: `users/password-token?token=${encodeURIComponent(token)}`,
         method: 'DELETE',
       }),
     }),

@@ -31,7 +31,7 @@ export const educationsSlice = createSlice({
     builder.addMatcher(
       educationsApi.endpoints.deleteEducation.matchFulfilled,
       (state, action) => {
-        educationsAdapter.addOne(state, action.payload);
+        educationsAdapter.removeOne(state, action.payload);
       },
     );
     builder.addMatcher(
