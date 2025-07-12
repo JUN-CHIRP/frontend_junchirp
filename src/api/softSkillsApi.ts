@@ -14,6 +14,7 @@ export const softSkillsApi = mainApi.injectEndpoints({
       query: (id) => ({
         url: `soft-skills/${id}`,
         method: 'DELETE',
+        responseHandler: (response): Promise<string> => response.text(),
       }),
       invalidatesTags: [{ type: 'soft-skills', id: 'LIST' }],
     }),

@@ -5,6 +5,7 @@ import { ProfileActionType } from '@/shared/types/profile-action.type';
 import styles from './ProfileActionForm.module.scss';
 import SocialForm from './components/SocialForm/SocialForm';
 import EducationForm from './components/EducationForm/EducationForm';
+import SoftSkillForm from './components/SoftSkillForm/SoftSkillForm';
 
 interface ProfileActionFormProps {
   action: ProfileActionType;
@@ -34,6 +35,10 @@ export default function ProfileActionForm(
       content = (
         <EducationForm initialValues={action.item} onCancel={onCancel} />
       );
+      break;
+    }
+    case 'add-soft-skill': {
+      content = <SoftSkillForm onCancel={onCancel} />;
       break;
     }
     default: {

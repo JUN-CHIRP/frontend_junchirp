@@ -1,3 +1,5 @@
+'use client';
+
 import { useState, useId, useRef, useEffect, ReactElement } from 'react';
 import { ControllerRenderProps } from 'react-hook-form';
 import styles from './EducationDropdown.module.scss';
@@ -9,7 +11,6 @@ import Down from '@/assets/icons/chevron-down.svg';
 interface CustomSelectProps extends Partial<ControllerRenderProps> {
   label?: string;
   options: ProjectRoleTypeInterface[];
-  errorMessages?: string[] | string;
   placeholder?: string;
 }
 
@@ -19,7 +20,6 @@ export default function EducationDropdown({
   value,
   onChange,
   onBlur,
-  errorMessages,
   placeholder = '',
 }: CustomSelectProps): ReactElement {
   const [isOpen, setIsOpen] = useState(false);
@@ -76,11 +76,6 @@ export default function EducationDropdown({
             </span>
           )}
         </Button>
-        {errorMessages && (
-          <div className={styles['education-dropdown__error']}>
-            {Array.isArray(errorMessages) ? errorMessages[0] : errorMessages}
-          </div>
-        )}
       </div>
       {isOpen && (
         <ul className={styles['education-dropdown__list']}>
