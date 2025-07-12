@@ -1,36 +1,34 @@
 'use client';
 
 import {
-  useState,
   useId,
-  useRef,
   useEffect,
-  forwardRef,
-  ForwardedRef,
+  useState,
+  ChangeEvent,
+  useRef,
   ReactElement,
   InputHTMLAttributes,
-  ChangeEvent,
+  forwardRef,
+  ForwardedRef,
 } from 'react';
-import styles from './SocialAutocomplete.module.scss';
-import { ClientSocialInterface } from '@/shared/interfaces/social.interface';
 import Input from '@/shared/components/Input/Input';
+import styles from './EducationAutocomplete.module.scss';
+import { useLazyGetEducationsAutocompleteQuery } from '@/api/educationsApi';
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
-  suggestions: ClientSocialInterface[];
   label?: string;
   errorMessages?: string[] | string;
   withError?: boolean;
-  onSelectSocial?: (network: ClientSocialInterface | null) => void;
+  onSelectEducation?: (edu: string | null) => void;
   placeholder?: string;
 }
 
-function SocialAutocompleteComponent(
+function EducationAutocompleteComponent(
   {
-    suggestions,
     label,
     errorMessages,
     withError,
-    onSelectSocial,
+    onSelectEducation,
     value,
     placeholder,
     onChange,
@@ -43,10 +41,22 @@ function SocialAutocompleteComponent(
   const containerRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [inputValue, setInputValue] = useState(value?.toString() ?? '');
+  const [getInstitutions, { data = [] }] =
+    useLazyGetEducationsAutocompleteQuery();
 
   useEffect(() => {
     setInputValue(value?.toString() ?? '');
   }, [value]);
+
+  useEffect(() => {
+    const delay = setTimeout(() => {
+      if (inputValue.trim().length >= 2) {
+        getInstitutions(inputValue.trim());
+      }
+    }, 500);
+
+    return (): void => clearTimeout(delay);
+  }, [inputValue, getInstitutions]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent): void => {
@@ -63,34 +73,26 @@ function SocialAutocompleteComponent(
       document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const filtered = suggestions.filter((item) =>
-    item.network.toLowerCase().includes(inputValue.toLowerCase()),
-  );
-
   const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
     const val = e.target.value;
     setInputValue(val);
     setIsOpen(true);
     onChange?.(e);
-
-    const match = suggestions.find(
-      (item) => item.network.toLowerCase() === val.toLowerCase(),
-    );
-    onSelectSocial?.(match ?? null);
+    onSelectEducation?.(null);
   };
 
-  const handleSelect = (item: ClientSocialInterface): void => {
-    setInputValue(item.network);
+  const handleSelect = (item: string): void => {
+    setInputValue(item);
     const syntheticEvent = {
-      target: { value: item.network },
+      target: { value: item },
     } as ChangeEvent<HTMLInputElement>;
     onChange?.(syntheticEvent);
-    onSelectSocial?.(item);
+    onSelectEducation?.(item);
     setIsOpen(false);
   };
 
   return (
-    <div className={styles['social-autocomplete']} ref={containerRef}>
+    <div className={styles['education-autocomplete']} ref={containerRef}>
       <Input
         label={label}
         placeholder={placeholder}
@@ -105,15 +107,15 @@ function SocialAutocompleteComponent(
         withError={withError}
         errorMessages={errorMessages}
       />
-      {isOpen && filtered.length > 0 && (
-        <ul className={styles['social-autocomplete__list']}>
-          {filtered.map((item) => (
+      {isOpen && data.length > 0 && (
+        <ul className={styles['education-autocomplete__list']}>
+          {data.map((item: string) => (
             <li
-              key={item.network}
-              className={styles['social-autocomplete__item']}
+              key={item}
+              className={styles['education-autocomplete__item']}
               onMouseDown={() => handleSelect(item)}
             >
-              {item.network}
+              {item}
             </li>
           ))}
         </ul>
@@ -122,6 +124,6 @@ function SocialAutocompleteComponent(
   );
 }
 
-const SocialAutocomplete = forwardRef(SocialAutocompleteComponent);
+const EducationAutocomplete = forwardRef(EducationAutocompleteComponent);
 
-export default SocialAutocomplete;
+export default EducationAutocomplete;

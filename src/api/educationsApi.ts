@@ -2,6 +2,11 @@ import mainApi from './mainApi';
 
 export const educationsApi = mainApi.injectEndpoints({
   endpoints: (builder) => ({
+    getEducationsAutocomplete: builder.query({
+      query: (fragment) => ({
+        url: `educations/autocomplete?institution=${encodeURIComponent(fragment)}`,
+      }),
+    }),
     addEducation: builder.mutation({
       query: (data) => ({
         url: 'educations',
@@ -24,6 +29,7 @@ export const educationsApi = mainApi.injectEndpoints({
       query: (id) => ({
         url: `educations/${id}`,
         method: 'DELETE',
+        responseHandler: (response): Promise<string> => response.text(),
       }),
       invalidatesTags: [{ type: 'educations', id: 'LIST' }],
     }),
@@ -34,4 +40,5 @@ export const {
   useAddEducationMutation,
   useDeleteEducationMutation,
   useUpdateEducationMutation,
+  useLazyGetEducationsAutocompleteQuery,
 } = educationsApi;

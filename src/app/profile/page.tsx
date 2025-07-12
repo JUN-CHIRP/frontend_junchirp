@@ -20,9 +20,10 @@ import { ProfileActionType } from '@/shared/types/profile-action.type';
 import ProfileActionForm from './components/ProfileActionForm/ProfileActionForm';
 import { useDeleteSocialMutation } from '@/api/socialsApi';
 import DeleteItemPopup from '@/app/profile/components/DeleteItemPopup/DeleteItemPopup';
-import { isSocial } from '@/shared/utils/typeGuards';
+import { isEducation, isSocial } from '@/shared/utils/typeGuards';
 import { DeletedItemInterface } from '@/shared/interfaces/deleted-item.interface';
 import { useToast } from '@/hooks/useToast';
+import { useDeleteEducationMutation } from '@/api/educationsApi';
 
 export default function Profile(): ReactElement {
   const [action, setAction] = useState<ProfileActionType>(null);
@@ -33,6 +34,7 @@ export default function Profile(): ReactElement {
     | HardSkillInterface
   > | null>(null);
   const [deleteSocial] = useDeleteSocialMutation();
+  const [deleteEducation] = useDeleteEducationMutation();
   const toast = useToast();
   const [isModalOpen, setModalOpen] = useState(false);
   const formRef = useRef<HTMLDivElement | null>(null);
@@ -90,7 +92,15 @@ export default function Profile(): ReactElement {
         item,
         title: 'Видалити соцмережу?',
         message:
-          'Ти дійсно хочеш видалити цю соцмережу: Дію неможливо скасувати.',
+          'Ти дійсно хочеш видалити цю соцмережу? Дію неможливо скасувати.',
+      });
+    }
+    if (isEducation(item)) {
+      setDeletedItem({
+        item,
+        title: 'Видалити запис про освіту?',
+        message:
+          'Ти дійсно хочеш видалити цей запис про освіту? Дію неможливо скасувати.',
       });
     }
   };
@@ -103,6 +113,22 @@ export default function Profile(): ReactElement {
       toast({
         severity: 'success',
         summary: 'Соцмережу видалено.',
+        life: 3000,
+      });
+    }
+  };
+
+  const handleDeleteEducation = async (
+    item: EducationInterface,
+  ): Promise<void> => {
+    const result = await deleteEducation(item.id);
+    closeModal();
+    console.log(result);
+
+    if ('data' in result) {
+      toast({
+        severity: 'success',
+        summary: 'Запис про освіту видалено.',
         life: 3000,
       });
     }
@@ -131,7 +157,7 @@ export default function Profile(): ReactElement {
             maxSize={5}
             handleAddItem={handleAddEducation}
             handleEditItem={handleEditEducation}
-            handleDeleteItem={handleCancel}
+            handleDeleteItem={openModal}
           />
           <ProfileDetails<HardSkillInterface>
             title="Хард скіли"
@@ -168,13 +194,17 @@ export default function Profile(): ReactElement {
           message={deletedItem.message}
         />
       )}
-      {/*{isModalOpen && isEducation(deletedItem?.item) && (*/}
-      {/*  <DeleteItemPopup<EducationInterface>*/}
-      {/*    item={deletedItem.item}*/}
-      {/*    onCancel={closeModal}*/}
-      {/*    onConfirm={handleDeleteSocial}*/}
-      {/*  />*/}
-      {/*)}*/}
+      {isModalOpen && isEducation(deletedItem?.item) && (
+        <DeleteItemPopup<EducationInterface>
+          item={deletedItem.item}
+          onCancel={closeModal}
+          onConfirm={handleDeleteEducation}
+          maxSize={5}
+          count={educations.length}
+          title={deletedItem.title}
+          message={deletedItem.message}
+        />
+      )}
     </AuthGuard>
   );
 }

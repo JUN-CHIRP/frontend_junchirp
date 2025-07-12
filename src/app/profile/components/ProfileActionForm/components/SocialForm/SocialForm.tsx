@@ -178,7 +178,7 @@ export default function SocialForm(props: SocialFormProps): ReactElement {
             <SocialAutocomplete
               {...field}
               label="Назва соцмережі"
-              placeholder="Назва соцмережі"
+              placeholder="Вкажи назву соцмережі"
               suggestions={socialNetworks}
               onSelectSocial={handleSelectSocial}
               errorMessages={
@@ -191,7 +191,7 @@ export default function SocialForm(props: SocialFormProps): ReactElement {
         <Input
           {...register('url')}
           label="Посилання"
-          placeholder="Посилання"
+          placeholder="Встав посилання на сій профіль"
           withError
           errorMessages={errors.url?.message && [errors.url.message]}
         />
