@@ -1,3 +1,5 @@
+'use client';
+
 import { ReactElement, useEffect } from 'react';
 import { z } from 'zod';
 import { EducationInterface } from '@/shared/interfaces/education.interface';
@@ -102,13 +104,12 @@ export default function EducationForm(props: EducationFormProps): ReactElement {
         <Controller
           name="specializationId"
           control={control}
-          render={({ field, fieldState }) => (
+          render={({ field }) => (
             <EducationDropdown
               {...field}
               options={specializationList}
               label="Спеціальність"
               placeholder="Спеціальність (бажана роль на проєкті)"
-              errorMessages={fieldState.error?.message}
             />
           )}
         />

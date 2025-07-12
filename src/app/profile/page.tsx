@@ -20,10 +20,17 @@ import { ProfileActionType } from '@/shared/types/profile-action.type';
 import ProfileActionForm from './components/ProfileActionForm/ProfileActionForm';
 import { useDeleteSocialMutation } from '@/api/socialsApi';
 import DeleteItemPopup from '@/app/profile/components/DeleteItemPopup/DeleteItemPopup';
-import { isEducation, isSocial } from '@/shared/utils/typeGuards';
+import {
+  isEducation,
+  isHardSkill,
+  isSocial,
+  isSoftSkill,
+} from '@/shared/utils/typeGuards';
 import { DeletedItemInterface } from '@/shared/interfaces/deleted-item.interface';
 import { useToast } from '@/hooks/useToast';
 import { useDeleteEducationMutation } from '@/api/educationsApi';
+import { useDeleteSoftSkillMutation } from '@/api/softSkillsApi';
+import { useDeleteHardSkillMutation } from '@/api/hardSkillsApi';
 
 export default function Profile(): ReactElement {
   const [action, setAction] = useState<ProfileActionType>(null);
@@ -35,6 +42,8 @@ export default function Profile(): ReactElement {
   > | null>(null);
   const [deleteSocial] = useDeleteSocialMutation();
   const [deleteEducation] = useDeleteEducationMutation();
+  const [deleteSoftSkill] = useDeleteSoftSkillMutation();
+  const [deleteHardSkill] = useDeleteHardSkillMutation();
   const toast = useToast();
   const [isModalOpen, setModalOpen] = useState(false);
   const formRef = useRef<HTMLDivElement | null>(null);
@@ -74,6 +83,11 @@ export default function Profile(): ReactElement {
       item,
       description: 'Редагувати освіту',
     });
+  const handleEditName = (): void =>
+    setAction({
+      type: 'edit-name',
+      description: `Редагувати ім'я і прізвище`,
+    });
   const handleCancel = (): void => setAction(null);
   const closeModal = (): void => {
     setModalOpen(false);
@@ -103,7 +117,16 @@ export default function Profile(): ReactElement {
           'Ти дійсно хочеш видалити цей запис про освіту? Дію неможливо скасувати.',
       });
     }
+    if (isSoftSkill(item) || isHardSkill(item)) {
+      setDeletedItem({
+        item,
+        title: 'Видалити навичку?',
+        message:
+          'Ти дійсно хочеш видалити цю навичку? Дію неможливо скасувати.',
+      });
+    }
   };
+
   const handleDeleteSocial = async (item: SocialInterface): Promise<void> => {
     const result = await deleteSocial(item.id);
     closeModal();
@@ -132,12 +155,42 @@ export default function Profile(): ReactElement {
     }
   };
 
+  const handleDeleteSoftSkill = async (
+    item: SoftSkillInterface,
+  ): Promise<void> => {
+    const result = await deleteSoftSkill(item.id);
+    closeModal();
+
+    if ('data' in result) {
+      toast({
+        severity: 'success',
+        summary: 'Soft Skill видалено.',
+        life: 3000,
+      });
+    }
+  };
+
+  const handleDeleteHardSkill = async (
+    item: HardSkillInterface,
+  ): Promise<void> => {
+    const result = await deleteHardSkill(item.id);
+    closeModal();
+
+    if ('data' in result) {
+      toast({
+        severity: 'success',
+        summary: 'Hard Skill видалено.',
+        life: 3000,
+      });
+    }
+  };
+
   return (
     <AuthGuard requireVerified>
       <div className={styles.profile}>
         <div className={styles.profile__details}>
           <div className={styles.profile__info}>
-            <ProfileBaseInfo user={user} />
+            <ProfileBaseInfo user={user} handleEditName={handleEditName} />
           </div>
           <ProfileDetails<SocialInterface>
             title="Соцмережі"
@@ -162,19 +215,20 @@ export default function Profile(): ReactElement {
             items={hardSkills}
             maxSize={20}
             handleAddItem={handleAddHardSkill}
-            handleDeleteItem={handleCancel}
+            handleDeleteItem={openModal}
           />
           <ProfileDetails<SoftSkillInterface>
             title="Софт скіли"
             items={softSkills}
             maxSize={20}
             handleAddItem={handleAddSoftSkill}
-            handleDeleteItem={handleCancel}
+            handleDeleteItem={openModal}
           />
         </div>
         <div className={styles.profile__actions} ref={formRef}>
           <ProfileAction action={action} />
           <ProfileActionForm
+            user={user}
             action={action}
             allField={allFilled}
             onCancel={handleCancel}
@@ -199,6 +253,28 @@ export default function Profile(): ReactElement {
           onConfirm={handleDeleteEducation}
           maxSize={5}
           count={educations.length}
+          title={deletedItem.title}
+          message={deletedItem.message}
+        />
+      )}
+      {isModalOpen && isSoftSkill(deletedItem?.item) && (
+        <DeleteItemPopup<SoftSkillInterface>
+          item={deletedItem.item}
+          onCancel={closeModal}
+          onConfirm={handleDeleteSoftSkill}
+          maxSize={20}
+          count={softSkills.length}
+          title={deletedItem.title}
+          message={deletedItem.message}
+        />
+      )}
+      {isModalOpen && isHardSkill(deletedItem?.item) && (
+        <DeleteItemPopup<HardSkillInterface>
+          item={deletedItem.item}
+          onCancel={closeModal}
+          onConfirm={handleDeleteHardSkill}
+          maxSize={20}
+          count={hardSkills.length}
           title={deletedItem.title}
           message={deletedItem.message}
         />

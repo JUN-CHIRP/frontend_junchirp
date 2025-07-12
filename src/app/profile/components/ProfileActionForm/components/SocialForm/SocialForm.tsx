@@ -121,7 +121,6 @@ export default function SocialForm(props: SocialFormProps): ReactElement {
         const errorData = result.error as
           | ((FetchBaseQueryError | SerializedError) & {
               status: number;
-              data: { attemptsCount: number };
             })
           | undefined;
         const status = errorData?.status;
@@ -143,7 +142,6 @@ export default function SocialForm(props: SocialFormProps): ReactElement {
         const errorData = result.error as
           | ((FetchBaseQueryError | SerializedError) & {
               status: number;
-              data: { attemptsCount: number };
             })
           | undefined;
         const status = errorData?.status;
@@ -191,7 +189,7 @@ export default function SocialForm(props: SocialFormProps): ReactElement {
         <Input
           {...register('url')}
           label="Посилання"
-          placeholder="Встав посилання на сій профіль"
+          placeholder="Встав посилання на свій профіль"
           withError
           errorMessages={errors.url?.message && [errors.url.message]}
         />
