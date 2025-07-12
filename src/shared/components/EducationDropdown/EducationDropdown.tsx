@@ -5,7 +5,6 @@ import { ProjectRoleTypeInterface } from '@/shared/interfaces/project-role-type.
 import Button from '@/shared/components/Button/Button';
 import Up from '@/assets/icons/chevron-up.svg';
 import Down from '@/assets/icons/chevron-down.svg';
-import { spans } from 'next/dist/build/webpack/plugins/profiling-plugin';
 
 interface CustomSelectProps extends Partial<ControllerRenderProps> {
   label?: string;
