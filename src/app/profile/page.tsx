@@ -107,7 +107,6 @@ export default function Profile(): ReactElement {
   const handleDeleteSocial = async (item: SocialInterface): Promise<void> => {
     const result = await deleteSocial(item.id);
     closeModal();
-    console.log(result);
 
     if ('data' in result) {
       toast({
@@ -123,7 +122,6 @@ export default function Profile(): ReactElement {
   ): Promise<void> => {
     const result = await deleteEducation(item.id);
     closeModal();
-    console.log(result);
 
     if ('data' in result) {
       toast({
