@@ -20,11 +20,17 @@ import { ProfileActionType } from '@/shared/types/profile-action.type';
 import ProfileActionForm from './components/ProfileActionForm/ProfileActionForm';
 import { useDeleteSocialMutation } from '@/api/socialsApi';
 import DeleteItemPopup from '@/app/profile/components/DeleteItemPopup/DeleteItemPopup';
-import { isEducation, isSocial, isSoftSkill } from '@/shared/utils/typeGuards';
+import {
+  isEducation,
+  isHardSkill,
+  isSocial,
+  isSoftSkill,
+} from '@/shared/utils/typeGuards';
 import { DeletedItemInterface } from '@/shared/interfaces/deleted-item.interface';
 import { useToast } from '@/hooks/useToast';
 import { useDeleteEducationMutation } from '@/api/educationsApi';
 import { useDeleteSoftSkillMutation } from '@/api/softSkillsApi';
+import { useDeleteHardSkillMutation } from '@/api/hardSkillsApi';
 
 export default function Profile(): ReactElement {
   const [action, setAction] = useState<ProfileActionType>(null);
@@ -37,6 +43,7 @@ export default function Profile(): ReactElement {
   const [deleteSocial] = useDeleteSocialMutation();
   const [deleteEducation] = useDeleteEducationMutation();
   const [deleteSoftSkill] = useDeleteSoftSkillMutation();
+  const [deleteHardSkill] = useDeleteHardSkillMutation();
   const toast = useToast();
   const [isModalOpen, setModalOpen] = useState(false);
   const formRef = useRef<HTMLDivElement | null>(null);
@@ -105,11 +112,12 @@ export default function Profile(): ReactElement {
           'Ти дійсно хочеш видалити цей запис про освіту? Дію неможливо скасувати.',
       });
     }
-    if (isSoftSkill(item)) {
+    if (isSoftSkill(item) || isHardSkill(item)) {
       setDeletedItem({
         item,
         title: 'Видалити навичку?',
-        message: 'Ти дійсно хочеш видалити цюнавичку? Дію неможливо скасувати.',
+        message:
+          'Ти дійсно хочеш видалити цю навичку? Дію неможливо скасувати.',
       });
     }
   };
@@ -157,6 +165,21 @@ export default function Profile(): ReactElement {
     }
   };
 
+  const handleDeleteHardSkill = async (
+    item: HardSkillInterface,
+  ): Promise<void> => {
+    const result = await deleteHardSkill(item.id);
+    closeModal();
+
+    if ('data' in result) {
+      toast({
+        severity: 'success',
+        summary: 'Hard Skill видалено.',
+        life: 3000,
+      });
+    }
+  };
+
   return (
     <AuthGuard requireVerified>
       <div className={styles.profile}>
@@ -187,7 +210,7 @@ export default function Profile(): ReactElement {
             items={hardSkills}
             maxSize={20}
             handleAddItem={handleAddHardSkill}
-            handleDeleteItem={handleCancel}
+            handleDeleteItem={openModal}
           />
           <ProfileDetails<SoftSkillInterface>
             title="Софт скіли"
@@ -234,7 +257,18 @@ export default function Profile(): ReactElement {
           onCancel={closeModal}
           onConfirm={handleDeleteSoftSkill}
           maxSize={20}
-          count={educations.length}
+          count={softSkills.length}
+          title={deletedItem.title}
+          message={deletedItem.message}
+        />
+      )}
+      {isModalOpen && isHardSkill(deletedItem?.item) && (
+        <DeleteItemPopup<HardSkillInterface>
+          item={deletedItem.item}
+          onCancel={closeModal}
+          onConfirm={handleDeleteHardSkill}
+          maxSize={20}
+          count={hardSkills.length}
           title={deletedItem.title}
           message={deletedItem.message}
         />

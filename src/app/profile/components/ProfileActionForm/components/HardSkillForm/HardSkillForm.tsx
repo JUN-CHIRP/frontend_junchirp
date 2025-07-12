@@ -6,19 +6,19 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Input from '@/shared/components/Input/Input';
 import Button from '@/shared/components/Button/Button';
-import styles from './SoftSkillForm.module.scss';
+import styles from './HardSkillForm.module.scss';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { SerializedError } from '@reduxjs/toolkit';
 import { useToast } from '@/hooks/useToast';
-import { useAddSoftSkillMutation } from '@/api/softSkillsApi';
+import { useAddHardSkillMutation } from '@/api/hardSkillsApi';
 
 const schema = z.object({
-  softSkillName: z
+  hardSkillName: z
     .string()
     .trim()
     .nonempty('Поле не може бути порожнім')
-    .min(2, 'Введи Soft Skill від 2 до 50 символів')
-    .max(50, 'Введи Soft Skill від 2 до 50 символів')
+    .min(2, 'Введи Hard Skill від 2 до 50 символів')
+    .max(50, 'Введи Hard Skill від 2 до 50 символів')
     .regex(
       /^[A-Za-zА-Яа-яІіЇїЄєҐґ0-9 .'\-+_/]+$/,
       'Недопустимі символи в назві',
@@ -31,8 +31,8 @@ interface SoftSkillFormProps {
   onCancel: () => void;
 }
 
-export default function SoftSkillForm(props: SoftSkillFormProps): ReactElement {
-  const [addSoftSkill] = useAddSoftSkillMutation();
+export default function HardSkillForm(props: SoftSkillFormProps): ReactElement {
+  const [addHardSkill] = useAddHardSkillMutation();
   const toast = useToast();
   const { onCancel } = props;
   const {
@@ -45,7 +45,7 @@ export default function SoftSkillForm(props: SoftSkillFormProps): ReactElement {
   });
 
   const onSubmit = async (data: FormData): Promise<void> => {
-    const result = await addSoftSkill(data);
+    const result = await addHardSkill(data);
     if ('error' in result) {
       const errorData = result.error as
         | ((FetchBaseQueryError | SerializedError) & {
@@ -69,17 +69,17 @@ export default function SoftSkillForm(props: SoftSkillFormProps): ReactElement {
 
   return (
     <form
-      className={styles['soft-skill-form']}
+      className={styles['hard-skill-form']}
       onSubmit={handleSubmit(onSubmit)}
     >
-      <fieldset className={styles['soft-skill-form__fieldset']}>
+      <fieldset className={styles['hard-skill-form__fieldset']}>
         <Input
-          {...register('softSkillName')}
-          label="Софт скіл"
-          placeholder="Командна робота, Тайм-менеджмент..."
+          {...register('hardSkillName')}
+          label="Хард скіл"
+          placeholder="JavaScript, Figma, SQL..."
           withError
           errorMessages={
-            errors.softSkillName?.message && [errors.softSkillName.message]
+            errors.hardSkillName?.message && [errors.hardSkillName.message]
           }
         />
       </fieldset>
