@@ -41,7 +41,7 @@ interface UserNameFormProps {
 }
 
 export default function UserNameForm(props: UserNameFormProps): ReactElement {
-  const [updateUser] = useUpdateUserMutation();
+  const [updateUser, { isLoading }] = useUpdateUserMutation();
   const { onCancel, initialValues } = props;
   const {
     register,
@@ -66,7 +66,10 @@ export default function UserNameForm(props: UserNameFormProps): ReactElement {
       className={styles['user-name-form']}
       onSubmit={handleSubmit(onSubmit)}
     >
-      <fieldset className={styles['user-name-form__fieldset']}>
+      <fieldset
+        className={styles['user-name-form__fieldset']}
+        disabled={isLoading}
+      >
         <Input
           {...register('firstName')}
           label="Ім'я"

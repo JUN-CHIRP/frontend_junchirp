@@ -12,6 +12,7 @@ import 'primeicons/primeicons.css';
 import 'primeflex/primeflex.css';
 import { MessageProvider } from '@/providers/MessageProvider';
 import FooterWrapper from './components/FooterWrapper/FooterWrapper';
+import { SupportProvider } from '@/providers/SupportProvider';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -29,12 +30,14 @@ export default function RootLayout({
         <ReduxProvider>
           <PrimeReactProvider>
             <MessageProvider>
-              <DataLoader />
-              <Header />
-              <div className={styles.body__container}>
-                <div className={styles.body__inner}>{children}</div>
-              </div>
-              <FooterWrapper />
+              <SupportProvider>
+                <DataLoader />
+                <div className={styles.body__container}>
+                  <Header />
+                  <div className={styles.body__inner}>{children}</div>
+                  <FooterWrapper />
+                </div>
+              </SupportProvider>
             </MessageProvider>
           </PrimeReactProvider>
         </ReduxProvider>

@@ -32,7 +32,7 @@ interface SoftSkillFormProps {
 }
 
 export default function SoftSkillForm(props: SoftSkillFormProps): ReactElement {
-  const [addSoftSkill] = useAddSoftSkillMutation();
+  const [addSoftSkill, { isLoading }] = useAddSoftSkillMutation();
   const toast = useToast();
   const { onCancel } = props;
   const {
@@ -72,7 +72,10 @@ export default function SoftSkillForm(props: SoftSkillFormProps): ReactElement {
       className={styles['soft-skill-form']}
       onSubmit={handleSubmit(onSubmit)}
     >
-      <fieldset className={styles['soft-skill-form__fieldset']}>
+      <fieldset
+        className={styles['soft-skill-form__fieldset']}
+        disabled={isLoading}
+      >
         <Input
           {...register('softSkillName')}
           label="Софт скіл"

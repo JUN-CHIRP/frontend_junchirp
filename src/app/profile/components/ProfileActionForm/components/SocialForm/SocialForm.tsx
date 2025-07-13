@@ -67,8 +67,9 @@ interface SocialFormProps {
 }
 
 export default function SocialForm(props: SocialFormProps): ReactElement {
-  const [updateSocial] = useUpdateSocialMutation();
-  const [addSocial] = useAddSocialMutation();
+  const [updateSocial, { isLoading: updateSocialLoading }] =
+    useUpdateSocialMutation();
+  const [addSocial, { isLoading: addSocialLoading }] = useAddSocialMutation();
   const toast = useToast();
   const { initialValues, onCancel } = props;
   const {
@@ -168,7 +169,10 @@ export default function SocialForm(props: SocialFormProps): ReactElement {
 
   return (
     <form className={styles['social-form']} onSubmit={handleSubmit(onSubmit)}>
-      <fieldset className={styles['social-form__fieldset']}>
+      <fieldset
+        className={styles['social-form__fieldset']}
+        disabled={updateSocialLoading || addSocialLoading}
+      >
         <Controller
           name="network"
           control={control}
