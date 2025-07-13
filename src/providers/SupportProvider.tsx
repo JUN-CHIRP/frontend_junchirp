@@ -6,6 +6,7 @@ import {
   useContext,
   useState,
   ReactNode,
+  ReactElement,
 } from 'react';
 import SupportPopup from '@/shared/components/SupportPopup/SupportPopup';
 
@@ -16,7 +17,11 @@ interface SupportContextType {
 
 const SupportContext = createContext<SupportContextType | null>(null);
 
-export const SupportProvider = ({ children }: { children: ReactNode }) => {
+export const SupportProvider = ({
+  children,
+}: {
+  children: ReactNode;
+}): ReactElement => {
   const [isOpen, setIsOpen] = useState(false);
 
   const openSupport = useCallback(() => setIsOpen(true), []);
