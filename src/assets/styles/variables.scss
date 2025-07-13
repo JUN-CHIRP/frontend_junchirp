@@ -38,7 +38,7 @@ $yellow-1: #fddb00;
 
 // button variables
 $variants: primary, secondary, secondary-frame, secondary-footer, tertiary, link;
-$colors: 'green', 'red', 'gray', 'black';
+$colors: 'green', 'red', 'gray', 'black', 'blue';
 $sizes: sm, md, lg, lg-md, ssm;
 $button-colors: (
   primary: (
@@ -257,6 +257,20 @@ $button-colors: (
     ),
   ),
   link: (
+    'blue': (
+      base: (
+        text: $blue-1,
+      ),
+      hover: (
+        text: $blue-2,
+      ),
+      active: (
+        text: $blue-1,
+      ),
+      disabled: (
+        text: $gray-3,
+      ),
+    ),
     'green': (
       base: (
         text: $green-1,
