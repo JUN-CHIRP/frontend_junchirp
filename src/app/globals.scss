@@ -60,6 +60,11 @@ select {
   }
 }
 
+.p-toast {
+  max-width: none !important;
+  width: 586px !important;
+}
+
 .message-provider {
   font-family: variables.$inter;
   text-align: center;

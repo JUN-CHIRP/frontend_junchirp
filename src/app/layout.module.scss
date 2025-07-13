@@ -2,11 +2,11 @@
 
 .body {
   &__container {
-    min-height: calc(100vh - 380px);
     background-color: variables.$white-1;
   }
 
   &__inner {
+    min-height: calc(100vh - 380px);
     max-width: 1280px;
     margin: 0 auto;
   }

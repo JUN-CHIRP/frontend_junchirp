@@ -7,9 +7,11 @@ import Image from 'next/image';
 import Button from '@/shared/components/Button/Button';
 import Linkedin from '@/assets/icons/linkedin.svg';
 import React, { ReactElement } from 'react';
+import { useSupport } from '@/hooks/useSupport';
 
 export default function Footer(): ReactElement {
   const router = useRouter();
+  const support = useSupport();
 
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>): void => {
     e.preventDefault();
@@ -25,7 +27,7 @@ export default function Footer(): ReactElement {
   };
 
   const openDialog = (): void => {
-    // TODO: create support dialog
+    support();
   };
 
   return (

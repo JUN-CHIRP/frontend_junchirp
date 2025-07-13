@@ -15,6 +15,7 @@ import { useToast } from '@/hooks/useToast';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { SerializedError } from '@reduxjs/toolkit';
 import { useLazyGetProjectRolesListQuery } from '@/api/projectRolesApi';
+import { useSupport } from '@/hooks/useSupport';
 
 const schema = z.object({
   email: z
@@ -40,6 +41,11 @@ export default function LoginForm(): ReactElement {
   const [login, { isLoading }] = useLoginMutation();
   const toast = useToast();
   const [loadRoles] = useLazyGetProjectRolesListQuery();
+  const support = useSupport();
+
+  const openDialog = (): void => {
+    support();
+  };
 
   const onSubmit = async (data: FormData): Promise<void> => {
     const result = await login(data);
@@ -56,21 +62,57 @@ export default function LoginForm(): ReactElement {
       if (status === 429) {
         const attemptsCount = errorData?.data.attemptsCount ?? 0;
 
-        let [summary, detail] = ['', ''];
+        let [summary, detail] = ['', <></>];
         if (attemptsCount === 15) {
           [summary, detail] = [
             'Твій обліковий запис заблоковано через невдалі спроби входу.',
-            'Ти можеш повернути доступ до свого облікового запису звернувшись до нашої служби підтримки.',
+            <p>
+              Ти можеш повернути доступ до свого облікового запису звернувшись
+              до нашої служби{' '}
+              <Button
+                className={styles['login-form__message-button']}
+                variant="link"
+                color="blue"
+                onClick={openDialog}
+              >
+                підтримки
+              </Button>
+              .
+            </p>,
           ];
         } else if (attemptsCount === 10) {
           [summary, detail] = [
             'Твій обліковий запис заблоковано через невдалі спроби входу.',
-            'Ти можеш повернути доступ до свого облікового запису через 1 годину. Якщо тобі потрібна допомога, звернись до нашої служби підтримки.',
+            <p>
+              Ти можеш повернути доступ до свого облікового запису через 1
+              годину. Якщо тобі потрібна допомога, звернись до нашої служби{' '}
+              <Button
+                className={styles['login-form__message-button']}
+                variant="link"
+                color="blue"
+                onClick={openDialog}
+              >
+                підтримки
+              </Button>
+              .
+            </p>,
           ];
         } else if (attemptsCount === 5) {
           [summary, detail] = [
             'Твій обліковий запис заблоковано через невдалі спроби входу.',
-            'Ти можеш повернути доступ до свого облікового запису через 15 хвилин. Якщо тобі потрібна допомога, звернись до нашої служби підтримки.',
+            <p>
+              Ти можеш повернути доступ до свого облікового запису через 15
+              хвилин. Якщо тобі потрібна допомога, звернись до нашої служби{' '}
+              <Button
+                className={styles['login-form__message-button']}
+                variant="link"
+                color="blue"
+                onClick={openDialog}
+              >
+                підтримки
+              </Button>
+              .
+            </p>,
           ];
         }
         toast({

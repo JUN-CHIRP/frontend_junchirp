@@ -39,8 +39,10 @@ interface EducationFormProps {
 
 export default function EducationForm(props: EducationFormProps): ReactElement {
   const specializationList = useSelector(selectAllProjectRolesList);
-  const [updateEducation] = useUpdateEducationMutation();
-  const [addEducation] = useAddEducationMutation();
+  const [updateEducation, { isLoading: updateEducationLoading }] =
+    useUpdateEducationMutation();
+  const [addEducation, { isLoading: addEducationLoading }] =
+    useAddEducationMutation();
   const { initialValues, onCancel } = props;
   const {
     handleSubmit,
@@ -84,7 +86,10 @@ export default function EducationForm(props: EducationFormProps): ReactElement {
       className={styles['education-form']}
       onSubmit={handleSubmit(onSubmit)}
     >
-      <fieldset className={styles['education-form__fieldset']}>
+      <fieldset
+        className={styles['education-form__fieldset']}
+        disabled={updateEducationLoading || addEducationLoading}
+      >
         <Controller
           name="institution"
           control={control}
