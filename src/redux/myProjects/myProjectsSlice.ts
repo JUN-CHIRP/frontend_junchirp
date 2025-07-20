@@ -1,24 +1,24 @@
 import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
-import { authApi } from '@/api/authApi';
 import { RootState } from '@/redux/store';
 import { ProjectCardInterface } from '@/shared/interfaces/project-card.interface';
+import { usersApi } from '@/api/usersApi';
 
 const myProjectsAdapter = createEntityAdapter<ProjectCardInterface>();
 
 export const myProjectsSlice = createSlice({
-  name: 'educations',
+  name: 'myProjects',
   initialState: myProjectsAdapter.getInitialState(),
   reducers: {
-    // setEducations: myProjectsAdapter.setAll,
-    // addEducations: myProjectsAdapter.addOne,
-    // updateEducations: myProjectsAdapter.updateOne,
-    // removeEducations: myProjectsAdapter.removeOne,
+    // setMyProjects: myProjectsAdapter.setAll,
+    // addMyProjects: myProjectsAdapter.addOne,
+    // updateMyProjects: myProjectsAdapter.updateOne,
+    // removeMyProjects: myProjectsAdapter.removeOne,
   },
   extraReducers: (builder) => {
     builder.addMatcher(
-      authApi.endpoints.getMe.matchFulfilled,
+      usersApi.endpoints.getMyProjects.matchFulfilled,
       (state, action) => {
-        myProjectsAdapter.setAll(state, action.payload.educations);
+        myProjectsAdapter.setAll(state, action.payload.projects);
       },
     );
   },
