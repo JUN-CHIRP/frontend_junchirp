@@ -1,7 +1,6 @@
 'use client';
 
 import { ReactElement } from 'react';
-import { useSelector } from 'react-redux';
 import authSelector from '@/redux/auth/authSelector';
 import styles from './SupportPopup.module.scss';
 import Button from '@/shared/components/Button/Button';

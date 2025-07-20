@@ -19,7 +19,12 @@ export default function UsersList({ users }: UsersListProps): ReactElement {
   return (
     <div className={styles['users-list']}>
       {users.map((user: UserInterface) => (
-        <UserItem key={user.id} user={user} currentUser={currentUser} myProjects={myProjects}/>
+        <UserItem
+          key={user.id}
+          user={user}
+          currentUser={currentUser}
+          myProjects={myProjects}
+        />
       ))}
     </div>
   );
