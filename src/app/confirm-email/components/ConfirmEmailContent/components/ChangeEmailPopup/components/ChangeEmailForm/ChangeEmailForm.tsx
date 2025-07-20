@@ -12,11 +12,11 @@ const schema = z.object({
   email: z
     .string()
     .trim()
-    .nonempty('Поле електронної пошти не може бути порожнім')
-    .email('Некоректний формат електронної пошти')
-    .regex(/^(?!.*[а-яА-ЯґҐіІєЄїЇ])/, 'Некоректний формат електронної пошти')
+    .nonempty('Поле не може бути порожнім')
+    .email('Невірний формат e-mail')
+    .regex(/^(?!.*[а-яА-ЯґҐіІєЄїЇ])/, 'Невірний формат e-mail')
     .refine((val) => !val.endsWith('.ru'), {
-      message: `Домен '.ru' не підтримується. Вибери інший`,
+      message: `Домен '.ru' не підтримується`,
     }),
 });
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -65,7 +65,7 @@ export default function ChangeEmailForm({ onClose }: FormProps): ReactElement {
         if (!isAvailable) {
           setError('email', {
             type: 'manual',
-            message: 'Ця електронна пошта вже використовується',
+            message: 'Цей e-mail вже використовується',
           });
         } else {
           clearErrors('email');

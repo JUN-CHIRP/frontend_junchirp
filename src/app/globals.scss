@@ -136,3 +136,10 @@ select {
     color: variables.$black-2;
   }
 }
+
+.p-paginator {
+  font-family: variables.$inter;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

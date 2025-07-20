@@ -80,7 +80,7 @@ export const authApi = mainApi.injectEndpoints({
         method: 'POST',
         body: data,
       }),
-      invalidatesTags: ['auth'],
+      invalidatesTags: ['auth', 'users'],
     }),
     requestPasswordReset: builder.mutation({
       query: (data) => ({
@@ -96,7 +96,7 @@ export const authApi = mainApi.injectEndpoints({
         method: 'PATCH',
         body: data,
       }),
-      invalidatesTags: ['auth'],
+      invalidatesTags: ['auth', 'users'],
     }),
     validateToken: builder.query({
       query: (token) => ({

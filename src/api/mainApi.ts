@@ -138,6 +138,8 @@ const mainApi = createApi({
     'educations',
     'socials',
     'project-roles-list',
+    'users',
+    'my-projects',
   ],
   endpoints: () => ({}),
 });

@@ -3,7 +3,6 @@
 import { ReactElement, useEffect } from 'react';
 import { z } from 'zod';
 import { EducationInterface } from '@/shared/interfaces/education.interface';
-import { useSelector } from 'react-redux';
 import { selectAllProjectRolesList } from '@/redux/projectRolesList/projectRolesListSlice';
 import styles from './EducationForm.module.scss';
 import { Controller, useForm } from 'react-hook-form';
@@ -15,6 +14,7 @@ import {
   useAddEducationMutation,
   useUpdateEducationMutation,
 } from '@/api/educationsApi';
+import { useAppSelector } from '@/hooks/reduxHooks';
 
 const schema = z.object({
   institution: z
@@ -38,7 +38,7 @@ interface EducationFormProps {
 }
 
 export default function EducationForm(props: EducationFormProps): ReactElement {
-  const specializationList = useSelector(selectAllProjectRolesList);
+  const specializationList = useAppSelector(selectAllProjectRolesList);
   const [updateEducation, { isLoading: updateEducationLoading }] =
     useUpdateEducationMutation();
   const [addEducation, { isLoading: addEducationLoading }] =

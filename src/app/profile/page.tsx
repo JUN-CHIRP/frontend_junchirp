@@ -4,7 +4,6 @@ import AuthGuard from '@/shared/components/AuthGuard/AuthGuard';
 import { ReactElement, Suspense, useEffect, useRef, useState } from 'react';
 import styles from './page.module.scss';
 import ProfileBaseInfo from './components/ProfileBaseInfo/ProfileBaseInfo';
-import { useSelector } from 'react-redux';
 import authSelector from '@/redux/auth/authSelector';
 import ProfileDetails from './components/ProfileDetails/ProfileDetails';
 import { selectAllSocials } from '@/redux/socials/socialsSlice';
@@ -32,6 +31,7 @@ import { useDeleteEducationMutation } from '@/api/educationsApi';
 import { useDeleteSoftSkillMutation } from '@/api/softSkillsApi';
 import { useDeleteHardSkillMutation } from '@/api/hardSkillsApi';
 import ProfileBanner from '@/app/profile/components/ProfileBanner/ProfileBanner';
+import { useAppSelector } from '@/hooks/reduxHooks';
 
 export default function Profile(): ReactElement {
   const [action, setAction] = useState<ProfileActionType>(null);
@@ -48,11 +48,11 @@ export default function Profile(): ReactElement {
   const toast = useToast();
   const [isModalOpen, setModalOpen] = useState(false);
   const formRef = useRef<HTMLDivElement | null>(null);
-  const user = useSelector(authSelector.selectUser);
-  const socials = useSelector(selectAllSocials);
-  const educations = useSelector(selectAllEducations);
-  const softSkills = useSelector(selectAllSoftSkills);
-  const hardSkills = useSelector(selectAllHardSkills);
+  const user = useAppSelector(authSelector.selectUser);
+  const socials = useAppSelector(selectAllSocials);
+  const educations = useAppSelector(selectAllEducations);
+  const softSkills = useAppSelector(selectAllSoftSkills);
+  const hardSkills = useAppSelector(selectAllHardSkills);
   const [isBanner, setBanner] = useState(false);
 
   const allFilled = [socials, educations, softSkills, hardSkills].every(

@@ -8,7 +8,7 @@ import Button from '@/shared/components/Button/Button';
 import Up from '@/assets/icons/chevron-up.svg';
 import Down from '@/assets/icons/chevron-down.svg';
 
-interface CustomSelectProps extends Partial<ControllerRenderProps> {
+interface EducationDropdownProps extends Partial<ControllerRenderProps> {
   label?: string;
   options: ProjectRoleTypeInterface[];
   placeholder?: string;
@@ -21,7 +21,7 @@ export default function EducationDropdown({
   onChange,
   onBlur,
   placeholder = '',
-}: CustomSelectProps): ReactElement {
+}: EducationDropdownProps): ReactElement {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedLabel, setSelectedLabel] = useState<string | null>(null);
   const id = useId();

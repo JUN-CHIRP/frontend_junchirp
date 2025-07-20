@@ -8,6 +8,7 @@ import { hardSkillsSlice } from '@/redux/hardSkills/hardSkillsSlice';
 import { educationsSlice } from '@/redux/educations/educationsSlice';
 import { socialsSlice } from '@/redux/socials/socialsSlice';
 import { projectRolesListSlice } from '@/redux/projectRolesList/projectRolesListSlice';
+import { myProjectsSlice } from '@/redux/myProjects/myProjectsSlice';
 
 export const makeStore = (): EnhancedStore => {
   return configureStore({
@@ -21,6 +22,7 @@ export const makeStore = (): EnhancedStore => {
       educations: educationsSlice.reducer,
       socials: socialsSlice.reducer,
       projectRolesList: projectRolesListSlice.reducer,
+      myProjects: myProjectsSlice.reducer,
     },
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({

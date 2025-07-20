@@ -21,16 +21,14 @@ import CancelPasswordPopup from './components/CancelPasswordPopup/CancelPassword
 const baseSchema = z.object({
   password: z
     .string()
-    .nonempty('Поле пароля не може бути порожнім')
-    .min(8, 'Пароль повинен містити від 8 до 20 символів')
-    .max(20, 'Пароль повинен містити від 8 до 20 символів')
+    .nonempty('Поле не може бути порожнім')
+    .min(8, 'Пароль має містити 8–20 символів')
+    .max(20, 'Пароль має містити 8–20 символів')
     .refine(
       (val) => /^[A-Za-z\d!"#$%&'()*+,\-./:;<=>?@[\]^_`{|}~]+$/.test(val),
-      { message: 'Пароль містить заборонені символи' },
+      { message: 'Використовуй лише латиницю, цифри та спецсимволи' },
     ),
-  confirmPassword: z
-    .string()
-    .nonempty('Поле підтвердження пароля не може бути порожнім'),
+  confirmPassword: z.string().nonempty('Поле не може бути порожнім'),
 });
 
 type FormData = z.infer<typeof baseSchema>;
@@ -49,7 +47,7 @@ const createSchemaWithContext = (
       ctx.addIssue({
         path: ['password'],
         code: z.ZodIssueCode.custom,
-        message: `Пароль не повинен містити ваше ім'я та прізвище`,
+        message: `Пароль не може містити твоє ім’я чи прізвище`,
       });
     }
 
@@ -57,7 +55,7 @@ const createSchemaWithContext = (
       ctx.addIssue({
         path: ['password'],
         code: z.ZodIssueCode.custom,
-        message: `Пароль не повинен містити ваше ім'я та прізвище`,
+        message: `Пароль не може містити твоє ім’я чи прізвище`,
       });
     }
 
@@ -65,7 +63,7 @@ const createSchemaWithContext = (
       ctx.addIssue({
         path: ['password'],
         code: z.ZodIssueCode.custom,
-        message: 'Уникайте очевидних паролів, таких як Password1',
+        message: 'Уникай очевидних паролів, як-от Password1',
       });
     }
 
@@ -73,7 +71,7 @@ const createSchemaWithContext = (
       ctx.addIssue({
         path: ['confirmPassword'],
         code: z.ZodIssueCode.custom,
-        message: 'Паролі не збігаються. Перевір, будь ласка, введені значення',
+        message: 'Паролі не збігаються',
       });
     }
   });

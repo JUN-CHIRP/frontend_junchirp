@@ -13,7 +13,7 @@ export const educationsApi = mainApi.injectEndpoints({
         method: 'POST',
         body: data,
       }),
-      invalidatesTags: [{ type: 'educations', id: 'LIST' }],
+      invalidatesTags: [{ type: 'educations', id: 'LIST' }, 'users'],
     }),
     updateEducation: builder.mutation({
       query: ({ id, data }) => ({
@@ -23,6 +23,7 @@ export const educationsApi = mainApi.injectEndpoints({
       }),
       invalidatesTags: (_result, _error, args) => [
         { type: 'educations', id: args.id },
+        'users',
       ],
     }),
     deleteEducation: builder.mutation({
@@ -31,7 +32,7 @@ export const educationsApi = mainApi.injectEndpoints({
         method: 'DELETE',
         responseHandler: (response): Promise<string> => response.text(),
       }),
-      invalidatesTags: [{ type: 'educations', id: 'LIST' }],
+      invalidatesTags: [{ type: 'educations', id: 'LIST' }, 'users'],
     }),
   }),
 });
