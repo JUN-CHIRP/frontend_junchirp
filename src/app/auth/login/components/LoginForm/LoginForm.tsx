@@ -18,11 +18,8 @@ import { useLazyGetProjectRolesListQuery } from '@/api/projectRolesApi';
 import { useSupport } from '@/hooks/useSupport';
 
 const schema = z.object({
-  email: z
-    .string()
-    .trim()
-    .nonempty('Поле електронної пошти не може бути порожнім'),
-  password: z.string().trim().nonempty('Поле паролю не може бути порожнім'),
+  email: z.string().trim().nonempty('Поле не може бути порожнім'),
+  password: z.string().trim().nonempty('Поле не може бути порожнім'),
 });
 
 type FormData = z.infer<typeof schema>;

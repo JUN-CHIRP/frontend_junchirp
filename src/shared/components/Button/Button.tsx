@@ -99,13 +99,13 @@ export default function Button({
       {RenderSpinner ? (
         <>
           {iconPosition === 'left' && RenderSpinner}
-          {children && <span>{children}</span>}
+          {children}
           {iconPosition === 'right' && RenderIcon}
         </>
       ) : (
         <>
           {iconPosition === 'left' && RenderIcon}
-          {children && <span>{children}</span>}
+          {children}
           {iconPosition === 'right' && RenderIcon}
         </>
       )}

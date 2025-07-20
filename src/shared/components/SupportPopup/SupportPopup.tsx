@@ -14,7 +14,7 @@ interface SupportPopupProps {
 
 export default function SupportPopup(props: SupportPopupProps): ReactElement {
   const { onClose } = props;
-  const user = useSelector(authSelector.selectUser);
+  const user = useAppSelector(authSelector.selectUser);
 
   return (
     <div className={styles['support-popup__wrapper']}>
