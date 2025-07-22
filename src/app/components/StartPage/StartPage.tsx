@@ -5,16 +5,17 @@ import ThreeSteps from './ThreeSteps/ThreeSteps';
 import WhatWeNeed from './WhatWeNeed/WhatWeNeed';
 import YourMoment from './YourMoment/YourMoment';
 import { ReactElement } from 'react';
+import styles from './startPage.module.scss';
 
 export default function StartPage(): ReactElement {
   return (
-    <div>
+    <>
       <Hero />
       <Quote />
       <ThreeSteps />
       <WhatWeNeed />
       <NextLevel />
       <YourMoment />
-    </div>
+    </>
   );
 }

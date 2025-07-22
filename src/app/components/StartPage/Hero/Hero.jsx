@@ -1,3 +1,9 @@
+import stylesShared from '@/app/components/StartPage/startPage.module.scss';
+
 export default function Hero() {
-  return <div>Hero</div>;
+  return (
+    <section className={stylesShared.section}>
+      <h1>Від новачка до [професіонала]</h1>
+    </section>
+  );
 }

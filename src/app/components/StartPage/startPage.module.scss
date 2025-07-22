@@ -1,0 +1,10 @@
+@use '@/assets/styles/variables';
+
+.section {
+  padding: 40px;
+  margin-bottom: 80px;
+
+  &h1 {
+    margin-bottom: 64px;
+  }
+}
