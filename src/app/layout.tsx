@@ -34,7 +34,7 @@ export default function RootLayout({
                 <DataLoader />
                 <div className={styles.body__container}>
                   <Header />
-                  <div className={styles.body__inner}>{children}</div>
+                  <main className={styles.body__inner}>{children}</main>
                   <FooterWrapper />
                 </div>
               </SupportProvider>

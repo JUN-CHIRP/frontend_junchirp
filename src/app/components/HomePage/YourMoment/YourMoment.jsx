@@ -1,5 +1,5 @@
-import stylesShared from '@/app/components/StartPage/startPage.module.scss';
-import styles from '@/app/components/StartPage/YourMoment/yourMoment.module.scss';
+import stylesShared from '@/app/components/HomePage/homePage.module.scss';
+import styles from '@/app/components/HomePage/YourMoment/yourMoment.module.scss';
 
 export default function YourMoment() {
   return (
