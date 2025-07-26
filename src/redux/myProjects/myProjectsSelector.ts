@@ -4,7 +4,8 @@ import authSelector from '../auth/authSelector';
 
 const selectMyOwnedProjects = createSelector(
   [selectAllMyProjects, authSelector.selectUser],
-  (projects, user) => projects.filter((project) => project.ownerId === user.id),
+  (projects, user) =>
+    projects.filter((project) => (user ? project.ownerId === user.id : [])),
 );
 
 const myProjectsSelector = {

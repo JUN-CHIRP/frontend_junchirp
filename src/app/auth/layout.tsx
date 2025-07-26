@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 import styles from './layout.module.scss';
 import Image from 'next/image';
-import TabMenuWrapper from './components/TabMenuWrapper/TabMenuWrapper';
+import TabMenuWrapper from '@/app/auth/TabMenuWrapper/TabMenuWrapper';
 
 export default function AuthLayout({
   children,

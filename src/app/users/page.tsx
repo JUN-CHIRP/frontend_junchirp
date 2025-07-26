@@ -4,11 +4,11 @@ import { ReactElement, useEffect } from 'react';
 import AuthGuard from '@/shared/components/AuthGuard/AuthGuard';
 import styles from './page.module.scss';
 import Image from 'next/image';
-import UsersFilters from './components/UsersFilters/UsersFilters';
-import UsersList from './components/UsersList/UsersList';
+import UsersFilters from './UsersFilters/UsersFilters';
+import UsersList from './UsersList/UsersList';
 import { useUsersFilters } from '@/hooks/useUsersFilters';
 import { useGetUsersQuery } from '@/api/usersApi';
-import UsersListSkeleton from './components/UsersListSkeleton/UsersListSkeleton';
+import UsersListSkeleton from './UsersListSkeleton/UsersListSkeleton';
 import { useToast } from '@/hooks/useToast';
 import Pagination from '@/shared/components/Pagination/Pagination';
 

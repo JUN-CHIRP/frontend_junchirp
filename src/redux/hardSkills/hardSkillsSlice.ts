@@ -10,7 +10,7 @@ export const hardSkillsSlice = createSlice({
   name: 'hardSkills',
   initialState: hardSkillsAdapter.getInitialState(),
   reducers: {
-    // setHardSkills: hardSkillsAdapter.setAll,
+    setHardSkills: hardSkillsAdapter.setAll,
     // addHardSkills: hardSkillsAdapter.addOne,
     // updateHardSkills: hardSkillsAdapter.updateOne,
     // removeHardSkills: hardSkillsAdapter.removeOne,
@@ -37,17 +37,17 @@ export const hardSkillsSlice = createSlice({
   },
 });
 
-// export const {
-//   setHardSkills,
-//   addHardSkills,
-//   updateHardSkills,
-//   removeHardSkills,
-// } = hardSkillsSlice.actions;
+export const {
+  setHardSkills,
+  // addHardSkills,
+  // updateHardSkills,
+  // removeHardSkills,
+} = hardSkillsSlice.actions;
 
 export default hardSkillsSlice.reducer;
 
 export const {
   selectAll: selectAllHardSkills,
-  selectById: selectHardSkillById,
-  selectIds: selectHardSkillsIds,
+  // selectById: selectHardSkillById,
+  // selectIds: selectHardSkillsIds,
 } = hardSkillsAdapter.getSelectors((state: RootState) => state.hardSkills);

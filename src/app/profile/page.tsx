@@ -3,9 +3,9 @@
 import AuthGuard from '@/shared/components/AuthGuard/AuthGuard';
 import { ReactElement, Suspense, useEffect, useRef, useState } from 'react';
 import styles from './page.module.scss';
-import ProfileBaseInfo from './components/ProfileBaseInfo/ProfileBaseInfo';
+import ProfileBaseInfo from './ProfileBaseInfo/ProfileBaseInfo';
 import authSelector from '@/redux/auth/authSelector';
-import ProfileDetails from './components/ProfileDetails/ProfileDetails';
+import ProfileDetails from './ProfileDetails/ProfileDetails';
 import { selectAllSocials } from '@/redux/socials/socialsSlice';
 import { selectAllEducations } from '@/redux/educations/educationsSlice';
 import { selectAllSoftSkills } from '@/redux/softSkills/softSkillsSlice';
@@ -14,11 +14,11 @@ import { SocialInterface } from '@/shared/interfaces/social.interface';
 import { EducationInterface } from '@/shared/interfaces/education.interface';
 import { HardSkillInterface } from '@/shared/interfaces/hard-skill.interface';
 import { SoftSkillInterface } from '@/shared/interfaces/soft-skill.interface';
-import ProfileAction from './components/ProfileAction/ProfileAction';
+import ProfileAction from './ProfileAction/ProfileAction';
 import { ProfileActionType } from '@/shared/types/profile-action.type';
-import ProfileActionForm from './components/ProfileActionForm/ProfileActionForm';
+import ProfileActionForm from './ProfileActionForm/ProfileActionForm';
 import { useDeleteSocialMutation } from '@/api/socialsApi';
-import DeleteItemPopup from '@/app/profile/components/DeleteItemPopup/DeleteItemPopup';
+import DeleteItemPopup from './DeleteItemPopup/DeleteItemPopup';
 import {
   isEducation,
   isHardSkill,
@@ -30,10 +30,10 @@ import { useToast } from '@/hooks/useToast';
 import { useDeleteEducationMutation } from '@/api/educationsApi';
 import { useDeleteSoftSkillMutation } from '@/api/softSkillsApi';
 import { useDeleteHardSkillMutation } from '@/api/hardSkillsApi';
-import ProfileBanner from '@/app/profile/components/ProfileBanner/ProfileBanner';
+import ProfileBanner from './ProfileBanner/ProfileBanner';
 import { useAppSelector } from '@/hooks/reduxHooks';
 
-export default function Profile(): ReactElement {
+export default function Profile(): ReactElement | null {
   const [action, setAction] = useState<ProfileActionType>(null);
   const [deletedItem, setDeletedItem] = useState<DeletedItemInterface<
     | SocialInterface
@@ -196,6 +196,10 @@ export default function Profile(): ReactElement {
   const closeBanner = (): void => {
     setBanner(false);
   };
+
+  if (!user) {
+    return null;
+  }
 
   return (
     <AuthGuard requireVerified>

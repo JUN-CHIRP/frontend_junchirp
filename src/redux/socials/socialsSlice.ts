@@ -10,7 +10,7 @@ export const socialsSlice = createSlice({
   name: 'socials',
   initialState: socialsAdapter.getInitialState(),
   reducers: {
-    // setSocials: socialsAdapter.setAll,
+    setSocials: socialsAdapter.setAll,
     // addSocials: socialsAdapter.addOne,
     // updateSocials: socialsAdapter.updateOne,
     // removeSocials: socialsAdapter.removeOne,
@@ -46,17 +46,17 @@ export const socialsSlice = createSlice({
   },
 });
 
-// export const {
-//   setSocials,
-//   addSocials,
-//   updateSocials,
-//   removeSocials,
-// } = socialsSlice.actions;
+export const {
+  setSocials,
+  // addSocials,
+  // updateSocials,
+  // removeSocials,
+} = socialsSlice.actions;
 
 export default socialsSlice.reducer;
 
 export const {
   selectAll: selectAllSocials,
-  selectById: selectSocialById,
-  selectIds: selectSocialsIds,
+  // selectById: selectSocialById,
+  // selectIds: selectSocialsIds,
 } = socialsAdapter.getSelectors((state: RootState) => state.socials);

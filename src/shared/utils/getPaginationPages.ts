@@ -4,21 +4,13 @@ export function getPaginationPages(
 ): (number | 'ellipsis')[] {
   const pages: (number | 'ellipsis')[] = [];
   const visiblePages = new Set<number>();
-  for (let i = 1; i <= 3; i++) {
-    if (i <= total) {
-      visiblePages.add(i);
-    }
-  }
+  visiblePages.add(1);
   for (let i = current - 1; i <= current + 1; i++) {
     if (i >= 1 && i <= total) {
       visiblePages.add(i);
     }
   }
-  for (let i = total - 2; i <= total; i++) {
-    if (i >= 1) {
-      visiblePages.add(i);
-    }
-  }
+  visiblePages.add(total);
   const sortedPages = Array.from(visiblePages).sort((a, b) => a - b);
   let lastPage = 0;
   for (const page of sortedPages) {

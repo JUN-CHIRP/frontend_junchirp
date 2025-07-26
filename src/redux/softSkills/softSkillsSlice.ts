@@ -10,7 +10,7 @@ export const softSkillsSlice = createSlice({
   name: 'softSkills',
   initialState: softSkillsAdapter.getInitialState(),
   reducers: {
-    // setSoftSkills: softSkillsAdapter.setAll,
+    setSoftSkills: softSkillsAdapter.setAll,
     // addSoftSkills: softSkillsAdapter.addOne,
     // updateSoftSkills: softSkillsAdapter.updateOne,
     // removeSoftSkills: softSkillsAdapter.removeOne,
@@ -37,17 +37,17 @@ export const softSkillsSlice = createSlice({
   },
 });
 
-// export const {
-//   setSoftSkills,
-//   addSoftSkills,
-//   updateSoftSkills,
-//   removeSoftSkills,
-// } = softSkillsSlice.actions;
+export const {
+  setSoftSkills,
+  // addSoftSkills,
+  // updateSoftSkills,
+  // removeSoftSkills,
+} = softSkillsSlice.actions;
 
 export default softSkillsSlice.reducer;
 
 export const {
   selectAll: selectAllSoftSkills,
-  selectById: selectSoftSkillById,
-  selectIds: selectSoftSkillsIds,
+  // selectById: selectSoftSkillById,
+  // selectIds: selectSoftSkillsIds,
 } = softSkillsAdapter.getSelectors((state: RootState) => state.softSkills);

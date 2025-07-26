@@ -1,7 +1,7 @@
 import { ReactElement, Suspense } from 'react';
 import styles from './page.module.scss';
 import Image from 'next/image';
-import ConfirmPasswordResetContent from './components/confirm-password-reset-content/ConfirmPasswordResetContent';
+import ConfirmPasswordResetContent from './confirm-password-reset-content/ConfirmPasswordResetContent';
 
 export default function ConfirmPasswordReset(): ReactElement {
   return (

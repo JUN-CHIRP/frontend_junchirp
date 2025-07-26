@@ -1,6 +1,6 @@
 @use '@/assets/styles/variables';
 
-.projects-count-dropdown {
+.project-role-dropdown {
   position: relative;
 
   &__label {
@@ -31,8 +31,8 @@
     }
   }
 
-  &__selected {
-    color: variables.$black-2;
+  &__placeholder {
+    color: variables.$gray-4;
   }
 
   &__item {
@@ -54,6 +54,14 @@
     &:hover {
       background-color: variables.$gray-5;
     }
+
+    &--disabled {
+      color: variables.$gray-3;
+
+      &:hover {
+        background-color: variables.$white-2;
+      }
+    }
   }
 
   &__list {
@@ -71,5 +79,9 @@
       overflow-y: scroll;
       border-radius: 8px 0 0 8px;
     }
+  }
+
+  &__selected {
+    color: variables.$black-2;
   }
 }
