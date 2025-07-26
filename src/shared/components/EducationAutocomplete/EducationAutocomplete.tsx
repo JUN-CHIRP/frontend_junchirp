@@ -15,7 +15,8 @@ import Input from '@/shared/components/Input/Input';
 import styles from './EducationAutocomplete.module.scss';
 import { useLazyGetEducationsAutocompleteQuery } from '@/api/educationsApi';
 
-interface Props extends InputHTMLAttributes<HTMLInputElement> {
+interface EducationAutocompleteProps
+  extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   errorMessages?: string[] | string;
   withError?: boolean;
@@ -34,7 +35,7 @@ function EducationAutocompleteComponent(
     onChange,
     onBlur,
     ...rest
-  }: Props,
+  }: EducationAutocompleteProps,
   ref: ForwardedRef<HTMLInputElement>,
 ): ReactElement {
   const id = useId();
