@@ -36,7 +36,7 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>;
 
 interface SupportFormProps {
-  user?: UserInterface;
+  user?: UserInterface | null;
   onClose: () => void;
 }
 
