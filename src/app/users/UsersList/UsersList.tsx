@@ -2,7 +2,6 @@
 
 import { ReactElement } from 'react';
 import styles from './UsersList.module.scss';
-import { UserInterface } from '@/shared/interfaces/user.interface';
 import UserItem from './UserItem/UserItem';
 import { useAppSelector } from '@/hooks/reduxHooks';
 import authSelector from '@/redux/auth/authSelector';
