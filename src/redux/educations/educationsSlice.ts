@@ -10,7 +10,7 @@ export const educationsSlice = createSlice({
   name: 'educations',
   initialState: educationsAdapter.getInitialState(),
   reducers: {
-    // setEducations: educationsAdapter.setAll,
+    setEducations: educationsAdapter.setAll,
     // addEducations: educationsAdapter.addOne,
     // updateEducations: educationsAdapter.updateOne,
     // removeEducations: educationsAdapter.removeOne,
@@ -46,17 +46,17 @@ export const educationsSlice = createSlice({
   },
 });
 
-// export const {
-//   setEducations,
-//   addEducations,
-//   updateEducations,
-//   removeEducations,
-// } = educationsSlice.actions;
+export const {
+  setEducations,
+  // addEducations,
+  // updateEducations,
+  // removeEducations,
+} = educationsSlice.actions;
 
 export default educationsSlice.reducer;
 
 export const {
   selectAll: selectAllEducations,
-  selectById: selectEducationById,
-  selectIds: selectEducationsIds,
+  // selectById: selectEducationById,
+  // selectIds: selectEducationsIds,
 } = educationsAdapter.getSelectors((state: RootState) => state.educations);

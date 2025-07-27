@@ -5,7 +5,7 @@ import authSelector from '@/redux/auth/authSelector';
 import styles from './SupportPopup.module.scss';
 import Button from '@/shared/components/Button/Button';
 import X from '@/assets/icons/x.svg';
-import SupportForm from './components/SupportForm/SupportForm';
+import SupportForm from '@/shared/components/SupportPopup/SupportForm/SupportForm';
 import { useAppSelector } from '@/hooks/reduxHooks';
 
 interface SupportPopupProps {

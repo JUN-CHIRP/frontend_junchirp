@@ -57,14 +57,26 @@ export const authApi = mainApi.injectEndpoints({
         method: 'POST',
         body: credentials,
       }),
-      invalidatesTags: ['auth'],
+      invalidatesTags: [
+        'auth',
+        { type: 'soft-skills', id: 'LIST' },
+        { type: 'hard-skills', id: 'LIST' },
+        { type: 'educations', id: 'LIST' },
+        { type: 'socials', id: 'LIST' },
+      ],
     }),
     logout: builder.mutation({
       query: () => ({
         url: 'auth/logout',
         method: 'POST',
       }),
-      invalidatesTags: ['auth'],
+      invalidatesTags: [
+        'auth',
+        { type: 'soft-skills', id: 'LIST' },
+        { type: 'hard-skills', id: 'LIST' },
+        { type: 'educations', id: 'LIST' },
+        { type: 'socials', id: 'LIST' },
+      ],
     }),
     sendConfirmationEmail: builder.mutation({
       query: (data) => ({

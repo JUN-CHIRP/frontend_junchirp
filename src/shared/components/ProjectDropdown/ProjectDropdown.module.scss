@@ -1,6 +1,6 @@
 @use '@/assets/styles/variables';
 
-.projects-count-dropdown {
+.project-dropdown {
   position: relative;
 
   &__label {
@@ -24,6 +24,7 @@
     height: 42px;
     box-sizing: border-box;
     cursor: default;
+    width: 100%;
 
     &:focus {
       border-color: variables.$green-6;
@@ -33,6 +34,17 @@
 
   &__selected {
     color: variables.$black-2;
+    flex: 1 1 0;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    text-align: start;
+  }
+
+  &__placeholder {
+    color: variables.$gray-4;
   }
 
   &__item {
