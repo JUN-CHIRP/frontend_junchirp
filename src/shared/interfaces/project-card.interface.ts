@@ -1,4 +1,4 @@
-import { ProjectRoleTypeInterface } from '@/shared/interfaces/project-role-type.interface';
+import { ProjectRoleInterface } from '@/shared/interfaces/project-role.interface';
 
 export interface ProjectCardInterface {
   id: string;
@@ -8,5 +8,5 @@ export interface ProjectCardInterface {
   createdAt: Date;
   participantsCount: number;
   ownerId: string;
-  roles: ProjectRoleTypeInterface[];
+  roles: ProjectRoleInterface[];
 }

@@ -24,7 +24,7 @@ export const useUsersFilters = (): UsersFiltersResultInterface => {
   const filters = useMemo(() => {
     return {
       page: Number(searchParams.get('page') ?? 1),
-      limit: Number(searchParams.get('limit') ?? 20),
+      limit: Number(searchParams.get('limit') ?? 5),
       activeProjectsCount: searchParams.get('activeProjectsCount')
         ? Number(searchParams.get('activeProjectsCount'))
         : undefined,

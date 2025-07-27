@@ -7,7 +7,7 @@ import styles from './Header.module.scss';
 import { usePathname, useRouter } from 'next/navigation';
 import authSelector from '@/redux/auth/authSelector';
 import { useAppSelector } from '@/hooks/reduxHooks';
-import BurgerMenu from './components/BurgerMenu/BurgerMenu';
+import BurgerMenu from '@/app/components/Header/BurgerMenu/BurgerMenu';
 import { ReactElement } from 'react';
 
 export default function Header(): ReactElement {

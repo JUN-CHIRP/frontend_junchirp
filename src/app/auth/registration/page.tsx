@@ -1,4 +1,4 @@
-import RegistrationForm from './components/RegistrationForm/RegistrationForm';
+import RegistrationForm from '@/app/auth/registration/RegistrationForm/RegistrationForm';
 import styles from './page.module.scss';
 import { ReactElement, Suspense } from 'react';
 import SocialButton from '@/shared/components/SocialButton/SocialButton';

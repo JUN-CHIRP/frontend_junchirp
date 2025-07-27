@@ -1,5 +1,5 @@
 import styles from './page.module.scss';
-import LoginForm from './components/LoginForm/LoginForm';
+import LoginForm from '@/app/auth/login/LoginForm/LoginForm';
 import { ReactElement, Suspense } from 'react';
 import SocialButton from '@/shared/components/SocialButton/SocialButton';
 

@@ -1,7 +1,7 @@
 import AuthGuard from '@/shared/components/AuthGuard/AuthGuard';
 import { ReactElement, Suspense } from 'react';
 import styles from './page.module.scss';
-import ConfirmEmailContent from './components/ConfirmEmailContent/ConfirmEmailContent';
+import ConfirmEmailContent from './ConfirmEmailContent/ConfirmEmailContent';
 import Image from 'next/image';
 
 export default function ConfirmEmail(): ReactElement {
