@@ -6,6 +6,7 @@ import { UserInterface } from '@/shared/interfaces/user.interface';
 import Button from '@/shared/components/Button/Button';
 import Image from 'next/image';
 import { ProjectCardInterface } from '@/shared/interfaces/project-card.interface';
+import { useRouter } from 'next/navigation';
 
 interface UserItemProps {
   user: UserInterface;
@@ -18,6 +19,12 @@ export default function UserItem({
   currentUser,
   myProjects,
 }: UserItemProps): ReactElement {
+  const router = useRouter();
+
+  const handleRedirect = (): void => {
+    router.push(user.id === currentUser.id ? '/profile' : `/users/${user.id}`);
+  };
+
   return (
     <div className={styles['user-item']}>
       <div className={styles['user-item__profile']}>
@@ -48,7 +55,11 @@ export default function UserItem({
         </div>
       </div>
       <div className={styles['user-item__actions']}>
-        <Button variant="secondary-frame" color="green">
+        <Button
+          variant="secondary-frame"
+          color="green"
+          onClick={handleRedirect}
+        >
           Профіль
         </Button>
         <Button

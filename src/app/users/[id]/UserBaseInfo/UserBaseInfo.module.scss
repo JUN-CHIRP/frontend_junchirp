@@ -1,0 +1,11 @@
+@use '@/assets/styles/variables';
+
+.user-base-info {
+  border-radius: 32px;
+  padding: 40px;
+  background-color: variables.$gray-1;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 32px;
+}

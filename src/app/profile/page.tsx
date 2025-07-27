@@ -201,9 +201,7 @@ export default function Profile(): ReactElement {
     <AuthGuard requireVerified>
       <div className={styles.profile}>
         <div className={styles.profile__details}>
-          <div className={styles.profile__info}>
-            <ProfileBaseInfo user={user} handleEditName={handleEditName} />
-          </div>
+          <ProfileBaseInfo user={user} handleEditName={handleEditName} />
           <ProfileDetails<SocialInterface>
             title="Соцмережі"
             isEditable

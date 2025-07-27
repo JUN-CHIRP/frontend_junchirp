@@ -38,7 +38,18 @@ export const usersApi = mainApi.injectEndpoints({
       },
       providesTags: ['my-projects'],
     }),
+    getUserById: builder.query({
+      query: (id: string) => {
+        return {
+          url: `/users/${id}`,
+        };
+      },
+    }),
   }),
 });
 
-export const { useGetUsersQuery, useLazyGetMyProjectsQuery } = usersApi;
+export const {
+  useGetUsersQuery,
+  useLazyGetMyProjectsQuery,
+  useGetUserByIdQuery,
+} = usersApi;
