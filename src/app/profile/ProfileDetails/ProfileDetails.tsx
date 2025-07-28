@@ -11,13 +11,10 @@ import { SocialInterface } from '@/shared/interfaces/social.interface';
 import ProfileDetailsItem from './ProfileDetailsItem/ProfileDetailsItem';
 import Up from '@/assets/icons/chevron-up.svg';
 import Down from '@/assets/icons/chevron-down.svg';
-
-interface WithId {
-  id: string;
-}
+import { WithIdInterface } from '@/shared/interfaces/with-id.interface';
 
 interface ProfileDetailsProps<
-  T extends WithId =
+  T extends WithIdInterface =
     | SoftSkillInterface
     | HardSkillInterface
     | EducationInterface
@@ -34,7 +31,7 @@ interface ProfileDetailsProps<
 
 const COLLAPSE_LIMIT = 5;
 
-export default function ProfileDetails<T extends WithId>(
+export default function ProfileDetails<T extends WithIdInterface>(
   props: ProfileDetailsProps<T>,
 ): ReactElement {
   const {
@@ -70,7 +67,7 @@ export default function ProfileDetails<T extends WithId>(
               </div>
               <div className={styles['profile-details__divider']}></div>
             </div>
-            <div className={styles['profile-details__list']}>
+            <ul className={styles['profile-details__list']}>
               {visibleItems.map((item) => (
                 <ProfileDetailsItem<T>
                   item={item}
@@ -80,7 +77,7 @@ export default function ProfileDetails<T extends WithId>(
                   handleDeleteItem={handleDeleteItem}
                 />
               ))}
-            </div>
+            </ul>
             {items.length > 5 ? (
               <Button
                 className={styles['profile-details__toggle']}

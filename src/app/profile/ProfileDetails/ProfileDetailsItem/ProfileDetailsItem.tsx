@@ -58,7 +58,7 @@ export default function ProfileDetailsItem<T>(
 
   if (isEducation(item)) {
     content = (
-      <div>
+      <div className={styles['profile-details-item__education']}>
         <p className={styles['profile-details-item__text']}>
           {item.institution}
         </p>
@@ -88,7 +88,7 @@ export default function ProfileDetailsItem<T>(
   }
 
   return (
-    <div className={styles['profile-details-item']}>
+    <li className={styles['profile-details-item']}>
       {content}
       <div className={styles['profile-details-item__actions']}>
         {isEditable ? (
@@ -106,6 +106,6 @@ export default function ProfileDetailsItem<T>(
           onClick={() => handleDeleteItem(item)}
         />
       </div>
-    </div>
+    </li>
   );
 }

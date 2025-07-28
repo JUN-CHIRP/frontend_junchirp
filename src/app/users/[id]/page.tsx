@@ -8,29 +8,39 @@ import ArrowUpRight from '@/assets/icons/arrow-up-right.svg';
 import UserBaseInfo from './UserBaseInfo/UserBaseInfo';
 import { useParams } from 'next/navigation';
 import { useGetUserByIdQuery } from '@/api/usersApi';
+import UserDetails from '@/app/users/[id]/UserDetails/UserDetails';
+import UserSkeleton from '@/app/users/[id]/UserSkeleton/UserSkeleton';
 
 export default function User(): ReactElement {
   const params = useParams();
   const userId = params.id as string;
   const { data, isLoading, error } = useGetUserByIdQuery(userId);
 
-  // if (isLoading) {
-  //   return <UserSkeleton />;
-  // }
-  //
-  // if (error) {
-  //   return <></>;
-  // }
+  if (isLoading) {
+    return <UserSkeleton />;
+  }
+
+  if (error) {
+    return <></>;
+  }
 
   return (
     <AuthGuard requireVerified>
       <div className={styles.user}>
         <UserBaseInfo user={data} />
-        <div className={styles.user_2}>
-          <div className={styles.user_3}>2</div>
-          <div className={styles.user_32}>3</div>
-          <div className={styles.user_3}>4</div>
-          <div className={styles.user_32}>5</div>
+        <div className={styles.user__details}>
+          <UserDetails
+            title="Освіта"
+            items={data.educations}
+            columnsCount={1}
+          />
+          <UserDetails title="Hard Skills" items={data.hardSkills} />
+          <UserDetails
+            title="Контактні дані"
+            items={[{ email: data.email, id: data.email }, ...data.socials]}
+            columnsCount={1}
+          />
+          <UserDetails title="Soft Skills" items={data.softSkills} />
         </div>
         <div className={styles.user_4}>
           <div className={styles.user_5}>6</div>

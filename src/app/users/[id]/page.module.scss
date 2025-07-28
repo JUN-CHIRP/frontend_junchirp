@@ -7,20 +7,11 @@
   align-items: stretch;
   gap: 40px;
 
-  &_2 {
+  &__details {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(2, 100px);
+    grid-template-rows: repeat(2, auto);
     gap: 32px;
-  }
-
-  &_3 {
-    background-color: variables.$gray-4;
-  }
-
-  &_32 {
-    background-color: variables.$gray-4;
-    grid-column: span 2;
   }
 
   &_4 {

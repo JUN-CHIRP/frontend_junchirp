@@ -4,25 +4,25 @@ export const socialNetworks: ClientSocialInterface[] = [
   {
     network: 'Facebook',
     url: 'https://www.facebook.com',
-    icon: 'images/facebook.svg',
+    icon: '/images/facebook.svg',
     urlRegex: /^https:\/\/(www\.)?facebook\.com\/[a-zA-Z0-9.]+\/?$/i,
   },
   {
     network: 'X Twitter',
     url: 'https://www.twitter.com',
-    icon: 'images/x-twitter.svg',
+    icon: '/images/x-twitter.svg',
     urlRegex: /^https:\/\/(www\.)?twitter\.com\/[a-zA-Z0-9_]+\/?$/i,
   },
   {
     network: 'Instagram',
     url: 'https://www.instagram.com',
-    icon: 'images/instagram.svg',
+    icon: '/images/instagram.svg',
     urlRegex: /^https:\/\/(www\.)?instagram\.com\/[a-zA-Z0-9_.]+\/?$/i,
   },
   {
     network: 'LinkedIn',
     url: 'https://www.linkedin.com/in',
-    icon: 'images/linkedin.svg',
+    icon: '/images/linkedin.svg',
     urlRegex: /^https:\/\/(www\.)?linkedin\.com\/in\/[a-zA-Z0-9-]+\/?$/i,
   },
   {

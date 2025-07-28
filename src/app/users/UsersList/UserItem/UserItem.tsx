@@ -8,6 +8,7 @@ import Image from 'next/image';
 import { ProjectCardInterface } from '@/shared/interfaces/project-card.interface';
 import InvitePopup from '@/shared/components/InvitePopup/InvitePopup';
 import { UserCardInterface } from '@/shared/interfaces/user-card.interface';
+import { useRouter } from 'next/navigation';
 
 interface UserItemProps {
   user: UserCardInterface;
@@ -21,6 +22,11 @@ export default function UserItem({
   myProjects,
 }: UserItemProps): ReactElement {
   const [isModalOpen, setModalOpen] = useState(false);
+  const router = useRouter();
+
+  const handleRedirect = (): void => {
+    router.push(user.id === currentUser.id ? '/profile' : `/users/${user.id}`);
+  };
 
   const closeModal = (): void => setModalOpen(false);
   const openModal = (): void => setModalOpen(true);
@@ -56,7 +62,12 @@ export default function UserItem({
           </div>
         </div>
         <div className={styles['user-item__actions']}>
-          <Button variant="secondary-frame" color="green" fullWidth>
+          <Button
+            variant="secondary-frame"
+            color="green"
+            fullWidth
+            onClick={handleRedirect}
+          >
             Профіль
           </Button>
           <Button
